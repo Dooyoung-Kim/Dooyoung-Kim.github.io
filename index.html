@@ -1,246 +1,10 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DOOYOUNG KIM - Interactive Portfolio</title>
-    <style>
-        /* --- 기본 스타일 (이전 예시 CSS와 유사) --- */
-        body {
-            font-family: 'Arial', sans-serif; /* 폰트 변경 */
-            line-height: 1.6;
-            margin: 0;
-            padding: 0;
-            background-color: #f8f8f8; /* 배경색 변경 */
-            color: #333;
-        }
-
-        .container {
-            width: 80%;
-            margin: 0 auto;
-            padding: 20px 0;
-            max-width: 1200px; /* 최대 너비 지정 */
-        }
-
-        header {
-            background-color: #2c3e50; /* 진한 배경색 */
-            color: #ecf0f1; /* 밝은 글자색 */
-            padding: 60px 0;
-            text-align: center;
-        }
-
-        header h1 {
-            margin: 0 0 10px 0;
-            font-size: 3em;
-        }
-
-        header p {
-            font-size: 1.3em;
-            color: #bdc3c7;
-        }
-
-         .contact-links a {
-            color: #ecf0f1;
-            text-decoration: none;
-            margin: 0 10px;
-            font-size: 1.1em;
-            transition: color 0.3s ease; /* 색상 변화에 애니메이션 */
-        }
-
-        .contact-links a:hover {
-            color: #3498db; /* 호버 시 색상 변경 */
-        }
-
-
-        nav {
-            background-color: #34495e; /* 헤더보다 약간 밝은 색 */
-            padding: 10px 0;
-            text-align: center;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2); /* 그림자 추가 */
-        }
-
-        nav ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        nav ul li {
-            display: inline-block;
-            margin: 0 15px;
-        }
-
-        nav a {
-            color: #ecf0f1;
-            text-decoration: none;
-            font-weight: bold;
-            font-size: 1.1em;
-            transition: color 0.3s ease;
-        }
-
-        nav a:hover {
-            color: #3498db;
-        }
-
-        .section {
-            padding: 60px 0;
-            border-bottom: 1px solid #e0e0e0;
-            background-color: #fff;
-            margin-bottom: 0; /* 섹션 간 간격 제거 (패딩으로 조절) */
-        }
-
-         .section:nth-child(even) { /* 짝수 번째 섹션 배경색 다르게 */
-            background-color: #f4f4f4;
-        }
-
-        .section h2 {
-            text-align: center;
-            margin-bottom: 40px;
-            color: #2c3e50;
-            font-size: 2.5em;
-        }
-
-        /* --- 프로젝트 아이템 스타일 --- */
-        .project-item {
-            border: 1px solid #ccc;
-            margin-bottom: 25px;
-            border-radius: 8px;
-            background-color: #fff;
-            overflow: hidden; /* 자식 요소의 마진 넘침 방지 */
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* 그림자 */
-            transition: transform 0.3s ease; /* 호버 애니메이션 */
-            cursor: pointer; /* 클릭 가능한 요소임을 표시 */
-        }
-
-         .project-item:hover {
-             transform: translateY(-5px); /* 호버 시 살짝 위로 */
-         }
-
-        .project-header {
-            padding: 20px;
-            background-color: #3498db; /* 헤더 배경색 */
-            color: #fff; /* 헤더 글자색 */
-             display: flex; /* 헤더 내 요소 정렬 */
-             justify-content: space-between; /* 제목과 아이콘 간격 */
-             align-items: center;
-        }
-
-        .project-header h3 {
-            margin: 0;
-            font-size: 1.5em;
-        }
-
-         .project-toggle-icon {
-             font-size: 1.5em;
-             transition: transform 0.3s ease; /* 아이콘 회전 애니메이션 */
-         }
-
-         .project-item.active .project-toggle-icon {
-             transform: rotate(180deg); /* 활성화 시 아이콘 회전 */
-         }
-
-        .project-details {
-            padding: 20px;
-            border-top: 1px solid #eee;
-            background-color: #f9f9f9; /* 상세 정보 배경색 */
-            display: none; /* 기본적으로 숨김 */
-            /* JavaScript가 .active 클래스를 추가하면 보여집니다 */
-        }
-
-         .project-item.active .project-details {
-             display: block; /* 활성화 시 보여짐 */
-         }
-
-
-        .project-details p {
-            margin-bottom: 15px;
-            line-height: 1.7;
-        }
-
-        .project-details p:last-child {
-             margin-bottom: 0;
-        }
-
-         .project-details strong {
-             color: #2c3e50;
-         }
-
-         .project-meta {
-            font-size: 0.9em;
-            color: #ecf0f1; /* 헤더 내 메타 정보 색상 */
-            margin-top: 5px;
-         }
-
-
-        /* --- Publications & Experience 스타일 (이전 예시와 유사) --- */
-        #publications ul,
-        #experience ul {
-            list-style: none;
-            padding: 0;
-        }
-
-        #publications li,
-        #experience li {
-            background-color: #f9f9f9;
-            border: 1px solid #eee;
-            margin-bottom: 15px;
-            padding: 15px;
-            border-radius: 5px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-        }
-         #publications li strong,
-         #experience li strong {
-             color: #2c3e50;
-         }
-
-
-        /* --- 푸터 스타일 --- */
-        footer {
-            background-color: #34495e;
-            color: #ecf0f1;
-            text-align: center;
-            padding: 40px 0;
-            margin-top: 0; /* 섹션 아래 여백 제거 */
-        }
-
-         footer a {
-             color: #ecf0f1;
-             text-decoration: none;
-             margin: 0 10px;
-             transition: color 0.3s ease;
-         }
-          footer a:hover {
-             color: #3498db;
-         }
-
-        /* --- 모바일 반응형 --- */
-        @media (max-width: 768px) {
-            .container {
-                width: 95%;
-                padding: 0 10px;
-            }
-
-            header h1 {
-                font-size: 2em;
-            }
-
-            nav ul li {
-                display: block;
-                margin: 5px 0;
-            }
-
-            .section {
-                padding: 30px 0;
-            }
-
-            .project-header h3 {
-                font-size: 1.3em;
-            }
-             .project-toggle-icon {
-                 font-size: 1.3em;
-             }
-        }
-    </style>
+    <title>DOOYOUNG KIM - Personal Website</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
@@ -248,10 +12,12 @@
         <div class="container">
             <h1>DOOYOUNG KIM</h1>
             <p class="subtitle">Senior XR Researcher (PhD)</p>
-            <p>AR/VR, Spatial Computing, Remote Collaboration</p>
+            <p class="tagline">Connecting people beyond space and time through AR/VR and Spatial Computing.</p>
             <div class="contact-links">
-                <a href="mailto:dooyoung.kim@kaist.ac.kr">Email</a>
-                | <a href="https://www.https://www.linkedin.com/in/dooyoung-kim-xr" target="_blank">LinkedIn</a> | <a href="https://scholar.google.com/citations?user=your-google-scholar-id" target="_blank">Google Scholar</a> </div>
+                <a href="mailto:dooyoung.kim@kaist.ac.kr">dooyoung.kim@kaist.ac.kr</a>
+                | <a href="mailto:dooyoung.kim@nyu.edu">dooyoung.kim@nyu.edu</a>
+                | <a href="https://www.linkedin.com/in/dooyoung-kim-xr" target="_blank">LinkedIn</a> | <a href="https://scholar.google.com/citations?user=2DwDeKIAAAAJ&hl=en" target="_blank">Google Scholar</a>
+            </div>
         </div>
     </header>
 
@@ -259,9 +25,13 @@
         <div class="container">
             <ul>
                 <li><a href="#about">About</a></li>
-                <li><a href="#projects">Projects</a></li>
-                <li><a href="#publications">Publications</a></li>
+                <li><a href="#education">Education</a></li>
                 <li><a href="#experience">Experience</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#publications">Publications & Patents</a></li>
+                <li><a href="#awards">Awards</a></li>
+                <li><a href="#activities">Activities</a></li>
+                <li><a href="#teaching">Teaching</a></li>
                 <li><a href="#contact">Contact</a></li>
             </ul>
         </div>
@@ -270,8 +40,11 @@
     <section id="about" class="section">
         <div class="container">
             <h2>About Me</h2>
-             <p>
-                KAIST UVR Lab에서 AR/VR 원격 협업 및 공간 컴퓨팅 기술로 박사 학위를 받았습니다. AR, VR, 공간 컴퓨팅, HCI 분야에 깊은 전문성을 가지고 있으며, 특히 AR/VR 텔레프레즌스, 상호 공간 생성, 공간 경험 공유, VR 이동 기술에 집중하고 있습니다. Hololens 2, Quest Pro, Vive Pro Eye 등 다양한 HMD를 Unity 및 Python으로 프로토타이핑하는 데 능숙합니다. 현재는 대형 미디어 월과 MR HMD(Quest 3, Vision Pro)를 활용한 원격 경험 공유 시스템을 개발하며 시간과 공간을 초월한 메타 뮤지엄 구축 연구에 참여하고 있습니다.
+            <p>
+                I received my PhD from the KAIST UVR Lab, researching AR/VR remote collaboration and spatial computing technologies. I have broad expertise in AR, VR, spatial computing, and Human-Computer Interaction (HCI), with deep research focus on AR/VR telepresence, mutual space generation, spatial experience sharing, and VR locomotion (Redirected Walking).
+            </p>
+            <p>
+                I am proficient in prototyping using HMDs (Hololens 2, Quest Pro, Vive Pro Eye, Quest 3, Vision Pro), primarily using Unity and Python as development tools. Currently, I am participating in the Meta-Museum project in collaboration with NYU, a system for sharing transcending spatial and temporal remote experiences using large media walls and MR HMDs. Additionally, I am leading the development of core XR technologies such as 3D modeling, interaction, hand tracking, and multimodal feedback, serving as a leader in Korean government-funded research projects.
             </p>
             <h3>Expertise</h3>
             <ul>
@@ -284,131 +57,350 @@
                 <li>Human-Computer Interaction (HCI)</li>
                 <li>Unity, Python Prototyping</li>
                 <li>HMDs (Hololens 2, Quest Pro, Vive Pro Eye, Quest 3, Vision Pro)</li>
+                <li>3D Modeling, Interaction, Hand Tracking, Multimodal Feedback, Scene Graph, Behavior Learning, User Experience</li>
+            </ul>
+        </div>
+    </section>
+
+    <section id="education" class="section">
+        <div class="container">
+            <h2>Education</h2>
+            <div class="education-item">
+                <h3>PhD in Culture Technology (AR/VR)</h3>
+                <p class="meta">KAIST | 03/2021 - 02/2024</p>
+                <p><strong>Thesis:</strong> Space-Adaptive Mutual Space Generation for Mixed Reality Remote Collaboration</p>
+                <p><strong>Research Topics:</strong> AR, VR, HCI, Remote Collaboration, Mutual Collaborative Space, VR Locomotion, Spatial Computing</p>
+                <p>UVR Lab. Advisor: Prof. Woontack Woo</p>
+            </div>
+            <div class="education-item">
+                <h3>Master in Culture Technology (AR/VR)</h3>
+                <p class="meta">KAIST | 03/2019 - 02/2021</p>
+                <p><strong>Thesis:</strong> Adjusting Relative Translation Gains According to Space Size in Redirected Walking for Mixed Reality Mutual Space Generation</p>
+                <p><strong>Research Topics:</strong> AR, VR, HCI, Remote Collaboration, VR Locomotion</p>
+                <p>UVR Lab. Advisor: Prof. Woontack Woo</p>
+            </div>
+            <div class="education-item">
+                <h3>Bachelor in Mechanical Engineering</h3>
+                <p class="meta">KAIST | 03/2014 - 02/2019</p>
+                <p>Lab Intern: @Hubo Lab-Humanoid Robot (2017), @UVR Lab-AR/VR (2018)</p>
+            </div>
+            <div class="education-item">
+                <h3>Visiting Research</h3>
+                <p class="meta">Imagine Lab, Ecole des Ponts ParisTech, Paris, France | Advisor: Prof. Vincent Lepetit</p>
+            </div>
+            <div class="education-item">
+                <h3>Exchange Student</h3>
+                <p class="meta">Tsinghua University, Beijing, China</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="experience" class="section">
+        <div class="container">
+            <h2>Experience</h2>
+            <ul>
+                <li>
+                    <h3>Postdoctral Researcher</h3>
+                    <p class="meta">New York University (NYU) | 01/2025 - Ongoing</p>
+                    <p>Collaborating on the Meta-Museum project with the Future Reality Lab (Prof. Ken Perlin) at NYU. Planning collaborative research at the NYU Manhattan campus during summer 2025.</p>
+                </li>
+                <li>
+                    <h3>Senior Researcher</h3>
+                    <p class="meta">KAIST Augmented Reality Research Center (ARRC) | 03/2024 - Ongoing</p>
+                    <p>Research Topics: AR, VR, XR, spatial computing, telepresence, mutual space, spatial experience, and locomotion.</p>
+                </li>
+                <li>
+                    <h3>Global Shaper</h3>
+                    <p class="meta">World Economic Forum | 01/2023 - Ongoing</p>
+                    <p>An initiative of the World Economic Forum, a network of hubs led by young people driving impact in their communities. Part of the Daejeon Hub focused on building a borderless community of young talents for sustainability and social impact.</p>
+                </li>
+                <li>
+                    <h3>XR Researcher</h3>
+                    <p class="meta">Korea Institue of Science and Technology Information (KISTI) | 05/2022 - 03/2023</p>
+                    <p>Dispatched to KISTI, working with both KAIST and KISTI on the government-funded joint research project, OpenXR: Untact Realistic Platform Technology.</p>
+                </li>
+                <li>
+                    <h3>ZER10NE Creator & Alumni</h3>
+                    <p class="meta">Hyundai Motors Group (HMG) | 04/2021 - 11/2022</p>
+                    <p>Selected as an AR/VR researcher in the ZER01NE creator-supporting program.</p>
+                    <ul>
+                        <li>Automatic SONATA: Scenery Style-Transfer System for Autonomous Vehicle (2021)</li>
+                        <li>Holo-bot: XR Social Interface Robot with Holographic Avatar (2022)</li>
+                    </ul>
+                </li>
             </ul>
         </div>
     </section>
 
     <section id="projects" class="section">
         <div class="container">
-            <h2>Projects</h2>
+            <h2>Research Projects</h2>
 
             <article class="project-item">
                 <div class="project-header">
                     <h3>Meta-Museum</h3>
-                     <span class="project-toggle-icon">&#x25BC;</span> </div>
-                 <p class="project-meta container">NYU-KAIST Collaborative Research Grant (01/2025-Ongoing)</p> <div class="project-details">
+                    <span class="project-toggle-icon">&#x25BC;</span>
+                </div>
+                <p class="project-meta-header">NYU-KAIST Collaborative Research Grant (01/2025-Ongoing)</p>
+                <div class="project-details">
                     <p>
-                        대전(한국)과 뉴욕(미국) 간 메타 뮤지엄 구축 연구를 계획하고 있습니다. 이 프로젝트는 대형 미디어 월과 최신 MR HMD를 활용하여 시공간 제약을 넘어선 박물관 경험을 제공하는 것을 목표로 합니다.
+                        Planning research to build a Meta Museum between Daejeon (Korea) and New York (USA). This project aims to provide a museum experience transcending spatiotemporal constraints using large media walls and the latest MR HMDs.
                     </p>
                     <p><strong>Role:</strong> Symposium Organizing & KAIST-NYU Collaborative Research Planning</p>
-                     </div>
+                </div>
             </article>
 
             <article class="project-item">
-                 <div class="project-header">
+                <div class="project-header">
                     <h3>Meta-Object</h3>
-                     <span class="project-toggle-icon">&#x25BC;</span>
-                 </div>
-                <p class="project-meta container">Korea Government (IITP) Funded National Research Project (04/2024-Ongoing)</p>
-                 <div class="project-details">
-                     <p>
-                        환경 적응형 실시간 XR 인터페이스 기술 개발 과제입니다. 40여 명의 연구원이 참여하며, 제가 프로젝트 팀 리더 및 지능형 플랫폼 연구팀 리더를 맡고 있습니다. 3D 모델링, 인터랙션, 핸드 트래킹, 멀티모달 피드백, 씬 그래프, 행동 학습, 사용자 경험 등 다양한 기술을 융합합니다.
+                    <span class="project-toggle-icon">&#x25BC;</span>
+                </div>
+                <p class="project-meta-header">Korea Government (IITP) Funded National Research Project (04/2024-Ongoing)</p>
+                <div class="project-details">
+                    <p>
+                        This is a project to develop environment-adaptive real-time XR interface technology. About 40 researchers are participating, and I am serving as the Project Team Leader and Intelligent Platform Research Team Leader. It integrates various technologies including 3D modeling, interaction, hand tracking, multimodal feedback, scene graph, behavior learning, and user experience.
                     </p>
                     <p><strong>Role:</strong> Senior Researcher - Project Team Leader (~40 researchers) & Intelligent Platform Research Team Leader</p>
                     <p><strong>Topics:</strong> 3D Modeling, Interaction, Hand Tracking, Multimodal Feedback, Scene Graph, Behavior Learning, User Experience</p>
-                 </div>
+                </div>
             </article>
 
-             <article class="project-item">
-                 <div class="project-header">
+            <article class="project-item">
+                <div class="project-header">
                     <h3>OpenXR: TranSpace 3.0</h3>
-                     <span class="project-toggle-icon">&#x25BC;</span>
-                 </div>
-                <p class="project-meta container">Korea Government (NST) Funded National Research Project (12/2021-Ongoing)</p>
-                 <div class="project-details">
+                    <span class="project-toggle-icon">&#x25BC;</span>
+                </div>
+                <p class="project-meta-header">Korea Government (NST) Funded National Research Project (12/2021-Ongoing)</p>
+                <div class="project-details">
                     <p>
-                        비대면 환경에서 현실감 있는 상호작용을 위한 OpenXR 플랫폼 기술 개발 프로젝트입니다. 저는 텔레프레즌스 시스템 리더 및 공간 컴퓨팅 연구를 담당했습니다.
+                        This is a project to develop OpenXR platform technology based on non-contact realism. I was responsible for leading the Telepresence System and Spatial Computing research.
                     </p>
                     <p><strong>Role:</strong> Senior Researcher (2024) & Research Assistant (2021-2023) - Telepresence System Leader, Spatial Computing Research</p>
                     <p><strong>Topics:</strong> Mutual Space Generation, Spatial Computing, Scene Graph, 3D Interaction</p>
-                 </div>
+                </div>
             </article>
 
-            </div>
+            <article class="project-item">
+                <div class="project-header">
+                    <h3>TranSpace 2.0</h3>
+                    <span class="project-toggle-icon">&#x25BC;</span>
+                </div>
+                <p class="project-meta-header">Korea Government (NRF) Funded National Research Project (09/2019-12/2020)</p>
+                <div class="project-details">
+                    <p>
+                        This was a project to develop user restoration technology for hyper-realistic remote virtual interaction. I conducted research on AR/VR remote collaboration system development and VR locomotion technology.
+                    </p>
+                    <p><strong>Role:</strong> Research Assistant - AR/VR remote collaboration system development, VR locomotion technology research</p>
+                </div>
+            </article>
+
+            <article class="project-item">
+                <div class="project-header">
+                    <h3>National R&D Real Challenge</h3>
+                    <span class="project-toggle-icon">&#x25BC;</span>
+                </div>
+                <p class="project-meta-header">Korea Government (KIRD) Funded National Research Project (04/2020-12/2020)</p>
+                <div class="project-details">
+                    <p>
+                        I conducted research on enhancing visual perception in AR-VR mixed reality remote collaboration scenarios.
+                    </p>
+                    <p><strong>Role:</strong> Research Assistant - Research on visual perception in VR remote collaboration scenario</p>
+                </div>
+            </article>
+
+            <article class="project-item">
+                <div class="project-header">
+                    <h3>Automatic SONATA: Scenery Style-Transfer System for Autonomous Vehicle</h3>
+                    <span class="project-toggle-icon">&#x25BC;</span>
+                </div>
+                <p class="project-meta-header">ZER10NE Creator (Hyundai Motors Group) (2021)</p>
+                <div class="project-details">
+                    <p>
+                        This is a scenery style-transfer system for autonomous vehicles developed through Hyundai Motors Group's ZER01NE program.
+                    </p>
+                </div>
+            </article>
+
+            <article class="project-item">
+                <div class="project-header">
+                    <h3>Holo-bot: XR Social Interface Robot with Holographic Avatar</h3>
+                    <span class="project-toggle-icon">&#x25BC;</span>
+                </div>
+                <p class="project-meta-header">ZER10NE Creator (Hyundai Motors Group) (2022)</p>
+                <div class="project-details">
+                    <p>
+                        This is an XR social interface robot with a holographic avatar, developed through Hyundai Motors Group's ZER01NE program.
+                    </p>
+                </div>
+            </article>
+
+
+        </div>
     </section>
 
     <section id="publications" class="section">
         <div class="container">
-            <h2>Publications</h2>
+            <h2>Publications & Patents</h2>
+            <h3>Representative Publications</h3>
             <ul>
                 <li>
                     <strong>Spatial Affordance-aware Interactable Subspace Allocation for Mixed Reality Telepresence</strong><br>
                     <span class="publication-meta">2024 IEEE International Symposium on Mixed and Augmented Reality (ISMAR) - **Best Conference Paper Award**</span><br>
                     <span class="authors"><strong>Dooyoung Kim</strong>, Seonji Kim, Selin Choi and Woontack Woo</span>
-                    </li>
-                 <li>
+                </li>
+                <li>
                     <strong>Edge-Centric Space Rescaling with Redirected Walking for Dissimilar Physical-Virtual Space Registration</strong><br>
                     <span class="publication-meta">2023 IEEE International Symposium on Mixed and Augmented Reality (ISMAR)</span><br>
                     <span class="authors"><strong>Dooyoung Kim</strong> and Woontack Woo</span>
-                    </li>
-                </ul>
-             <h3>Patents</h3>
-             <ul>
-                 <li>(KR) SPATIAL EXTENSION USING HUMAN STEREOSCOPIC PERCEPTION WITH A LARGE WALL DISPLAY. Filed.</li>
-                 </ul>
+                </li>
+                <li>
+                    <strong>The effects of spatial configuration on relative translation gain thresholds in redirected walking</strong><br>
+                    <span class="publication-meta">2023 Springer Virtual Reality - SCIE, Q1, IF:4.4 **Best Presentation Award (APMAR)**</span><br>
+                    <span class="authors"><strong>Dooyoung Kim</strong>, Seonji Kim, Jae-eun Shin, Boram Yoon, Jinwook Kim, Jeongmi Lee, and Woontack Woo</span>
+                </li>
+                <li>
+                    <strong>Effects of Virtual Room Size and Objects on Relative Translation Gain Thresholds in Redirected Walking</strong><br>
+                    <span class="publication-meta">2022 IEEE Conference on Virtual Reality and 3D User Interfaces (VR)</span><br>
+                    <span class="authors"><strong>Dooyoung Kim</strong>, Jinwook Kim, Jae-eun Shin, Boram Yoon, Jeongmi Lee, and Woontack Woo</span>
+                </li>
+                <li>
+                    <strong>Adjusting Relative Translation Gains According to Space Size in Redirected Walking for Mixed Reality Mutual Space Generation</strong><br>
+                    <span class="publication-meta">2021 IEEE Conference on Virtual Reality and 3D User Interfaces (VR)</span><br>
+                    <span class="authors"><strong>Dooyoung Kim</strong>, Jae-eun Shin, Jeongmi Lee, and Woontack Woo</span>
+                </li>
+            </ul>
+            <h3>Patents</h3>
+            <ul>
+                <li>(KR) SPATIAL EXTENSION USING HUMAN STEREOSCOPIC PERCEPTION WITH A LARGE WALL DISPLAY. Filed.</li>
+                <li>(KR) METHOD OF OPERATING MIXED REALITY TELEPRESENCE SYSTEM AND MIXED REALITY TELEPRESENCE SYSTEM. Filed.</li>
+                <li>(KR/US) EDGE-CENTRIC SPACE RESCALING METHOD FOR DISSIMILAR SPACE REGISTRATION AND THE SYSTEM THEREOF. Filed.</li>
+                <li>(KR/PCT) METHOD ANS SYSTEM FOR GENERATING REMOTE COLLABORATION MUTUAL SPACE. Issued.</li>
+                <li>(KR/US) VIRTUAL REALITY SPACE ADJUSTING METHOD WITH RELATIVE TRANSLATION GAIN IN REDIRECTED WALKING AND THE SYSTEM THEREOF. Filed.</li>
+            </ul>
         </div>
     </section>
 
-     <section id="experience" class="section">
-         <div class="container">
-             <h2>Experience</h2>
-             <ul>
-                 <li><strong>Postdoctral Researcher</strong>, New York University (NYU) (01/2025-Ongoing)</li>
-                 <li><strong>Senior Researcher</strong>, KAIST Augmented Reality Research Center (ARRC) (03/2024-Ongoing)</li>
-                 </ul>
-         </div>
-     </section>
+    <section id="awards" class="section">
+        <div class="container">
+            <h2>Awards & Scholarships</h2>
+            <ul>
+                <li>2025 NYU-KAIST Postdoc Collaboration Grant | New York University (NYU)</li>
+                <li>2024 IEEE ISMAR Best Conference Paper Award | 2024 International Symposium on Augmented and Mixed Reality (ISMAR)</li>
+                <li>2023 KAIST Start-up Scholarship | KAIST Alumni Academic Scholarship Foundation</li>
+                <li>2022 APMAR Best Presentation Award | 2022 Asia-Pacific Workshop on Mixed and Augmented Reality (APMAR)</li>
+                <li>2022 NCSOFT PhD Scholorship | NCSOFT (Game Development Compony)</li>
+                <li>2021 ACM CHI Honorable Mention Award | 2021 ACM CHI Conference</li>
+            </ul>
+        </div>
+    </section>
+
+    <section id="activities" class="section">
+        <div class="container">
+            <h2>Academic Activities</h2>
+            <h3>International Conference/Symposium Organizing & Chairing</h3>
+            <ul>
+                <li>2025 IEEE International Symposium on Mixed and Augmented Reality (ISMAR), Assistant for General Chair & Social Event Chair</li>
+                <li>2025 IEEE Conference on Virtual Reality and 3D User Interface (VR), XRMemory Workshop Principal Organizer</li>
+                <li>2025 HCI Korea Conference, MetaMuseum Workshop Organizer</li>
+                <li>2024 Korea Computer Congress (KCC), Poster Chair (CG & Interaction) & Metaverse+AI+XR Workshop Organizer</li>
+                <li>2024 Korea Software Congress (KSC), Poster Chair (CG/HCI/AI/Metaverse/AR/VR)</li>
+                <li>2024 International Symposium on Meta-X (ISMAX), Organizer & Web Chair</li>
+                <li>2023 International Symposium on Meta-X (ISMAX), Organizer & Student Chair</li>
+            </ul>
+            <h3>Invited Talks</h3>
+            <ul>
+                <li>2024 Korea Computer Congress (KCC), Top-Conference Session</li>
+                <li>2024 University of Minnesota (Prof. Victoria Interrante), Redirected Walking & Spatial Computing</li>
+                <li>2023 Korea Computer Congress (KCC), Top-Conference Session</li>
+                <li>2023 Korea Software Congress (KSC), Top-Conference Session</li>
+                <li>2023 HCI Korea Conference, Metaverse Research and Development Session</li>
+                <li>2022 ACM SIGGRAPH Asia Conference, OpenXR BoF Session</li>
+                <li>2022 Asia-Pacific Workshop on Mixed and Augmented Reality (APMAR), Pitch-Your-Work Session</li>
+            </ul>
+            <h3>International Conference Paper Presentation</h3>
+            <ul>
+                <li>IEEE International Symposium on Mixed and Augmented Reality (ISMAR) - 2022, 2023, 2024</li>
+                <li>IEEE Conference on Virtual Reality and 3D User Interface (VR) - 2021, 2022, 2023</li>
+                <li>ACM CHI Conference on Human Factors in Computing Systems (CHI) - 2021</li>
+            </ul>
+            <h3>Peer-Review</h3>
+            <p>IEEE TVCG, Springer VR, IEEE ISMAR, IEEE VR, ACM CHI, ACM SIGGRAPH, ACM VRST (1AC), ACM CSCW, IEEE/ACM HRI</p>
+        </div>
+    </section>
+
+    <section id="teaching" class="section">
+        <div class="container">
+            <h2>Teaching Experiences</h2>
+            <h3>KAIST Class Teaching Assitance</h3>
+            <p class="meta">KAIST Graduate School of Culture Technology / Graduate School of Metaverse | 03/2022 - 12/2024</p>
+            <ul>
+                <li>2024 ARP700: Augmented Reality project mentoring, Lecture about Media Wall & Extended Reality</li>
+                <li>2024 MV600: Augmented Reality project mentoring, Lecture about MR telepresence</li>
+                <li>2023 CTP445: Augmented Reality basic knowledge, hosting discussion sessions, programming with Python - SLAM with OpenCV</li>
+                <li>2022 GCT555: Unity basic teaching for graduate school students, prototyping with Hololens2 - MRTK with Unity</li>
+                <li>2022 CTP445: Unity basic teaching for graduate school students, prototyping with a smartphone - ARCore with Unity</li>
+            </ul>
+            <h3>Multi-User Game Development with Unity</h3>
+            <p class="meta">KAIST Center for Gifted Education | 03/2022 - 12/2022</p>
+            <p>Online Unity course teaching for middle school students. Networking game development with Unity.</p>
+            <h3>KAIST Undergraduate Research Program (URP)</h3>
+            <p class="meta">KAIST URP | 06/2021 - 12/2021</p>
+            <p>Mentored an undergraduate student from KAIST School of Electronic and Electrical Engineering. Resulting publication: Minwoo Song, Dooyoung Kim, Woontack Woo. Visual Implementation Factors for Realistic Furniture in Virtual Reality, 2021 KSC.</p>
+            <h3>Python Coach</h3>
+            <p class="meta">NAVER Boostcourse PY4E | 07/2021 - 08/2021</p>
+            <p>Basic python course coaching.</p>
+        </div>
+    </section>
+
 
     <footer id="contact">
         <div class="container">
             <h2>Contact</h2>
-            <p>Email: <a href="mailto:dooyoung.kim@kaist.ac.kr">dooyoung.kim@kaist.ac.kr</a></p>
-            <p>&copy; 2024 DOOYOUNG KIM. All rights reserved.</p>
+            <p>Email: <a href="mailto:dooyoung.kim@kaist.ac.kr">dooyoung.kim@kaist.ac.kr</a> | <a href="mailto:dooyoung.kim@nyu.edu">dooyoung.kim@nyu.edu</a></p>
+            <div class="footer-links">
+                <a href="https://www.linkedin.com/in/your-linkedin-profile" target="_blank">LinkedIn</a> | <a href="https://scholar.google.com/citations?user=your-google-scholar-id" target="_blank">Google Scholar</a>
+            </div>
+            <p>&copy; 2025 DOOYOUNG KIM. All rights reserved.</p>
         </div>
     </footer>
 
+    <script src="js/script.js"></script>
     <script>
-        // 프로젝트 아이템들을 모두 선택
+        // project-item toggle functionality
         const projectItems = document.querySelectorAll('.project-item');
-
-        // 각 프로젝트 아이템에 클릭 이벤트 리스너 추가
         projectItems.forEach(item => {
-            // 프로젝트 헤더 부분을 클릭 가능하도록 함
             const header = item.querySelector('.project-header');
+            // If you want to include project-meta-header in the click area, attach the event to the item itself instead of the header, or attach the event to the meta-header separately.
             header.addEventListener('click', () => {
-                // 클릭된 아이템에 'active' 클래스를 토글 (추가/제거)
                 item.classList.toggle('active');
-
-                // 토글 시 상세 내용의 표시 상태를 제어
                 const details = item.querySelector('.project-details');
+                // Using CSS transitions allows for smoother animation (CSS modification needed)
                 if (item.classList.contains('active')) {
-                    details.style.display = 'block'; // 활성화되면 보여줌
+                    details.style.display = 'block';
                 } else {
-                    details.style.display = 'none'; // 비활성화되면 숨김
+                    details.style.display = 'none';
                 }
             });
         });
 
-         // (선택 사항) 네비게이션 메뉴 클릭 시 부드러운 스크롤
-         document.querySelectorAll('nav a[href^="#"]').forEach(anchor => {
-             anchor.addEventListener('click', function (e) {
-                 e.preventDefault(); // 기본 앵커 동작 방지
-
-                 document.querySelector(this.getAttribute('href')).scrollIntoView({
-                     behavior: 'smooth' // 부드러운 스크롤 적용
-                 });
-             });
-         });
+        // Smooth scroll on navigation menu click
+        document.querySelectorAll('nav a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    // Scroll position can be adjusted considering header/navigation bar height
+                    const headerHeight = document.querySelector('header').offsetHeight; // Example
+                    const navHeight = document.querySelector('nav').offsetHeight; // Example
+                    const offset = headerHeight + navHeight + 20; // Header, Nav height + padding
+                     window.scrollTo({
+                        top: targetElement.offsetTop - offset,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
 
     </script>
 
