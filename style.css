@@ -1,454 +1,399 @@
-/* --- 기본 스타일 --- */
-body {
-    font-family: 'Arial', sans-serif;
-    line-height: 1.6;
+/*
+======================================================
+1. Global Reset & Typography
+======================================================
+*/
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&family=Inter:wght@400;700&display=swap');
+
+:root {
+    /* Dark Theme Variables */
+    --color-background: #1e1e1e; /* VS Code, Terminal background */
+    --color-foreground: #d4d4d4; /* Main text color */
+    --color-primary: #569cd6; /* Blue/Azure for links, highlights (like VS Code keywords) */
+    --color-secondary: #c586c0; /* Purple for code/accent */
+    --color-border: #333333; /* Subtle border/separator */
+    --color-accent-bg: #2a2a2a; /* Slightly lighter dark background for cards/sections */
+
+    --font-sans: 'Inter', sans-serif;
+    --font-mono: 'Roboto Mono', monospace;
+}
+
+* {
+    box-sizing: border-box;
     margin: 0;
     padding: 0;
-    background-color: #f8f8f8;
-    color: #333;
+}
+
+body {
+    font-family: var(--font-sans);
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    line-height: 1.6;
 }
 
 .container {
-    width: 85%; /* 너비 약간 확장 */
-    margin: 0 auto;
-    padding: 20px 0;
+    width: 90%;
     max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
 }
 
-header {
-    background-color: #2c3e50;
-    color: #ecf0f1;
-    padding: 60px 0;
-    text-align: center;
+h1, h2, h3 {
+    font-family: var(--font-mono);
+    color: var(--color-primary); /* Use primary color for headings */
+    margin-bottom: 0.5em;
+}
+
+h1 { font-size: 2.5em; }
+h2 { 
+    font-size: 1.8em; 
+    border-bottom: 2px solid var(--color-border);
+    padding-bottom: 5px;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+}
+h3 { font-size: 1.4em; color: var(--color-foreground); } /* H3는 일반 텍스트 색상으로 유지 */
+
+a {
+    color: var(--color-primary);
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+a:hover {
+    color: #4ec9b0; /* Hover color (light green/teal) */
+}
+
+ul {
+    list-style: none;
+}
+
+/*
+======================================================
+2. Header & Navigation
+======================================================
+*/
+
+.main-header {
+    background-color: var(--color-accent-bg);
+    padding: 30px 0;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.header-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 30px;
+}
+
+.profile-info {
+    flex-grow: 1;
+}
+
+.subtitle {
+    font-size: 1.1em;
+    color: #9cdcfe; /* Light blue accent */
+    margin-top: -10px;
+    margin-bottom: 10px;
+}
+
+.tagline {
+    font-style: italic;
+    color: #cccccc;
+    margin-bottom: 20px;
 }
 
 .profile-img {
-    width: 180px;
-    height: 180px;
+    width: 150px;
+    height: 150px;
     border-radius: 50%;
-    float: left;
-    margin-right: 25px;
-    margin-bottom: 15px;
     object-fit: cover;
+    border: 3px solid var(--color-primary);
 }
 
-/* Add this if you use the float method */
-.section .container::after {
-    content: "";
-    display: table;
-    clear: both;
+.social-links a {
+    margin-right: 15px;
+    font-size: 1em;
+    color: var(--color-foreground);
+    font-family: var(--font-mono); /* Contact links use mono font */
 }
 
-header h1 {
-    margin: 0 0 5px 0; /* 이름 위 간격 줄임 */
-    font-size: 3em;
+.social-links a:hover {
+    color: var(--color-primary);
 }
 
-header .subtitle {
-    margin-top: 5px;
-    font-size: 1.4em; /* 부제목 크기 키움 */
-    color: #bdc3c7;
+.social-links i {
+    margin-right: 5px;
+    color: var(--color-secondary); /* Icon color accent */
 }
 
-.tagline { /* 비전/태그라인 스타일 */
-    font-size: 1.2em;
-    color: #bdc3c7;
-    margin-top: 15px;
-    margin-bottom: 20px;
-}
-
-
-.contact-links a {
-    color: #ecf0f1;
-    text-decoration: none;
-    margin: 0 10px;
-    font-size: 1.1em;
-    transition: color 0.3s ease;
-}
-
-.contact-links a:hover {
-    color: #3498db;
-}
-
-
-nav {
-    background-color: #34495e;
+.main-nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background-color: var(--color-background);
+    border-bottom: 1px solid var(--color-border);
     padding: 10px 0;
-    text-align: center;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-     position: sticky; /* 스크롤 시 상단에 고정 */
-     top: 0;
-     z-index: 1000; /* 다른 요소 위에 오도록 */
 }
 
-nav ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
+.main-nav ul {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
 }
 
-nav ul li {
-    display: inline-block;
-    margin: 0 15px;
-}
-
-nav a {
-    color: #ecf0f1;
-    text-decoration: none;
+.main-nav a {
+    padding: 5px 10px;
     font-weight: bold;
-    font-size: 1.1em;
-    transition: color 0.3s ease;
+    text-transform: uppercase;
+    font-size: 0.9em;
+    color: var(--color-foreground);
 }
 
-nav a:hover {
-    color: #3498db;
+.main-nav a:hover {
+    color: var(--color-primary);
+    background-color: var(--color-accent-bg);
+    border-radius: 3px;
+}
+
+/*
+======================================================
+3. Main Content Sections
+======================================================
+*/
+main {
+    padding-top: 20px;
 }
 
 .section {
-    padding: 60px 0;
-    border-bottom: 1px solid #e0e0e0;
-    /* background-color: #fff; 기본은 흰색, 짝수번째만 다르게 */
-    margin-bottom: 0;
+    padding: 30px 0;
 }
 
-.section:nth-child(odd) { /* 홀수 번째 섹션 (header, nav 제외) */
-    background-color: #fff;
-}
-.section:nth-child(even) { /* 짝수 번째 섹션 (About, Experience, Publications 등) */
-   background-color: #f4f4f4;
-}
-
-
-.section h2 {
-    text-align: center;
-    margin-bottom: 40px;
-    color: #2c3e50;
-    font-size: 2.5em;
-}
-
-/* --- Education 섹션 스타일 --- */
-.education-item {
-    background-color: #fff;
-    border: 1px solid #eee;
-    padding: 20px;
-    margin-bottom: 20px;
-    border-radius: 8px;
-     box-shadow: 0 2px 5px rgba(0,0,0,0.08);
-}
-.education-item h3 {
-    margin-top: 0;
-    color: #34495e;
-    margin-bottom: 5px;
-}
-.education-item .meta {
-    font-size: 0.9em;
-    color: #555;
-    margin-bottom: 10px;
-}
-.education-item p {
-     margin-bottom: 8px;
-     line-height: 1.5;
-}
-.education-item ul {
-    margin-top: 8px;
-    margin-bottom: 8px;
-}
-
-
-/* --- Experience 섹션 스타일 --- */
-#experience ul {
-    list-style: none;
-    padding: 0;
-}
-#experience li {
-    background-color: #fff;
-    border: 1px solid #eee;
-    margin-bottom: 15px;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.08);
-}
-#experience li h3 {
-     margin-top: 0;
-    color: #34495e;
-    margin-bottom: 5px;
-}
-#experience li .meta {
-    font-size: 0.9em;
-    color: #555;
-    margin-bottom: 10px;
-}
-#experience li p {
-     margin-bottom: 8px;
-     line-height: 1.5;
-}
-
-
-/* --- 프로젝트 아이템 스타일 (인터랙티브 관련 포함) --- */
-.project-item {
-    border: 1px solid #ccc;
+.section-title {
     margin-bottom: 25px;
-    border-radius: 8px;
-    background-color: #fff;
-    overflow: hidden;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    transition: transform 0.3s ease;
-    cursor: pointer; /* 클릭 가능한 요소임을 표시 */
 }
 
- .project-item:hover {
-     transform: translateY(-5px); /* 호버 시 살짝 위로 */
- }
+hr {
+    border: 0;
+    border-top: 1px solid var(--color-border);
+    margin: 30px 0;
+}
+
+/* About Me */
+.expertise-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 15px;
+}
+
+.expertise-tags span {
+    background-color: var(--color-accent-bg);
+    color: var(--color-secondary);
+    padding: 5px 10px;
+    border-radius: 3px;
+    font-family: var(--font-mono);
+    font-size: 0.85em;
+    border: 1px solid var(--color-secondary);
+}
+
+/* Timeline/List Style */
+.timeline-item, .experience-item {
+    padding: 15px 0;
+    border-left: 2px solid var(--color-border);
+    padding-left: 20px;
+    position: relative;
+}
+
+.timeline-item::before, .experience-item::before {
+    content: '';
+    position: absolute;
+    left: -6px;
+    top: 20px;
+    width: 10px;
+    height: 10px;
+    background-color: var(--color-primary);
+    border-radius: 50%;
+}
+
+.meta-date {
+    color: #999;
+    font-style: italic;
+    font-size: 0.9em;
+    margin-bottom: 5px;
+}
+
+.list-minimal li {
+    padding: 5px 0;
+    border-left: 3px solid var(--color-secondary);
+    padding-left: 10px;
+    margin-bottom: 5px;
+}
+
+/*
+======================================================
+4. Projects Section (Card & Toggle)
+======================================================
+*/
+.project-card {
+    background-color: var(--color-accent-bg);
+    border-radius: 5px;
+    margin-bottom: 15px;
+    border: 1px solid var(--color-border);
+    transition: background-color 0.3s;
+}
+
+.project-card:hover {
+    background-color: #383838;
+}
 
 .project-header {
-    padding: 20px;
-    background-color: #3498db; /* 헤더 배경색 */
-    color: #fff; /* 헤더 글자색 */
-     display: flex; /* 헤더 내 요소 정렬 */
-     justify-content: space-between; /* 제목과 아이콘 간격 */
-     align-items: center;
+    padding: 15px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .project-header h3 {
     margin: 0;
-    font-size: 1.5em;
+    color: var(--color-primary);
 }
 
- .project-toggle-icon {
-     font-size: 1.5em;
-     transition: transform 0.3s ease; /* 아이콘 회전 애니메이션 */
- }
-
- .project-item.active .project-toggle-icon {
-     transform: rotate(180deg); /* 활성화 시 아이콘 회전 */
- }
-
- .project-meta-header { /* 프로젝트 헤더 바로 아래 메타 정보 */
+.project-meta-header {
+    padding: 0 15px 15px;
     font-size: 0.9em;
-    color: #555;
-    padding: 10px 20px; /* 헤더 패딩과 맞춤 */
-    background-color: #ecf0f1; /* 약간 다른 배경색 */
-    margin: 0; /* 상하 마진 제거 */
-    border-bottom: 1px solid #eee;
- }
+    color: #aaa;
+}
 
+.project-toggle-icon {
+    font-size: 1.2em;
+    transition: transform 0.3s;
+}
 
 .project-details {
-    padding: 20px;
-    border-top: 1px solid #eee;
-    background-color: #f9f9f9; /* 상세 정보 배경색 */
-    display: none; /* 기본적으로 숨김 */
-    /* JavaScript가 .active 클래스를 추가하면 보여집니다 */
+    padding: 0 15px 15px;
+    /* Initial state for the transition */
+    max-height: 0; 
+    overflow: hidden;
+    transition: max-height 0.4s ease-out, padding 0.4s ease-out;
+    border-top: 1px solid var(--color-border);
+    margin-top: 15px;
 }
 
- .project-item.active .project-details {
-     display: block; /* 활성화 시 보여짐 */
- }
+.project-card.active .project-details {
+    max-height: 2000px; /* Large enough value to cover all content */
+    padding: 15px 15px 15px;
+    border-top: 1px solid var(--color-secondary);
+}
 
+.project-card.active .project-header .project-toggle-icon {
+    transform: rotate(180deg);
+}
 
-.project-details p {
+.video-container {
+    position: relative;
+    width: 100%;
+    padding-bottom: 56.25%; /* 16:9 aspect ratio */
+    height: 0;
     margin-bottom: 15px;
-    line-height: 1.7;
 }
 
-.project-details p:last-child {
-     margin-bottom: 0;
-}
-
- .project-details strong {
-     color: #2c3e50;
- }
-
-/* --- Publications & Patents 스타일 --- */
-#publications h3 {
-    color: #34495e;
-    margin-top: 30px;
-    margin-bottom: 15px;
-    border-bottom: 1px dashed #ccc;
-    padding-bottom: 5px;
-}
-#publications h3:first-of-type {
-    margin-top: 0; /* 첫 번째 h3 위쪽 마진 제거 */
-}
-
-#publications ul {
-    list-style: disc;
-    margin-left: 20px;
-    padding: 0;
-}
-
-#publications li {
-    margin-bottom: 15px;
-    /* padding-bottom: 15px; 이전 리스트 구분선 대신 아래 마진 사용 */
-    /* border-bottom: 1px dashed #eee; */
-    background-color: #fff; /* 배경색 추가 */
-    padding: 15px; /* 패딩 추가 */
+.video-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
     border-radius: 5px;
-     border: 1px solid #eee; /* 테두리 추가 */
-     box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-     list-style: none; /* ul 자체에 disc를 줬으므로 li에서는 제거 */
-     margin-left: 0; /* list-style: none; 후 왼쪽 마진 초기화 */
-}
-#publications ul { /* ul에 직접 왼쪽 마진을 줘서 들여쓰기 효과 */
-    margin-left: 20px;
 }
 
-
-.publication-meta {
-    font-size: 0.9em;
-    color: #555;
-    display: block;
-    margin-top: 5px;
-}
-
-.authors {
-    font-size: 0.9em;
-    color: #666;
-    display: block;
-    margin-top: 5px;
-}
-
-/* --- Awards & Scholarships 스타일 --- */
-#awards ul {
-    list-style: none;
-    padding: 0;
-}
-#awards li {
-    background-color: #fff;
-    border: 1px solid #eee;
-    margin-bottom: 10px;
-    padding: 15px;
-    border-radius: 5px;
-     box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-}
-
-/* --- Academic Activities 스타일 --- */
-#activities h3 {
-    color: #34495e;
-    margin-top: 30px;
+/*
+======================================================
+5. Publications & Awards
+======================================================
+*/
+.publication-list li {
     margin-bottom: 15px;
-    border-bottom: 1px dashed #ccc;
-    padding-bottom: 5px;
-}
-#activities h3:first-of-type {
-    margin-top: 0;
-}
-#activities ul {
-    list-style: disc;
-     margin-left: 20px;
-    padding: 0;
-    margin-bottom: 20px;
-}
-#activities li {
-     margin-bottom: 10px;
-      line-height: 1.5;
+    padding-left: 10px;
+    border-left: 4px solid var(--color-secondary);
 }
 
+.pub-title {
+    display: block;
+    font-weight: bold;
+    color: var(--color-foreground);
+}
 
-/* --- Teaching Experiences 스타일 --- */
-#teaching h3 {
-    color: #34495e;
-    margin-top: 30px;
-    margin-bottom: 15px;
-    border-bottom: 1px dashed #ccc;
-    padding-bottom: 5px;
-}
-#teaching h3:first-of-type {
-     margin-top: 0;
-}
-#teaching .meta {
+.pub-meta {
+    display: block;
     font-size: 0.9em;
-    color: #555;
-    margin-bottom: 10px;
-     display: block;
-}
-#teaching ul {
-    list-style: disc;
-     margin-left: 20px;
-    padding: 0;
-     margin-bottom: 20px;
-}
-#teaching li {
-    margin-bottom: 10px;
-     line-height: 1.5;
+    color: #9cdcfe; /* Light blue accent */
+    margin: 3px 0;
 }
 
+.pub-authors {
+    display: block;
+    font-size: 0.85em;
+    color: #888;
+}
 
-/* --- 푸터 스타일 --- */
-footer {
-    background-color: #34495e;
-    color: #ecf0f1;
+.publication-item.highlight {
+    border-left-color: #ffd700; /* Gold for best paper */
+}
+
+/*
+======================================================
+6. Footer
+======================================================
+*/
+.main-footer {
+    background-color: var(--color-accent-bg);
+    padding: 20px 0;
     text-align: center;
-    padding: 40px 0;
-    margin-top: 0;
+    border-top: 1px solid var(--color-border);
 }
 
-footer h2 { /* 푸터의 Contact 제목 스타일 */
-    color: #ecf0f1;
-     margin-bottom: 20px;
+.contact-info p {
+    margin: 5px 0;
+    font-size: 0.9em;
 }
 
-footer p {
-    margin: 0 0 10px 0;
+.copyright {
+    margin-top: 10px;
+    color: #666;
+    font-size: 0.8em;
 }
 
- footer a {
-     color: #ecf0f1;
-    text-decoration: none;
-    transition: color 0.3s ease;
+.powered-by {
+    font-family: var(--font-mono);
+    color: var(--color-secondary);
 }
 
- footer a:hover {
-    color: #3498db;
-}
-
-.footer-links a { /* 푸터 하단 링크 스타일 */
-    margin: 0 10px;
-}
-
-
-/* --- 모바일 반응형 --- */
+/*
+======================================================
+7. Media Queries (Responsiveness)
+======================================================
+*/
 @media (max-width: 768px) {
-    .container {
-        width: 95%;
-        padding: 0 10px;
+    .header-content {
+        flex-direction: column;
+        text-align: center;
     }
 
-    header h1 {
-        font-size: 2em;
-    }
-     header .subtitle {
-         font-size: 1.2em;
-     }
-    .tagline {
-        font-size: 1em;
+    .profile-img {
+        order: -1; /* Move image to top on mobile */
+        margin-bottom: 15px;
     }
 
-
-    nav ul li {
-        display: block;
-        margin: 5px 0;
+    .main-nav ul {
+        flex-wrap: wrap;
+        gap: 10px;
     }
 
-    .section {
-        padding: 30px 0;
+    .main-nav a {
+        font-size: 0.8em;
     }
-
-    .section h2 {
-        font-size: 2em;
-    }
-
-    .project-header h3 {
-        font-size: 1.3em;
-    }
-     .project-toggle-icon {
-         font-size: 1.3em;
-     }
-     .project-details {
-         padding: 15px;
-     }
-
-     #publications ul, #activities ul, #teaching ul {
-         margin-left: 10px; /* 모바일에서 들여쓰기 줄임 */
-     }
 }
