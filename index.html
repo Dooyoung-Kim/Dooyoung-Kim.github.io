@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DOOYOUNG KIM - Senior XR Researcher & Co-PI</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css"> 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
@@ -26,7 +26,7 @@
                     <a href="#" target="_blank"><i class="fas fa-globe"></i> Website</a>
                 </div>
             </div>
-            <img src="images/profile.jpg" alt="Dooyoung Kim Profile Photo" class="profile-img">
+            <img src="images/profile.jpg" alt="Dooyoung Kim Profile Photo" class="profile-img"> 
         </div>
     </header>
 
@@ -347,21 +347,21 @@
                     const details = projectCard.querySelector('.project-details');
                     const icon = header.querySelector('.project-toggle-icon');
                     
-                    // project-card에 active 클래스 토글 (CSS 스타일링에 사용)
                     projectCard.classList.toggle('active');
 
                     if (details.classList.contains('hidden')) {
                         details.classList.remove('hidden');
-                        // max-height를 scrollHeight로 설정하여 애니메이션 효과 구현
                         details.style.maxHeight = details.scrollHeight + "px"; 
-                        icon.innerHTML = '&#x25B2;'; // 윗쪽 화살표
+                        icon.innerHTML = '&#x25B2;'; 
                     } else {
-                        details.style.maxHeight = null; // max-height 초기화
-                        // 애니메이션 완료 후 hidden 클래스 다시 추가
+                        details.style.maxHeight = null; 
+                        
+                        // CSS transition이 완료될 시간을 기다린 후 hidden 클래스 추가
+                        // (CSS의 transition: max-height 0.4s ease-out; 에 맞추어 400ms 설정)
                         setTimeout(() => {
                            details.classList.add('hidden');
-                        }, 400); // CSS transition 시간과 맞춰주는 것이 좋습니다.
-                        icon.innerHTML = '&#x25BC;'; // 아랫쪽 화살표
+                        }, 400); 
+                        icon.innerHTML = '&#x25BC;'; 
                     }
                 });
             });
@@ -373,7 +373,6 @@
                     const targetId = this.getAttribute('href');
                     const targetElement = document.querySelector(targetId);
                     if (targetElement) {
-                        // 고정된 네비게이션 바 높이만큼 스크롤 위치 조정
                         const navHeight = document.querySelector('.main-nav').offsetHeight;
                         window.scrollTo({
                             top: targetElement.offsetTop - navHeight - 20, 
