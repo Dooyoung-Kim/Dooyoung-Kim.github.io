@@ -3,412 +3,250 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DOOYOUNG KIM - Personal Website</title>
+    <title>DOOYOUNG KIM - Senior XR Researcher</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
 
-    <header>
-        <div class="container">
-            <h1>DOOYOUNG KIM</h1>
-            <p class="subtitle">Senior XR Researcher (PhD)</p>
-            <p class="tagline">Connecting people beyond space and time through AR/VR and Spatial Computing.</p>
-            <div class="contact-links">
-                <a href="mailto:dooyoung.kim@kaist.ac.kr">dooyoung.kim@kaist.ac.kr</a>
-                | <a href="mailto:dooyoung.kim@nyu.edu">dooyoung.kim@nyu.edu</a>
-                | <a href="https://www.linkedin.com/in/dooyoung-kim-xr" target="_blank">LinkedIn</a> | <a href="https://scholar.google.com/citations?user=2DwDeKIAAAAJ&hl=en" target="_blank">Google Scholar</a>
+    <header class="main-header">
+        <div class="container header-content">
+            <div class="profile-info">
+                <h1>DOOYOUNG KIM</h1>
+                <p class="subtitle">Senior XR Researcher (PhD) | Spatial Computing & HCI</p>
+                <p class="tagline">Connecting people beyond space and time through AR/VR and Spatial Computing.</p>
+                <div class="social-links">
+                    <a href="mailto:dooyoung.kim@kaist.ac.kr"><i class="fas fa-envelope"></i> Email</a>
+                    <a href="https://www.linkedin.com/in/dooyoung-kim-xr" target="_blank"><i class="fab fa-linkedin"></i> LinkedIn</a>
+                    <a href="https://scholar.google.com/citations?user=2DwDeKIAAAAJ&hl=en" target="_blank"><i class="fas fa-graduation-cap"></i> Scholar</a>
+                    <a href="#" target="_blank"><i class="fab fa-github"></i> GitHub</a>
+                </div>
             </div>
+            <img src="images/profile.jpg" alt="Dooyoung Kim Profile Photo" class="profile-img">
         </div>
     </header>
 
-    <nav>
+    <nav class="main-nav">
         <div class="container">
             <ul>
                 <li><a href="#about">About</a></li>
                 <li><a href="#education">Education</a></li>
                 <li><a href="#experience">Experience</a></li>
                 <li><a href="#projects">Projects</a></li>
-                <li><a href="#publications">Publications & Patents</a></li>
+                <li><a href="#publications">Publications</a></li>
                 <li><a href="#awards">Awards</a></li>
                 <li><a href="#activities">Activities</a></li>
                 <li><a href="#teaching">Teaching</a></li>
-                <li><a href="#contact">Contact</a></li>
             </ul>
         </div>
     </nav>
 
-    <section id="about" class="section">
-        <div class="container">
-            <h2>About Me</h2>
-            <img src="images/profile.jpg" alt="Dooyoung Kim Profile Photo" class="profile-img">    
+    <main class="container">
+        
+        <section id="about" class="section">
+            <h2 class="section-title">About Me</h2>
             <p>
                 I received my PhD from the KAIST UVR Lab, researching AR/VR remote collaboration and spatial computing technologies. I have broad expertise in AR, VR, spatial computing, and Human-Computer Interaction (HCI), with deep research focus on AR/VR telepresence, mutual space generation, spatial experience sharing, and VR locomotion (Redirected Walking).
             </p>
             <p>
                 I am proficient in prototyping using HMDs (Hololens 2, Quest Pro, Vive Pro Eye, Quest 3, Vision Pro), primarily using Unity and Python as development tools. Currently, I am participating in the Meta-Museum project in collaboration with NYU, a system for sharing transcending spatial and temporal remote experiences using large media walls and MR HMDs. Additionally, I am leading the development of core XR technologies such as 3D modeling, interaction, hand tracking, and multimodal feedback, serving as a leader in Korean government-funded research projects.
             </p>
-    
-            <div style="clear: both;"></div>
-    
-            <h3>Expertise</h3>
-            <ul>
-                <li>AR/VR Remote Collaboration</li>
-                <li>Spatial Computing</li>
-                <li>AR/VR Telepresence</li>
-                <li>Mutual Space Generation</li>
-                <li>Spatial Experience Sharing</li>
-                <li>VR Locomotion (Redirected Walking)</li>
-                <li>Human-Computer Interaction (HCI)</li>
-                <li>Unity, Python Prototyping</li>
-                <li>HMDs (Hololens 2, Quest Pro, Vive Pro Eye, Quest 3, Vision Pro)</li>
-                <li>3D Modeling, Interaction, Hand Tracking, Multimodal Feedback, Scene Graph, Behavior Learning, User Experience</li>
-            </ul>
-        </div>
-    </section>
+            
+            <h3 class="subsection-title">Core Expertise</h3>
+            <div class="expertise-tags">
+                <span>AR/VR Remote Collaboration</span>
+                <span>Spatial Computing</span>
+                <span>AR/VR Telepresence</span>
+                <span>Mutual Space Generation</span>
+                <span>VR Locomotion (RW)</span>
+                <span>HCI</span>
+                <span>Unity/Python Prototyping</span>
+                <span>Hololens 2</span>
+                <span>Quest Pro/3</span>
+                <span>Vision Pro</span>
+            </div>
+        </section>
 
-    <section id="education" class="section">
-        <div class="container">
-            <h2>Education</h2>
-            <div class="education-item">
+        <hr>
+
+        <section id="education" class="section">
+            <h2 class="section-title">Education</h2>
+            
+            <article class="timeline-item">
                 <h3>PhD in Culture Technology (AR/VR)</h3>
-                <p class="meta">KAIST | 03/2021 - 02/2024</p>
+                <p class="meta-date">KAIST | 03/2021 - 02/2024</p>
                 <p><strong>Thesis:</strong> Space-Adaptive Mutual Space Generation for Mixed Reality Remote Collaboration</p>
-                <p><strong>Research Topics:</strong> AR, VR, HCI, Remote Collaboration, Mutual Collaborative Space, VR Locomotion, Spatial Computing</p>
-                <p>UVR Lab. Advisor: Prof. Woontack Woo</p>
-            </div>
-            <div class="education-item">
+                <p class="research-topics">Research Topics: AR, VR, HCI, Remote Collaboration, Spatial Computing</p>
+            </article>
+            <article class="timeline-item">
                 <h3>Master in Culture Technology (AR/VR)</h3>
-                <p class="meta">KAIST | 03/2019 - 02/2021</p>
-                <p><strong>Thesis:</strong> Adjusting Relative Translation Gains According to Space Size in Redirected Walking for Mixed Reality Mutual Space Generation</p>
-                <p><strong>Research Topics:</strong> AR, VR, HCI, Remote Collaboration, VR Locomotion</p>
-                <p>UVR Lab. Advisor: Prof. Woontack Woo</p>
-            </div>
-            <div class="education-item">
+                <p class="meta-date">KAIST | 03/2019 - 02/2021</p>
+                <p><strong>Thesis:</strong> Adjusting Relative Translation Gains According to Space Size in Redirected Walking...</p>
+            </article>
+            <article class="timeline-item">
                 <h3>Bachelor in Mechanical Engineering</h3>
-                <p class="meta">KAIST | 03/2014 - 02/2019</p>
-                <p>Lab Intern: @Hubo Lab-Humanoid Robot (2017), @UVR Lab-AR/VR (2018)</p>
-            </div>
-            <div class="education-item">
-                <h3>Visiting Research</h3>
-                <p class="meta">Imagine Lab, Ecole des Ponts ParisTech, Paris, France | Advisor: Prof. Vincent Lepetit</p>
-            </div>
-            <div class="education-item">
-                <h3>Exchange Student</h3>
-                <p class="meta">Tsinghua University, Beijing, China</p>
-            </div>
-        </div>
-    </section>
+                <p class="meta-date">KAIST | 03/2014 - 02/2019</p>
+            </article>
+            
+            <h3 class="subsection-title">Global Experience</h3>
+            <ul class="list-minimal">
+                <li>**Visiting Research:** Imagine Lab, Ecole des Ponts ParisTech, Paris, France</li>
+                <li>**Exchange Student:** Tsinghua University, Beijing, China</li>
+            </ul>
+        </section>
 
-    <section id="experience" class="section">
-        <div class="container">
-            <h2>Experience</h2>
-            <ul>
-                <li>
-                    <h3>Postdoctral Researcher</h3>
-                    <p class="meta">New York University (NYU) | 01/2025 - Ongoing</p>
-                    <p>Collaborating on the Meta-Museum project with the Future Reality Lab (Prof. Ken Perlin) at NYU. Planning collaborative research at the NYU Manhattan campus during summer 2025.</p>
+        <hr>
+
+        <section id="experience" class="section">
+            <h2 class="section-title">Experience</h2>
+            <ul class="experience-list">
+                <li class="experience-item">
+                    <div class="experience-role-date">
+                        <h3>Postdoctral Researcher</h3>
+                        <p class="meta-date">New York University (NYU) | 01/2025 - Ongoing</p>
+                    </div>
+                    <p>Collaborating on the **Meta-Museum project** with the Future Reality Lab. Planning collaborative research at the NYU Manhattan campus during summer 2025.</p>
                 </li>
-                <li>
-                    <h3>Senior Researcher</h3>
-                    <p class="meta">KAIST Augmented Reality Research Center (ARRC) | 03/2024 - Ongoing</p>
+                <li class="experience-item">
+                    <div class="experience-role-date">
+                        <h3>Senior Researcher</h3>
+                        <p class="meta-date">KAIST Augmented Reality Research Center (ARRC) | 03/2024 - Ongoing</p>
+                    </div>
                     <p>Research Topics: AR, VR, XR, spatial computing, telepresence, mutual space, spatial experience, and locomotion.</p>
                 </li>
-                <li>
-                    <h3>Global Shaper</h3>
-                    <p class="meta">World Economic Forum | 01/2023 - Ongoing</p>
-                    <p>An initiative of the World Economic Forum, a network of hubs led by young people driving impact in their communities. Part of the Daejeon Hub focused on building a borderless community of young talents for sustainability and social impact.</p>
+                <li class="experience-item">
+                    <div class="experience-role-date">
+                        <h3>Global Shaper</h3>
+                        <p class="meta-date">World Economic Forum | 01/2023 - Ongoing</p>
+                    </div>
+                    <p>Part of the Daejeon Hub focused on building a borderless community of young talents for sustainability and social impact.</p>
                 </li>
-                <li>
-                    <h3>XR Researcher</h3>
-                    <p class="meta">Korea Institue of Science and Technology Information (KISTI) | 05/2022 - 03/2023</p>
-                    <p>Dispatched to KISTI, working with both KAIST and KISTI on the government-funded joint research project, OpenXR: Untact Realistic Platform Technology.</p>
-                </li>
-                <li>
-                    <h3>ZER10NE Creator & Alumni</h3>
-                    <p class="meta">Hyundai Motors Group (HMG) | 04/2021 - 11/2022</p>
-                    <p>Selected as an AR/VR researcher in the ZER01NE creator-supporting program.</p>
-                    <ul>
-                        <li>Automatic SONATA: Scenery Style-Transfer System for Autonomous Vehicle (2021)</li>
-                        <li>Holo-bot: XR Social Interface Robot with Holographic Avatar (2022)</li>
-                    </ul>
-                </li>
-            </ul>
-        </div>
-    </section>
+                </ul>
+        </section>
 
-    <section id="projects" class="section">
-        <div class="container">
-            <h2>Research Projects</h2>
+        <hr>
 
-            <article class="project-item">
+        <section id="projects" class="section">
+            <h2 class="section-title">Research Projects</h2>
+
+            <article class="project-card">
                 <div class="project-header">
-                    <h3>Meta-Museum</h3>
+                    <h3>Meta-Museum (NYU-KAIST Collaborative)</h3>
                     <span class="project-toggle-icon">&#x25BC;</span>
                 </div>
                 <p class="project-meta-header">NYU-KAIST Collaborative Research Grant (01/2025-Ongoing)</p>
-                <div class="project-details">
-                    <iframe width="100%" height="315" src="https://www.youtube.com/embed/FMn-idxyj4I?si=4mQpKBid6m7xpZXu" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>            
-                    <p>
-                        Build a Meta Museum between KAIST (Daejeon, Korea) and NYU (New York, USA). This project aims to provide a museum experience transcending spatiotemporal constraints using large media walls and the latest MR HMDs.
-                    </p>
+                <div class="project-details hidden">
+                    <div class="video-container">
+                        <iframe src="https://www.youtube.com/embed/FMn-idxyj4I?si=4mQpKBid6m7xpZXu" allowfullscreen></iframe>
+                    </div>
+                    <p>Build a Meta Museum between KAIST and NYU. This project aims to provide a museum experience transcending spatiotemporal constraints using large media walls and the latest MR HMDs.</p>
                     <p><strong>Role:</strong> Symposium Organizing & KAIST-NYU Collaborative Research Planning</p>
                 </div>
             </article>
-
-            <article class="project-item">
+            
+            <article class="project-card">
                 <div class="project-header">
-                    <h3>Meta-Object</h3>
+                    <h3>Meta-Object (National Research Project)</h3>
                     <span class="project-toggle-icon">&#x25BC;</span>
                 </div>
                 <p class="project-meta-header">Korea Government (IITP) Funded National Research Project (04/2024-Ongoing)</p>
-                <div class="project-details">
-                    <iframe width="100%" height="315" src="https://www.youtube.com/embed/UwlDbLIW9Ns?si=hxUu5Ov4MSWXytbE" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>            
-                    <p>
-                        This is a project to develop environment-adaptive real-time XR interface technology. About 40 researchers are participating, and I am serving as the Project Team Leader and Intelligent Platform Research Team Leader. It integrates various technologies including 3D modeling, interaction, hand tracking, multimodal feedback, scene graph, behavior learning, and user experience.
-                    </p>
-                    <p><strong>Role:</strong> Senior Researcher - Project Team Leader (~40 researchers) & Intelligent Platform Research Team Leader</p>
+                <div class="project-details hidden">
+                    <div class="video-container">
+                        <iframe src="https://www.youtube.com/embed/UwlDbLIW9Ns?si=hxUu5Ov4MSWXytbE" allowfullscreen></iframe>
+                    </div>
+                    <p>Project to develop environment-adaptive real-time XR interface technology. I am serving as the Project Team Leader and Intelligent Platform Research Team Leader (~40 researchers).</p>
                     <p><strong>Topics:</strong> 3D Modeling, Interaction, Hand Tracking, Multimodal Feedback, Scene Graph, Behavior Learning, User Experience</p>
                 </div>
             </article>
 
-            <article class="project-item">
-                <div class="project-header">
-                    <h3>OpenXR: TranSpace 3.0</h3>
-                    <span class="project-toggle-icon">&#x25BC;</span>
-                </div>
-                <p class="project-meta-header">Korea Government (NST) Funded National Research Project (12/2021-Ongoing)</p>
-                <div class="project-details">
-                    <p>
-                        This is a project to develop OpenXR platform technology based on non-contact realism. I was responsible for leading the Telepresence System and Spatial Computing research.
-                    </p>
-                    <p><strong>Role:</strong> Senior Researcher (2024) & Research Assistant (2021-2023) - Telepresence System Leader, Spatial Computing Research</p>
-                    <p><strong>Topics:</strong> Mutual Space Generation, Spatial Computing, Scene Graph, 3D Interaction</p>
-                </div>
-            </article>
+            </section>
 
-            <article class="project-item">
-                <div class="project-header">
-                    <h3>TranSpace 2.0</h3>
-                    <span class="project-toggle-icon">&#x25BC;</span>
-                </div>
-                <p class="project-meta-header">Korea Government (NRF) Funded National Research Project (09/2019-12/2020)</p>
-                <div class="project-details">
-                    <p>
-                        This was a project to develop user restoration technology for hyper-realistic remote virtual interaction. I conducted research on AR/VR remote collaboration system development and VR locomotion technology.
-                    </p>
-                    <p><strong>Role:</strong> Research Assistant - AR/VR remote collaboration system development, VR locomotion technology research</p>
-                </div>
-            </article>
+        <hr>
 
-            <article class="project-item">
-                <div class="project-header">
-                    <h3>National R&D Real Challenge</h3>
-                    <span class="project-toggle-icon">&#x25BC;</span>
-                </div>
-                <p class="project-meta-header">Korea Government (KIRD) Funded National Research Project (04/2020-12/2020)</p>
-                <div class="project-details">
-                    <p>
-                        I conducted research on enhancing visual perception in AR-VR mixed reality remote collaboration scenarios.
-                    </p>
-                    <p><strong>Role:</strong> Research Assistant - Research on visual perception in VR remote collaboration scenario</p>
-                </div>
-            </article>
-
-            <article class="project-item">
-                <div class="project-header">
-                    <h3>Automatic SONATA: Scenery Style-Transfer System for Autonomous Vehicle</h3>
-                    <span class="project-toggle-icon">&#x25BC;</span>
-                </div>
-                <p class="project-meta-header">ZER10NE Creator (Hyundai Motors Group) (2021)</p>
-                <div class="project-details">
-                    <p>
-                        This is a scenery style-transfer system for autonomous vehicles developed through Hyundai Motors Group's ZER01NE program.
-                    </p>
-                </div>
-            </article>
-
-            <article class="project-item">
-                <div class="project-header">
-                    <h3>Holo-bot: XR Social Interface Robot with Holographic Avatar</h3>
-                    <span class="project-toggle-icon">&#x25BC;</span>
-                </div>
-                <p class="project-meta-header">ZER10NE Creator (Hyundai Motors Group) (2022)</p>
-                <div class="project-details">
-                    <p>
-                        This is an XR social interface robot with a holographic avatar, developed through Hyundai Motors Group's ZER01NE program.
-                    </p>
-                </div>
-            </article>
-
-
-        </div>
-    </section>
-
-    <section id="publications" class="section">
-        <div class="container">
-            <h2>Publications & Patents</h2>
-            <h3>Representative Publications</h3>
-            <ul>
-                <li>
-                    <strong>Spatial Affordance-aware Interactable Subspace Allocation for Mixed Reality Telepresence</strong><br>
-                    <span class="publication-meta">2024 IEEE International Symposium on Mixed and Augmented Reality (ISMAR) - **Best Conference Paper Award**</span><br>
-                    <span class="authors"><strong>Dooyoung Kim</strong>, Seonji Kim, Selin Choi and Woontack Woo</span>
+        <section id="publications" class="section">
+            <h2 class="section-title">Publications & Patents</h2>
+            
+            <h3 class="subsection-title">Representative Publications</h3>
+            <ul class="publication-list">
+                <li class="publication-item highlight">
+                    <span class="pub-title">Spatial Affordance-aware Interactable Subspace Allocation for Mixed Reality Telepresence</span>
+                    <span class="pub-meta">2024 IEEE ISMAR - **Best Conference Paper Award** 🏆</span>
+                    <span class="pub-authors"><strong>Dooyoung Kim</strong>, Seonji Kim, Selin Choi and Woontack Woo</span>
                 </li>
-                <li>
-                    <strong>Edge-Centric Space Rescaling with Redirected Walking for Dissimilar Physical-Virtual Space Registration</strong><br>
-                    <span class="publication-meta">2023 IEEE International Symposium on Mixed and Augmented Reality (ISMAR)</span><br>
-                    <span class="authors"><strong>Dooyoung Kim</strong> and Woontack Woo</span>
+                <li class="publication-item">
+                    <span class="pub-title">Edge-Centric Space Rescaling with Redirected Walking for Dissimilar Physical-Virtual Space Registration</span>
+                    <span class="pub-meta">2023 IEEE ISMAR</span>
+                    <span class="pub-authors"><strong>Dooyoung Kim</strong> and Woontack Woo</span>
                 </li>
-                <li>
-                    <strong>The effects of spatial configuration on relative translation gain thresholds in redirected walking</strong><br>
-                    <span class="publication-meta">2023 Springer Virtual Reality - SCIE, Q1, IF:4.4 **Best Presentation Award (APMAR)**</span><br>
-                    <span class="authors"><strong>Dooyoung Kim</strong>, Seonji Kim, Jae-eun Shin, Boram Yoon, Jinwook Kim, Jeongmi Lee, and Woontack Woo</span>
+                <li class="publication-item">
+                    <span class="pub-title">The effects of spatial configuration on relative translation gain thresholds in redirected walking</span>
+                    <span class="pub-meta">2023 Springer Virtual Reality - SCIE, Q1, IF:4.4 **Best Presentation Award**</span>
+                    <span class="pub-authors"><strong>Dooyoung Kim</strong> et al.</span>
                 </li>
-                <li>
-                    <strong>Effects of Virtual Room Size and Objects on Relative Translation Gain Thresholds in Redirected Walking</strong><br>
-                    <span class="publication-meta">2022 IEEE Conference on Virtual Reality and 3D User Interfaces (VR)</span><br>
-                    <span class="authors"><strong>Dooyoung Kim</strong>, Jinwook Kim, Jae-eun Shin, Boram Yoon, Jeongmi Lee, and Woontack Woo</span>
-                </li>
-                <li>
-                    <strong>Adjusting Relative Translation Gains According to Space Size in Redirected Walking for Mixed Reality Mutual Space Generation</strong><br>
-                    <span class="publication-meta">2021 IEEE Conference on Virtual Reality and 3D User Interfaces (VR)</span><br>
-                    <span class="authors"><strong>Dooyoung Kim</strong>, Jae-eun Shin, Jeongmi Lee, and Woontack Woo</span>
-                </li>
-            </ul>
-            <h3>Patents</h3>
-            <ul>
-                <li>(KR) SPATIAL EXTENSION USING HUMAN STEREOSCOPIC PERCEPTION WITH A LARGE WALL DISPLAY. Filed.</li>
-                <li>(KR) METHOD OF OPERATING MIXED REALITY TELEPRESENCE SYSTEM AND MIXED REALITY TELEPRESENCE SYSTEM. Filed.</li>
+                </ul>
+
+            <h3 class="subsection-title">Patents</h3>
+            <ul class="list-minimal">
+                <li>(KR/PCT) METHOD ANS SYSTEM FOR GENERATING REMOTE COLLABORATION MUTUAL SPACE. **Issued.**</li>
                 <li>(KR/US) EDGE-CENTRIC SPACE RESCALING METHOD FOR DISSIMILAR SPACE REGISTRATION AND THE SYSTEM THEREOF. Filed.</li>
-                <li>(KR/PCT) METHOD ANS SYSTEM FOR GENERATING REMOTE COLLABORATION MUTUAL SPACE. Issued.</li>
-                <li>(KR/US) VIRTUAL REALITY SPACE ADJUSTING METHOD WITH RELATIVE TRANSLATION GAIN IN REDIRECTED WALKING AND THE SYSTEM THEREOF. Filed.</li>
-            </ul>
-        </div>
-    </section>
+                </ul>
+        </section>
+        
+        <hr>
 
-    <section id="awards" class="section">
+        </main>
+
+    <footer class="main-footer">
         <div class="container">
-            <h2>Awards & Scholarships</h2>
-            <ul>
-                <li>2025 NYU-KAIST Postdoc Collaboration Grant | New York University (NYU)</li>
-                <li>2024 IEEE ISMAR Best Conference Paper Award | 2024 International Symposium on Augmented and Mixed Reality (ISMAR)</li>
-                <li>2023 KAIST Start-up Scholarship | KAIST Alumni Academic Scholarship Foundation</li>
-                <li>2022 APMAR Best Presentation Award | 2022 Asia-Pacific Workshop on Mixed and Augmented Reality (APMAR)</li>
-                <li>2022 NCSOFT PhD Scholorship | NCSOFT (Game Development Compony)</li>
-                <li>2021 ACM CHI Honorable Mention Award | 2021 ACM CHI Conference</li>
-            </ul>
-        </div>
-    </section>
-
-    <section id="activities" class="section">
-        <div class="container">
-            <h2>Academic Activities</h2>
-            <h3>International Conference/Symposium Organizing & Chairing</h3>
-            <ul>
-                <li>2025 IEEE International Symposium on Mixed and Augmented Reality (ISMAR), Assistant for General Chair & Social Event Chair</li>
-                <li>2025 IEEE Conference on Virtual Reality and 3D User Interface (VR), XRMemory Workshop Principal Organizer</li>
-                <li>2025 HCI Korea Conference, MetaMuseum Workshop Organizer</li>
-                <li>2024 Korea Computer Congress (KCC), Poster Chair (CG & Interaction) & Metaverse+AI+XR Workshop Organizer</li>
-                <li>2024 Korea Software Congress (KSC), Poster Chair (CG/HCI/AI/Metaverse/AR/VR)</li>
-                <li>2024 International Symposium on Meta-X (ISMAX), Organizer & Web Chair</li>
-                <li>2023 International Symposium on Meta-X (ISMAX), Organizer & Student Chair</li>
-            </ul>
-            <h3>Invited Talks</h3>
-            <ul>
-                <li>2024 Korea Computer Congress (KCC), Top-Conference Session</li>
-                <li>2024 University of Minnesota (Prof. Victoria Interrante), Redirected Walking & Spatial Computing</li>
-                <li>2023 Korea Computer Congress (KCC), Top-Conference Session</li>
-                <li>2023 Korea Software Congress (KSC), Top-Conference Session</li>
-                <li>2023 HCI Korea Conference, Metaverse Research and Development Session</li>
-                <li>2022 ACM SIGGRAPH Asia Conference, OpenXR BoF Session</li>
-                <li>2022 Asia-Pacific Workshop on Mixed and Augmented Reality (APMAR), Pitch-Your-Work Session</li>
-            </ul>
-            <h3>International Conference Paper Presentation</h3>
-            <ul>
-                <li>IEEE International Symposium on Mixed and Augmented Reality (ISMAR) - 2022, 2023, 2024</li>
-                <li>IEEE Conference on Virtual Reality and 3D User Interface (VR) - 2021, 2022, 2023</li>
-                <li>ACM CHI Conference on Human Factors in Computing Systems (CHI) - 2021</li>
-            </ul>
-            <h3>Peer-Review</h3>
-            <p>IEEE TVCG, Springer VR, IEEE ISMAR, IEEE VR, ACM CHI, ACM SIGGRAPH, ACM VRST (1AC), ACM CSCW, IEEE/ACM HRI</p>
-        </div>
-    </section>
-
-    <section id="teaching" class="section">
-        <div class="container">
-            <h2>Teaching Experiences</h2>
-            <h3>KAIST Class Teaching Assitance</h3>
-            <p class="meta">KAIST Graduate School of Culture Technology / Graduate School of Metaverse | 03/2022 - 12/2024</p>
-            <ul>
-                <li>2024 ARP700: Augmented Reality project mentoring, Lecture about Media Wall & Extended Reality</li>
-                <li>2024 MV600: Augmented Reality project mentoring, Lecture about MR telepresence</li>
-                <li>2023 CTP445: Augmented Reality basic knowledge, hosting discussion sessions, programming with Python - SLAM with OpenCV</li>
-                <li>2022 GCT555: Unity basic teaching for graduate school students, prototyping with Hololens2 - MRTK with Unity</li>
-                <li>2022 CTP445: Unity basic teaching for graduate school students, prototyping with a smartphone - ARCore with Unity</li>
-            </ul>
-            <h3>Multi-User Game Development with Unity</h3>
-            <p class="meta">KAIST Center for Gifted Education | 03/2022 - 12/2022</p>
-            <p>Online Unity course teaching for middle school students. Networking game development with Unity.</p>
-            <h3>KAIST Undergraduate Research Program (URP)</h3>
-            <p class="meta">KAIST URP | 06/2021 - 12/2021</p>
-            <p>Mentored an undergraduate student from KAIST School of Electronic and Electrical Engineering. Resulting publication: Minwoo Song, Dooyoung Kim, Woontack Woo. Visual Implementation Factors for Realistic Furniture in Virtual Reality, 2021 KSC.</p>
-            <h3>Python Coach</h3>
-            <p class="meta">NAVER Boostcourse PY4E | 07/2021 - 08/2021</p>
-            <p>Basic python course coaching.</p>
-        </div>
-    </section>
-
-
-    <footer id="contact">
-        <div class="container">
-            <h2>Contact</h2>
-            <p>Email: <a href="mailto:dooyoung.kim@kaist.ac.kr">dooyoung.kim@kaist.ac.kr</a> | <a href="mailto:dooyoung.kim@nyu.edu">dooyoung.kim@nyu.edu</a></p>
-            <div class="footer-links">
-                <a href="https://www.linkedin.com/in/your-linkedin-profile" target="_blank">LinkedIn</a> | <a href="https://scholar.google.com/citations?user=your-google-scholar-id" target="_blank">Google Scholar</a>
+            <div class="contact-info">
+                <p>Contact: <a href="mailto:dooyoung.kim@kaist.ac.kr">dooyoung.kim@kaist.ac.kr</a> | <a href="mailto:dooyoung.kim@nyu.edu">dooyoung.kim@nyu.edu</a></p>
+                <p class="copyright">&copy; 2025 DOOYOUNG KIM. All rights reserved. <span class="powered-by">Powered by Code.</span></p>
             </div>
-            <p>&copy; 2025 DOOYOUNG KIM. All rights reserved.</p>
         </div>
     </footer>
 
-    <script src="js/script.js"></script>
     <script>
-        // project-item toggle functionality
-        const projectItems = document.querySelectorAll('.project-item');
-        projectItems.forEach(item => {
-            const header = item.querySelector('.project-header');
-            // If you want to include project-meta-header in the click area, attach the event to the item itself instead of the header, or attach the event to the meta-header separately.
-            header.addEventListener('click', () => {
-                item.classList.toggle('active');
-                const details = item.querySelector('.project-details');
-                // Using CSS transitions allows for smoother animation (CSS modification needed)
-                if (item.classList.contains('active')) {
-                    details.style.display = 'block';
-                } else {
-                    details.style.display = 'none';
-                }
+        document.addEventListener('DOMContentLoaded', () => {
+            const projectHeaders = document.querySelectorAll('.project-header');
+
+            projectHeaders.forEach(header => {
+                header.addEventListener('click', () => {
+                    const projectCard = header.closest('.project-card');
+                    const details = projectCard.querySelector('.project-details');
+                    const icon = header.querySelector('.project-toggle-icon');
+                    
+                    // Toggle 'active' class on the card
+                    projectCard.classList.toggle('active');
+
+                    // Toggle visibility of details
+                    if (details.classList.contains('hidden')) {
+                        details.classList.remove('hidden');
+                        details.style.maxHeight = details.scrollHeight + "px"; // Calculate height for smooth transition
+                        icon.innerHTML = '&#x25B2;'; // Up arrow
+                    } else {
+                        details.style.maxHeight = null; // Collapse
+                        details.classList.add('hidden');
+                        icon.innerHTML = '&#x25BC;'; // Down arrow
+                    }
+                });
+            });
+
+            // Smooth scroll (기존 HTML의 JS는 유지)
+            document.querySelectorAll('nav a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        const navHeight = document.querySelector('.main-nav').offsetHeight;
+                        window.scrollTo({
+                            top: targetElement.offsetTop - navHeight - 20, // Nav height + padding
+                            behavior: 'smooth'
+                        });
+                    }
+                });
             });
         });
-
-        // Smooth scroll on navigation menu click
-        document.querySelectorAll('nav a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const targetId = this.getAttribute('href');
-                const targetElement = document.querySelector(targetId);
-                if (targetElement) {
-                    // Scroll position can be adjusted considering header/navigation bar height
-                    const headerHeight = document.querySelector('header').offsetHeight; // Example
-                    const navHeight = document.querySelector('nav').offsetHeight; // Example
-                    const offset = headerHeight + navHeight + 20; // Header, Nav height + padding
-                     window.scrollTo({
-                        top: targetElement.offsetTop - offset,
-                        behavior: 'smooth'
-                    });
-                }
-            });
-        });
-
     </script>
-
 </body>
 </html>
