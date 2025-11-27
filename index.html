@@ -21,6 +21,10 @@
                 </div>
 
                 <div class="social-links">
+                    <a href="CV_DooyoungKim.pdf" target="_blank" class="cv-btn">
+                        <i class="fas fa-file-pdf"></i> Download CV
+                    </a>
+
                     <a href="mailto:dooyoung.kim@kaist.ac.kr"><i class="fas fa-envelope"></i> KAIST Email</a>
                     <a href="mailto:dooyoung.kim@nyu.edu"><i class="fas fa-envelope"></i> NYU Email</a>
                     <a href="https://www.linkedin.com/in/dooyoung-kim-xr" target="_blank"><i class="fab fa-linkedin"></i> LinkedIn</a>
@@ -550,6 +554,7 @@
     </footer>
 
     <script>
+        // Smooth scrolling
         document.querySelectorAll('nav a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
@@ -562,6 +567,37 @@
                     });
                 }
             });
+        });
+
+        // News Slider Drag Logic
+        const slider = document.querySelector('.news-slider-wrapper');
+        let isDown = false;
+        let startX;
+        let scrollLeft;
+
+        slider.addEventListener('mousedown', (e) => {
+            isDown = true;
+            slider.classList.add('active');
+            startX = e.pageX - slider.offsetLeft;
+            scrollLeft = slider.scrollLeft;
+        });
+
+        slider.addEventListener('mouseleave', () => {
+            isDown = false;
+            slider.classList.remove('active');
+        });
+
+        slider.addEventListener('mouseup', () => {
+            isDown = false;
+            slider.classList.remove('active');
+        });
+
+        slider.addEventListener('mousemove', (e) => {
+            if (!isDown) return;
+            e.preventDefault();
+            const x = e.pageX - slider.offsetLeft;
+            const walk = (x - startX) * 2; 
+            slider.scrollLeft = scrollLeft - walk;
         });
     </script>
 </body>
