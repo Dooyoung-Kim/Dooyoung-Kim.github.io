@@ -16,9 +16,9 @@
     --color-border: #e0e0e0; /* Light border */
     --color-accent-bg: #f8f9fa; /* Very light gray */
 
-    /* [Changed] Highlights from Gold to Sky Blue */
-    --color-highlight-best: #0288d1; /* Solid Sky Blue */
-    --color-highlight-bg-best: #e1f5fe; /* Very Light Sky Blue */
+    /* [Changed] Highlights: Light Gold for Awards */
+    --color-highlight-best: #d4a017; /* Dark Gold (Border/Icon) */
+    --color-highlight-bg-best: #fffbf0; /* Very Light Champagne Gold (Background) */
     
     --color-highlight-alt: #00796b; /* Teal */
     --color-highlight-bg-alt: #e0f2f1; /* Light teal bg */
@@ -134,9 +134,10 @@ ul {
     font-size: 0.95em;
 }
 
+/* Badge Style Updated for Gold */
 .awards-highlight {
     background-color: var(--color-highlight-bg-best);
-    color: #01579b; /* Darker blue text for readability */
+    color: #8a6d0b; /* Darker gold/brown text for readability */
     padding: 10px 15px;
     margin-bottom: 20px;
     border-radius: 6px;
@@ -380,7 +381,53 @@ hr {
     color: var(--color-text-secondary);
 }
 
-/* Highlights */
+/* Highlights (Updated to Gold) */
 .publication-item.highlight {
     background-color: var(--color-highlight-bg-best);
-    border-left-color: var(--color-highlight-
+    border-left-color: var(--color-highlight-best);
+    padding: 10px 15px;
+    border-radius: 0 4px 4px 0;
+}
+
+.publication-item.highlight-alt {
+    background-color: var(--color-highlight-bg-alt);
+    border-left-color: var(--color-highlight-alt);
+    padding: 10px 15px;
+    border-radius: 0 4px 4px 0;
+}
+
+/* Awards List */
+.list-minimal li {
+    padding: 5px 0 5px 15px;
+    border-left: 3px solid var(--color-border);
+    margin-bottom: 8px;
+}
+
+.list-minimal li:hover {
+    border-left-color: var(--color-primary);
+}
+
+/*
+======================================================
+7. Footer
+======================================================
+*/
+.main-footer {
+    background-color: var(--color-accent-bg);
+    padding: 40px 0;
+    text-align: center;
+    border-top: 1px solid var(--color-border);
+    margin-top: 40px;
+}
+
+.main-footer p {
+    color: var(--color-text-secondary);
+    margin: 8px 0;
+    font-size: 0.95em;
+}
+
+.copyright {
+    margin-top: 15px;
+    font-size: 0.85em;
+    color: #888;
+}
