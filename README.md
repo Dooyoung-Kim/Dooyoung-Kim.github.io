@@ -27,10 +27,3 @@
 ![Python](https://img.shields.io/badge/Python-3776AB?style=flat-square&logo=python&logoColor=white)
 ![PyTorch](https://img.shields.io/badge/PyTorch-EE4C2C?style=flat-square&logo=pytorch&logoColor=white)
 ![OpenXR](https://img.shields.io/badge/OpenXR-EF2D5E?style=flat-square&logo=cplusplus&logoColor=white)
-
-### 📈 GitHub Stats
-
-<div align="center">
-  <img src="https://github-readme-stats.vercel.app/api?username=본인깃허브아이디&show_icons=true&theme=minimal&hide_border=true" height="150" alt="stats graph" />
-  <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=본인깃허브아이디&layout=compact&theme=minimal&hide_border=true" height="150" alt="languages graph" />
-</div>
