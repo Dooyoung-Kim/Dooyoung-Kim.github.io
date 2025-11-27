@@ -8,16 +8,18 @@
 :root {
     /* White Theme Variables */
     --color-background: #ffffff;
-    --color-foreground: #222222; /* Main text color (Dark Gray) */
+    --color-foreground: #222222; /* Main text color */
     --color-text-secondary: #555555; /* Sub text color */
     
     --color-primary: #0056b3; /* Academic Blue */
-    --color-secondary: #6f42c1; /* Deep Purple for accent */
+    --color-secondary: #6f42c1; /* Deep Purple */
     --color-border: #e0e0e0; /* Light border */
-    --color-accent-bg: #f8f9fa; /* Very light gray for backgrounds */
+    --color-accent-bg: #f8f9fa; /* Very light gray */
 
-    --color-highlight-best: #d9a404; /* Darker Gold for visibility on white */
-    --color-highlight-bg-best: #fff9db; /* Light yellow bg for best paper */
+    /* [Changed] Highlights from Gold to Sky Blue */
+    --color-highlight-best: #0288d1; /* Solid Sky Blue */
+    --color-highlight-bg-best: #e1f5fe; /* Very Light Sky Blue */
+    
     --color-highlight-alt: #00796b; /* Teal */
     --color-highlight-bg-alt: #e0f2f1; /* Light teal bg */
     
@@ -40,18 +42,18 @@ body {
 
 .container {
     width: 90%;
-    max-width: 1000px; /* Slightly tighter for readability */
+    max-width: 1000px;
     margin: 0 auto;
     padding: 0 15px;
 }
 
 h1, h2, h3 {
-    color: #111; /* Almost black for headings */
+    color: #111; 
     margin-bottom: 0.5em;
 }
 
 h1 { 
-    font-family: var(--font-sans); /* Clean sans-serif for name */
+    font-family: var(--font-sans); 
     font-weight: 800;
     font-size: 2.5em; 
     letter-spacing: -1px;
@@ -80,7 +82,7 @@ a {
 }
 
 a:hover {
-    color: #003d82; /* Darker blue on hover */
+    color: #003d82; 
     text-decoration: underline;
 }
 
@@ -109,7 +111,7 @@ ul {
 
 @media (max-width: 768px) {
     .header-content {
-        flex-direction: column-reverse; /* Text below image on mobile */
+        flex-direction: column-reverse;
         text-align: center;
     }
 }
@@ -134,7 +136,7 @@ ul {
 
 .awards-highlight {
     background-color: var(--color-highlight-bg-best);
-    color: #856404; /* Dark brownish gold text */
+    color: #01579b; /* Darker blue text for readability */
     padding: 10px 15px;
     margin-bottom: 20px;
     border-radius: 6px;
@@ -181,7 +183,7 @@ ul {
     position: sticky;
     top: 0;
     z-index: 100;
-    background-color: rgba(255, 255, 255, 0.95); /* Slightly transparent white */
+    background-color: rgba(255, 255, 255, 0.95);
     backdrop-filter: blur(5px);
     border-bottom: 1px solid var(--color-border);
     box-shadow: 0 2px 10px rgba(0,0,0,0.03);
@@ -280,7 +282,7 @@ hr {
 }
 
 .proj-badge {
-    background-color: #e3f2fd; /* Light Blue */
+    background-color: #e3f2fd;
     color: #0d47a1;
     font-size: 0.75em;
     font-weight: 700;
@@ -311,9 +313,8 @@ hr {
 .proj-desc {
     font-size: 0.95em;
     color: var(--color-foreground);
-    flex-grow: 1; /* Pushes content to fill height */
+    flex-grow: 1;
 }
-
 
 /*
 ======================================================
@@ -355,7 +356,7 @@ hr {
 .publication-list li {
     margin-bottom: 15px;
     padding-left: 15px;
-    border-left: 3px solid transparent; /* Placeholder for alignment */
+    border-left: 3px solid transparent; 
 }
 
 .pub-title {
@@ -382,50 +383,4 @@ hr {
 /* Highlights */
 .publication-item.highlight {
     background-color: var(--color-highlight-bg-best);
-    border-left-color: var(--color-highlight-best);
-    padding: 10px 15px;
-    border-radius: 0 4px 4px 0;
-}
-
-.publication-item.highlight-alt {
-    background-color: var(--color-highlight-bg-alt);
-    border-left-color: var(--color-highlight-alt);
-    padding: 10px 15px;
-    border-radius: 0 4px 4px 0;
-}
-
-/* Awards List */
-.list-minimal li {
-    padding: 5px 0 5px 15px;
-    border-left: 3px solid var(--color-border);
-    margin-bottom: 8px;
-}
-
-.list-minimal li:hover {
-    border-left-color: var(--color-primary);
-}
-
-/*
-======================================================
-7. Footer
-======================================================
-*/
-.main-footer {
-    background-color: var(--color-accent-bg);
-    padding: 40px 0;
-    text-align: center;
-    border-top: 1px solid var(--color-border);
-    margin-top: 40px;
-}
-
-.main-footer p {
-    color: var(--color-text-secondary);
-    margin: 8px 0;
-    font-size: 0.95em;
-}
-
-.copyright {
-    margin-top: 15px;
-    font-size: 0.85em;
-    color: #888;
-}
+    border-left-color: var(--color-highlight-
