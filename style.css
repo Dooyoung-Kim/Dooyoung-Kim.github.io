@@ -431,3 +431,80 @@ hr {
     font-size: 0.85em;
     color: #888;
 }
+
+/*
+======================================================
+9. News Slider Section
+======================================================
+*/
+.news-slider-wrapper {
+    width: 100%;
+    overflow-x: auto; /* 가로 스크롤 허용 */
+    overflow-y: hidden;
+    cursor: grab; /* 마우스 커서 모양 */
+    -webkit-overflow-scrolling: touch; /* 모바일 부드러운 스크롤 */
+    padding-bottom: 20px; /* 스크롤바 공간 확보 */
+    scrollbar-width: none; /* 파이어폭스 스크롤바 숨김 */
+}
+
+/* 크롬, 사파리 스크롤바 숨김 */
+.news-slider-wrapper::-webkit-scrollbar {
+    display: none; 
+}
+
+.news-slider-wrapper.active {
+    cursor: grabbing; /* 드래그 중 커서 모양 */
+}
+
+.news-track {
+    display: flex;
+    gap: 15px; /* 카드 사이 간격 */
+    width: max-content; /* 내용물만큼 너비 확보 */
+    padding: 5px 5px 15px 5px; /* 그림자 잘리지 않게 여백 */
+}
+
+.news-card {
+    background-color: #fff;
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    padding: 15px;
+    width: 280px; /* 카드 고정 너비 */
+    flex-shrink: 0; /* 줄어들지 않게 고정 */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    transition: transform 0.2s, box-shadow 0.2s;
+    user-select: none; /* 드래그 시 텍스트 선택 방지 */
+}
+
+.news-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    border-color: var(--color-primary);
+}
+
+/* 수상 뉴스 강조 (골드 테마) */
+.news-card.highlight {
+    background-color: var(--color-highlight-bg-best);
+    border-color: var(--color-highlight-best);
+    border-left-width: 4px;
+}
+
+.news-date {
+    display: block;
+    font-size: 0.85em;
+    font-family: var(--font-mono);
+    color: var(--color-text-secondary);
+    margin-bottom: 8px;
+    font-weight: 600;
+}
+
+.news-content {
+    font-size: 0.95em;
+    line-height: 1.5;
+    color: var(--color-foreground);
+    margin: 0;
+}
+
+.news-content a {
+    font-weight: 600;
+    margin-left: 3px;
+}
