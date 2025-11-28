@@ -3,9 +3,61 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DOOYOUNG KIM - Senior Researcher (PhD) </title>
+    <title>DOOYOUNG KIM - Senior Researcher (PhD)</title>
     <link rel="stylesheet" href="style.css"> 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <style>
+        /* 네비게이션바 상단 고정 */
+        .main-nav {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background-color: #fff; /* 배경색 지정 (투명 방지) */
+            border-bottom: 1px solid #eee;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        /* 가로 스크롤 핵심 스타일 */
+        .main-nav ul {
+            display: flex;
+            flex-wrap: nowrap;       /* 줄바꿈 방지 (한 줄 유지) */
+            overflow-x: auto;        /* 가로 스크롤 허용 */
+            -webkit-overflow-scrolling: touch; /* 모바일 부드러운 스크롤 */
+            list-style: none;
+            padding: 0 15px;         /* 양옆 여백 */
+            margin: 0;
+            gap: 5px;                /* 메뉴 간 간격 */
+        }
+
+        /* 스크롤바 숨기기 (Chrome, Safari, Opera) */
+        .main-nav ul::-webkit-scrollbar {
+            display: none;
+        }
+        /* 스크롤바 숨기기 (IE, Edge, Firefox) */
+        .main-nav ul {
+            -ms-overflow-style: none;  
+            scrollbar-width: none;  
+        }
+
+        .main-nav li {
+            flex: 0 0 auto; /* 아이템이 찌그러지지 않도록 고정 */
+        }
+
+        .main-nav a {
+            display: block;
+            padding: 15px 12px;     /* 터치 영역 확보 */
+            text-decoration: none;
+            color: #333;            /* 기본 텍스트 색상 */
+            white-space: nowrap;    /* 텍스트 줄바꿈 방지 */
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        .main-nav a:hover {
+            color: #0056b3;         /* 호버 시 색상 변경 (선택사항) */
+        }
+    </style>
 </head>
 <body>
 
@@ -37,7 +89,7 @@
         <div class="container">
             <ul>
                 <li><a href="#about">About</a></li>
-                <li><a href="#projects">Projects</a></li>
+                <li><a href="#news">News</a></li> <li><a href="#projects">Projects</a></li>
                 <li><a href="#experience">Experience</a></li>
                 <li><a href="#publications">Publications</a></li>
                 <li><a href="#education">Education</a></li>
@@ -556,7 +608,7 @@
             <h3 class="subsection-title" style="margin-top:30px;">Editorial & Peer-Review</h3>
             <ul class="list-minimal">
                 <li><b>Lead Guest Editor</b>: Special Issue on "XRMemory" in Springer Virtual Reality Journal (IF: 5.0)</li>
-                <li><b>IPC / Reviewer</b>:
+                <li><b>IPC / Reviewer</b>: 
                     <ul>
                         <li>IEEE ISMAR: 2026 (IPC), 2025 (IPC), 2024, 2023, 2022, 2021</li>
                         <li>IEEE VR: 2026 (IPC), 2025 (IPC), 2024, 2023, 2022</li>
@@ -591,7 +643,7 @@
                 if (target) {
                     const navHeight = document.querySelector('.main-nav').offsetHeight;
                     window.scrollTo({
-                        top: target.offsetTop - navHeight - 20,
+                        top: target.offsetTop - navHeight - 10,
                         behavior: 'smooth'
                     });
                 }
