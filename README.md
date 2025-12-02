@@ -5,7 +5,7 @@
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-Dooyoung_Kim-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/dooyoung-kim-xr)
 [![Email](https://img.shields.io/badge/Email-Contact_Me-D14836?style=for-the-badge&logo=gmail&logoColor=white)](mailto:dooyoung.kim@kaist.ac.kr)
 
-### 🚀 Senior Researcher (PhD) @ KAIST & NYU
+### 🚀 Senior Researcher (PhD) @ KAIST
 > Visionary in **Spatial AI & XRMemory**: Connecting people beyond space and time.
 
 ---
@@ -17,7 +17,7 @@
 - 🏆 **Key Achievements:**
   - **Best Paper Award (Top 1%)** @ IEEE ISMAR 2025 (x2)
   - **Best Conference Paper Award (1st Prize)** @ IEEE ISMAR 2024
-  - **Global Shaper (Founding Curator)** @ World Economic Forum
+  - **Pioneering New Concepts** XRMemory & Meta-Object
 - 💬 Ask me about **Spatial Computing, AR/VR, HCI, Unity, and Research Leadership**.
 
 ### 🛠️ Tech Stack
