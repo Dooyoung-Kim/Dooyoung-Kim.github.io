@@ -4,8 +4,49 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DOOYOUNG KIM - Senior Researcher (PhD)</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Dr. Dooyoung Kim - Senior Researcher at KAIST, pioneering XRMemory research. 3x Best Paper Award winner (IEEE ISMAR), 25+ publications, Co-PI on $3M grant.">
+    <meta name="keywords" content="XRMemory, Augmented Reality, Virtual Reality, Spatial AI, KAIST, AR/VR Research, Mixed Reality, Human-Computer Interaction">
+    <meta name="author" content="Dooyoung Kim">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Dooyoung Kim - AR/VR Researcher | KAIST">
+    <meta property="og:description" content="Senior Researcher (PhD) at KAIST | 3x Best Paper Awards | XRMemory Pioneer">
+    <meta property="og:image" content="https://dooyoung-kim.github.io/images/profile.jpg">
+    
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Dooyoung Kim - AR/VR Researcher">
+    <meta name="twitter:description" content="Senior Researcher (PhD) at KAIST | 3x Best Paper Awards | XRMemory Pioneer">
+    
+    <!-- Font Preconnect for Performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
     <link rel="stylesheet" href="style.css"> 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Dooyoung Kim",
+      "jobTitle": "Senior Researcher",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "KAIST"
+      },
+      "url": "https://dooyoung-kim.github.io",
+      "sameAs": [
+        "https://www.linkedin.com/in/dooyoung-kim-xr",
+        "https://scholar.google.com/citations?user=2DwDeKIAAAAJ&hl=en"
+      ],
+      "email": "dooyoung.kim@kaist.ac.kr"
+    }
+    </script>
     
     <style>
         .main-nav {
@@ -59,6 +100,8 @@
     </style>
 </head>
 <body>
+    <!-- Scroll Progress Bar -->
+    <div class="progress-bar"></div>
 
     <header class="main-header">
         <div class="container header-content">
@@ -80,7 +123,7 @@
                     <a href="https://scholar.google.com/citations?user=2DwDeKIAAAAJ&hl=en" target="_blank"><i class="fas fa-graduation-cap"></i> Google Scholar</a>
                 </div>
             </div>
-            <img src="images/profile.jpg" alt="Dooyoung Kim Profile Photo" class="profile-img"> 
+            <img src="images/profile.jpg" alt="Dooyoung Kim Profile Photo" class="profile-img" loading="lazy" width="160" height="160"> 
         </div>
     </header>
 
@@ -102,6 +145,34 @@
         
         <section id="about" class="section">
             <h2 class="section-title">Summary</h2>
+            
+            <!-- Metrics Highlight Box -->
+            <div class="metrics-highlight">
+                <div class="metric-item">
+                    <div class="metric-number">3</div>
+                    <div class="metric-label">Best Paper Awards<br>(Top 1%)</div>
+                </div>
+                <div class="metric-item">
+                    <div class="metric-number">25+</div>
+                    <div class="metric-label">Publications</div>
+                </div>
+                <div class="metric-item">
+                    <div class="metric-number">$9M+</div>
+                    <div class="metric-label">Grants Led</div>
+                </div>
+                <div class="metric-item">
+                    <div class="metric-number">7</div>
+                    <div class="metric-label">Patents</div>
+                </div>
+            </div>
+            
+            <!-- Research Vision -->
+            <div class="research-focus">
+                <h3 class="research-vision-title">🎯 Research Vision</h3>
+                <p class="research-vision-text">
+                    Pioneering "XRMemory" - Connecting people beyond space and time through next-generation immersive platforms
+                </p>
+            </div>
             
             <p style="margin-bottom: 15px; font-size: 1.05em; line-height: 1.7;">
                 I am a <b>Senior Researcher (Ph.D.)</b> at KAIST and a Visiting Researcher at NYU, dedicated to bridging physical and virtual worlds through <b>Spatial AI</b> and <b>XR</b>. My research vision is to connect people beyond space and time by developing next-generation immersive platforms.
@@ -126,6 +197,39 @@
                 <span>Virtual Reality</span>
                 <span>Spatial AI</span>
                 <span>3D User Interface</span>
+            </div>
+            
+            <!-- Personal AI Chat Widget -->
+            <div class="personal-ai-chat-widget">
+                <div class="personal-ai-header">
+                    <h3><i class="fas fa-comments"></i> 나에 대해 궁금한 점을 물어보세요</h3>
+                    <p class="personal-ai-subtitle">AI가 제 연구, 경력, 프로젝트에 대해 답변해드립니다</p>
+                </div>
+                <div class="personal-ai-chat-container">
+                    <div id="personal-ai-messages" class="personal-ai-messages">
+                        <div class="personal-ai-message personal-ai-message-assistant">
+                            <div class="personal-ai-avatar">
+                                <i class="fas fa-robot"></i>
+                            </div>
+                            <div class="personal-ai-message-content">
+                                안녕하세요! 저는 Dooyoung Kim 박사님에 대한 정보를 바탕으로 답변하는 AI 어시스턴트입니다. 
+                                연구, 경력, 프로젝트, 수상 경력 등 궁금한 점이 있으시면 언제든 물어보세요! 😊
+                            </div>
+                        </div>
+                    </div>
+                    <div class="personal-ai-input-area">
+                        <input type="text" id="personal-ai-input" placeholder="예: XRMemory에 대해 설명해주세요" class="personal-ai-input">
+                        <button onclick="personalAI.sendMessage()" class="personal-ai-send-btn" id="personal-ai-send-btn">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                    <div class="personal-ai-suggestions">
+                        <span class="personal-ai-suggestion" onclick="personalAI.askSuggestion('XRMemory이 무엇인가요?')">XRMemory이 무엇인가요?</span>
+                        <span class="personal-ai-suggestion" onclick="personalAI.askSuggestion('주요 연구 프로젝트를 알려주세요')">주요 연구 프로젝트</span>
+                        <span class="personal-ai-suggestion" onclick="personalAI.askSuggestion('수상 경력을 알려주세요')">수상 경력</span>
+                        <span class="personal-ai-suggestion" onclick="personalAI.askSuggestion('어떤 기술을 사용하시나요?')">사용 기술</span>
+                    </div>
+                </div>
             </div>
         </section>
 
@@ -671,30 +775,84 @@
         let startX;
         let scrollLeft;
 
-        slider.addEventListener('mousedown', (e) => {
-            isDown = true;
-            slider.classList.add('active');
-            startX = e.pageX - slider.offsetLeft;
-            scrollLeft = slider.scrollLeft;
+        if (slider) {
+            slider.addEventListener('mousedown', (e) => {
+                isDown = true;
+                slider.classList.add('active');
+                startX = e.pageX - slider.offsetLeft;
+                scrollLeft = slider.scrollLeft;
+            });
+
+            slider.addEventListener('mouseleave', () => {
+                isDown = false;
+                slider.classList.remove('active');
+            });
+
+            slider.addEventListener('mouseup', () => {
+                isDown = false;
+                slider.classList.remove('active');
+            });
+
+            slider.addEventListener('mousemove', (e) => {
+                if (!isDown) return;
+                e.preventDefault();
+                const x = e.pageX - slider.offsetLeft;
+                const walk = (x - startX) * 2; 
+                slider.scrollLeft = scrollLeft - walk;
+            });
+
+            // Touch events for mobile
+            let touchStartX = 0;
+            let touchScrollLeft = 0;
+
+            slider.addEventListener('touchstart', (e) => {
+                touchStartX = e.touches[0].pageX - slider.offsetLeft;
+                touchScrollLeft = slider.scrollLeft;
+            });
+
+            slider.addEventListener('touchmove', (e) => {
+                e.preventDefault();
+                const x = e.touches[0].pageX - slider.offsetLeft;
+                const walk = (x - touchStartX) * 2;
+                slider.scrollLeft = touchScrollLeft - walk;
+            });
+        }
+
+        // Scroll Progress Bar
+        window.addEventListener('scroll', () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            const progressBar = document.querySelector('.progress-bar');
+            if (progressBar) {
+                progressBar.style.width = scrolled + '%';
+            }
         });
 
-        slider.addEventListener('mouseleave', () => {
-            isDown = false;
-            slider.classList.remove('active');
-        });
+        // Intersection Observer for fade-in animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
 
-        slider.addEventListener('mouseup', () => {
-            isDown = false;
-            slider.classList.remove('active');
-        });
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
 
-        slider.addEventListener('mousemove', (e) => {
-            if (!isDown) return;
-            e.preventDefault();
-            const x = e.pageX - slider.offsetLeft;
-            const walk = (x - startX) * 2; 
-            slider.scrollLeft = scrollLeft - walk;
+        // Observe all sections
+        document.querySelectorAll('.section').forEach(section => {
+            observer.observe(section);
         });
     </script>
+    
+    <!-- Claude Code API Integration Script -->
+    <script src="js/claude-api.js"></script>
+    <!-- Personal AI Chat Script -->
+    <script src="js/personal-ai.js"></script>
 </body>
 </html>
