@@ -6,7 +6,10 @@
 class ClaudeCodeAPI {
     constructor() {
         this.apiKey = null; // Will be set by user
-        this.apiEndpoint = 'https://api.anthropic.com/v1/messages';
+        // 프록시 엔드포인트 사용 (Vercel 배포 후)
+        this.proxyEndpoint = '/api/claude-proxy';
+        this.directApiEndpoint = 'https://api.anthropic.com/v1/messages';
+        this.useProxy = true; // 프록시 사용 여부
         this.isInitialized = false;
         this.init();
     }
@@ -149,7 +152,32 @@ class ClaudeCodeAPI {
             document.getElementById('claude-loading').remove();
             const errorMsg = document.createElement('div');
             errorMsg.className = 'claude-message claude-message-error';
-            errorMsg.innerHTML = `<div class="claude-message-content">Error: ${this.escapeHtml(error.message)}</div>`;
+            
+            let errorContent = '';
+            if (error.message === 'CORS_ERROR') {
+                errorContent = `
+                    <strong>⚠️ CORS Error</strong><br><br>
+                    Claude API cannot be called directly from the browser due to CORS policy.<br><br>
+                    <strong>Solutions:</strong><br>
+                    1. Deploy to Vercel to use the proxy server (recommended)<br>
+                    2. Test in a local development environment<br>
+                    3. Use a backend server to proxy API calls<br><br>
+                    <small>See DEPLOYMENT.md for detailed instructions.</small>
+                `;
+            } else if (error.message === 'PROXY_NOT_FOUND' || error.message === 'PROXY_ERROR') {
+                errorContent = `
+                    <strong>⚠️ Proxy Server Not Found</strong><br><br>
+                    The proxy server is not deployed or not accessible.<br><br>
+                    <strong>Solutions:</strong><br>
+                    1. Deploy the project to Vercel<br>
+                    2. Or use the FAQ system for basic questions<br><br>
+                    <small>See DEPLOYMENT.md for deployment instructions.</small>
+                `;
+            } else {
+                errorContent = `Error: ${this.escapeHtml(error.message)}`;
+            }
+            
+            errorMsg.innerHTML = `<div class="claude-message-content">${errorContent}</div>`;
             messagesDiv.appendChild(errorMsg);
         }
         
@@ -157,32 +185,86 @@ class ClaudeCodeAPI {
     }
 
     async callClaudeAPI(userMessage) {
-        const response = await fetch(this.apiEndpoint, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'x-api-key': this.apiKey,
-                'anthropic-version': '2023-06-01'
-            },
-            body: JSON.stringify({
-                model: 'claude-3-5-sonnet-20241022',
-                max_tokens: 4096,
-                messages: [
-                    {
-                        role: 'user',
-                        content: `You are a helpful coding assistant. Help with the following request:\n\n${userMessage}`
-                    }
-                ]
-            })
-        });
+        try {
+            let response;
+            
+            if (this.useProxy) {
+                // 프록시 서버를 통해 API 호출 (CORS 문제 해결)
+                response = await fetch(this.proxyEndpoint, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        apiKey: this.apiKey,
+                        model: 'claude-3-5-sonnet-20241022',
+                        maxTokens: 4096,
+                        messages: [
+                            {
+                                role: 'user',
+                                content: `You are a helpful coding assistant. Help with the following request:\n\n${userMessage}`
+                            }
+                        ]
+                    })
+                });
+            } else {
+                // 직접 API 호출 (CORS 에러 발생 가능)
+                response = await fetch(this.directApiEndpoint, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'x-api-key': this.apiKey,
+                        'anthropic-version': '2023-06-01'
+                    },
+                    body: JSON.stringify({
+                        model: 'claude-3-5-sonnet-20241022',
+                        max_tokens: 4096,
+                        messages: [
+                            {
+                                role: 'user',
+                                content: `You are a helpful coding assistant. Help with the following request:\n\n${userMessage}`
+                            }
+                        ]
+                    })
+                });
+            }
 
-        if (!response.ok) {
-            const error = await response.json();
-            throw new Error(error.error?.message || 'API request failed');
+            if (!response.ok) {
+                const error = await response.json().catch(() => ({}));
+                
+                // 프록시 서버가 없는 경우 안내
+                if (response.status === 404 && this.useProxy) {
+                    throw new Error('PROXY_NOT_FOUND');
+                }
+                
+                throw new Error(error.error || error.message || `HTTP ${response.status}: ${response.statusText}`);
+            }
+
+            const data = await response.json();
+            
+            // 프록시 응답 형식 처리
+            if (data.success && data.content) {
+                return data.content;
+            }
+            
+            // 직접 API 응답 형식 처리
+            if (data.content && data.content[0]) {
+                return data.content[0].text;
+            }
+            
+            throw new Error('Unexpected response format');
+            
+        } catch (error) {
+            // CORS 에러 감지
+            if (error.message === 'Failed to fetch' || error.name === 'TypeError') {
+                if (this.useProxy) {
+                    throw new Error('PROXY_ERROR');
+                } else {
+                    throw new Error('CORS_ERROR');
+                }
+            }
+            throw error;
         }
-
-        const data = await response.json();
-        return data.content[0].text;
     }
 
     formatResponse(text) {

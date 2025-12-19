@@ -1,5 +1,31 @@
 # Hi there, I'm Dooyoung Kim 👋
 
+## 🚀 AI Chat Features
+
+This website includes an AI chat assistant that can answer questions about my research, projects, and career. 
+
+### Quick Setup for AI Chat
+
+The AI chat uses Claude API through a proxy server to avoid CORS issues. To enable full functionality:
+
+1. **Deploy to Vercel** (Recommended - Free)
+   - Go to [vercel.com](https://vercel.com)
+   - Connect your GitHub repository
+   - Deploy (the proxy server will be automatically set up)
+   - See `DEPLOYMENT.md` for detailed instructions
+
+2. **FAQ Mode** (Works without deployment)
+   - Basic questions are answered instantly using FAQ system
+   - No API key needed for FAQ mode
+   - Supports: XRMemory, Projects, Awards, Technologies, Publications, Patents, Education
+
+3. **Full AI Mode** (Requires deployment + API key)
+   - Answer any question using Claude AI
+   - Requires Claude API key from [Anthropic Console](https://console.anthropic.com/)
+   - Set API key via the code icon button (bottom right)
+
+---
+
 [![Website](https://img.shields.io/badge/Portfolio-dooyoung.me-blue?style=for-the-badge&logo=google-chrome)](https://dooyoung.me)
 [![Google Scholar](https://img.shields.io/badge/Google_Scholar-Dooyoung_Kim-4285F4?style=for-the-badge&logo=google-scholar&logoColor=white)](https://scholar.google.com/citations?user=2DwDeKIAAAAJ&hl=en)
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-Dooyoung_Kim-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/dooyoung-kim-xr)
