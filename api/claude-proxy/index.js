@@ -2,12 +2,8 @@
  * Vercel Serverless Function for Claude API Proxy
  * This solves the CORS issue by making API calls from the server side
  * 
- * Deploy this to Vercel:
- * 1. Install Vercel CLI: npm i -g vercel
- * 2. Run: vercel
- * 3. Or connect your GitHub repo to Vercel
- * 
- * The function will be available at: /api/claude-proxy
+ * Vercel automatically detects functions in the /api directory
+ * This file should be accessible at: /api/claude-proxy
  */
 
 module.exports = async (req, res) => {
@@ -111,5 +107,5 @@ module.exports = async (req, res) => {
       message: error.message || 'An unexpected error occurred'
     });
   }
-}
+};
 

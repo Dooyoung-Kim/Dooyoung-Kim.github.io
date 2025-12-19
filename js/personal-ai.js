@@ -341,6 +341,17 @@ Please answer questions about Dr. Kim in a friendly, informative manner. If you 
                     • Education<br><br>
                     <small>To enable full AI responses, deploy to Vercel (see DEPLOYMENT.md) or set up a proxy server.</small>
                 `;
+            } else if (error.message === 'PROXY_METHOD_ERROR' || error.message.includes('405')) {
+                errorContent = `
+                    <strong>⚠️ Proxy Server Configuration Error</strong><br><br>
+                    The proxy server received an invalid request method. This might be a deployment issue.<br><br>
+                    <strong>Solutions:</strong><br>
+                    1. Check Vercel deployment logs for errors<br>
+                    2. Verify the function is deployed correctly<br>
+                    3. Try redeploying the project<br>
+                    4. Use FAQ system for now<br><br>
+                    <small>Error: ${this.escapeHtml(error.message)}</small>
+                `;
             } else {
                 errorContent = `
                     An error occurred: ${this.escapeHtml(error.message)}<br><br>
@@ -373,10 +384,13 @@ Please answer questions about Dr. Kim in a friendly, informative manner. If you 
             
             if (this.useProxy) {
                 // Call API through proxy server (solves CORS issue)
-                response = await fetch(this.proxyEndpoint, {
+                const proxyUrl = this.proxyEndpoint;
+                
+                response = await fetch(proxyUrl, {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
                     },
                     body: JSON.stringify({
                         apiKey: this.apiKey,
@@ -415,14 +429,27 @@ Please answer questions about Dr. Kim in a friendly, informative manner. If you 
             }
 
             if (!response.ok) {
-                const error = await response.json().catch(() => ({}));
+                let errorData;
+                try {
+                    errorData = await response.json();
+                } catch (e) {
+                    errorData = { 
+                        error: response.statusText,
+                        message: `HTTP ${response.status}: ${response.statusText}`
+                    };
+                }
                 
                 // Guide if proxy server is not found
                 if (response.status === 404 && this.useProxy) {
                     throw new Error('PROXY_NOT_FOUND');
                 }
                 
-                throw new Error(error.error || error.message || `HTTP ${response.status}: ${response.statusText}`);
+                // Handle 405 Method Not Allowed
+                if (response.status === 405 && this.useProxy) {
+                    throw new Error('PROXY_METHOD_ERROR');
+                }
+                
+                throw new Error(errorData.error || errorData.message || `HTTP ${response.status}: ${response.statusText}`);
             }
 
             const data = await response.json();
