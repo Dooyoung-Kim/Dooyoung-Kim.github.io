@@ -194,14 +194,16 @@ class ClaudeCodeAPI {
             let response;
             
             if (this.useProxy) {
-                // 프록시 서버를 통해 API 호출 (CORS 문제 해결)
+                // Call API through proxy server (solves CORS issue)
+                // API key is now handled by the server, no need to send it from client
                 response = await fetch(this.proxyEndpoint, {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
                     },
                     body: JSON.stringify({
-                        apiKey: this.apiKey,
+                        // API key is no longer needed - server uses environment variable
                         model: 'claude-3-5-sonnet-20241022',
                         maxTokens: 4096,
                         messages: [

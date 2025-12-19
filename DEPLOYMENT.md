@@ -22,8 +22,13 @@ Vercel은 무료로 서버리스 함수를 제공하며, GitHub와 쉽게 연동
    - Output Directory: `/` (기본값)
    - **중요**: Vercel은 `api/` 폴더의 파일을 자동으로 서버리스 함수로 인식합니다
 
-3. **환경 변수 설정** (선택사항)
-   - 필요 없음 (API 키는 클라이언트에서 전송)
+3. **환경 변수 설정** (필수)
+   - Settings → Environment Variables로 이동
+   - 새 환경 변수 추가:
+     - Name: `CLAUDE_API_KEY`
+     - Value: `sk-ant-...` (Anthropic Console에서 발급받은 API 키)
+   - 모든 환경(Production, Preview, Development)에 적용
+   - **중요**: API 키는 서버에서만 사용되며, 클라이언트에 노출되지 않습니다
 
 4. **Deploy**
    - "Deploy" 클릭

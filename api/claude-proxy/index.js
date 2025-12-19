@@ -37,17 +37,23 @@ module.exports = async (req, res) => {
   }
 
   try {
-    const { apiKey, model, messages, system, maxTokens } = req.body;
+    // Use API key from environment variable (set in Vercel)
+    const apiKey = process.env.CLAUDE_API_KEY;
+    
+    // If no environment variable, try to get from request body (fallback for development)
+    const requestApiKey = req.body.apiKey || apiKey;
+    
+    const { model, messages, system, maxTokens } = req.body;
 
     // Validate API key
-    if (!apiKey) {
-      return res.status(400).json({ 
-        error: 'API key is required',
-        message: 'Please provide a Claude API key in the request body'
+    if (!requestApiKey) {
+      return res.status(500).json({ 
+        error: 'API key not configured',
+        message: 'Claude API key is not configured. Please set CLAUDE_API_KEY environment variable in Vercel.'
       });
     }
 
-    if (!apiKey.startsWith('sk-ant-')) {
+    if (!requestApiKey.startsWith('sk-ant-')) {
       return res.status(400).json({ 
         error: 'Invalid API key format',
         message: 'API key must start with "sk-ant-"'
@@ -67,7 +73,7 @@ module.exports = async (req, res) => {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'x-api-key': apiKey,
+        'x-api-key': requestApiKey,
         'anthropic-version': '2023-06-01'
       },
       body: JSON.stringify({

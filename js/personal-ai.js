@@ -239,26 +239,8 @@ Please answer questions about Dr. Kim in a friendly, informative manner. If you 
             return;
         }
         
-        // If not in FAQ, try using API
-        if (!this.apiKey) {
-            // Show helpful message instead of error
-            const messagesDiv = document.getElementById('personal-ai-messages');
-            const infoMsg = document.createElement('div');
-            infoMsg.className = 'personal-ai-message personal-ai-message-info';
-            infoMsg.innerHTML = `
-                <div class="personal-ai-avatar">
-                    <i class="fas fa-info-circle"></i>
-                </div>
-                <div class="personal-ai-message-content">
-                    For advanced AI responses, please set your Claude API key.<br>
-                    Click the <i class="fas fa-code"></i> code icon in the bottom right corner.<br>
-                    <small>For now, try asking about: XRMemory, Projects, Awards, Technologies, Publications, Patents, or Education</small>
-                </div>
-            `;
-            messagesDiv.appendChild(infoMsg);
-            messagesDiv.scrollTop = messagesDiv.scrollHeight;
-            return;
-        }
+        // API key is no longer required from user - server handles it
+        // Just proceed with API call
         
         const messagesDiv = document.getElementById('personal-ai-messages');
         
@@ -384,6 +366,7 @@ Please answer questions about Dr. Kim in a friendly, informative manner. If you 
             
             if (this.useProxy) {
                 // Call API through proxy server (solves CORS issue)
+                // API key is now handled by the server, no need to send it from client
                 const proxyUrl = this.proxyEndpoint;
                 
                 response = await fetch(proxyUrl, {
@@ -393,7 +376,7 @@ Please answer questions about Dr. Kim in a friendly, informative manner. If you 
                         'Accept': 'application/json'
                     },
                     body: JSON.stringify({
-                        apiKey: this.apiKey,
+                        // API key is no longer needed - server uses environment variable
                         model: 'claude-3-5-sonnet-20241022',
                         maxTokens: 2048,
                         system: systemPrompt,
