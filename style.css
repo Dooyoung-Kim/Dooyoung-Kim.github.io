@@ -286,23 +286,28 @@ ul {
     box-shadow: 0 4px 15px rgba(0,0,0,0.08);
 }
 
+/* --- Social Links Modified (Icon Only) --- */
 .social-links {
     display: flex;
     flex-wrap: wrap;
-    gap: 15px;
+    gap: 25px; /* Increased gap */
+    margin-top: 15px;
+    align-items: center;
 }
 
 .social-links a {
-    font-size: 0.95em;
-    color: var(--color-text-secondary);
+    font-size: 1.8rem; /* Larger icon size */
+    color: #555;
     display: flex;
     align-items: center;
-    gap: 5px;
+    justify-content: center;
+    text-decoration: none;
+    transition: all 0.3s ease;
 }
 
 .social-links a:hover {
     color: var(--color-primary);
-    text-decoration: none;
+    transform: scale(1.15); /* Hover zoom effect */
 }
 
 .main-nav {
