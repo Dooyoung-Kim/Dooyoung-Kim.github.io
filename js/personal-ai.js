@@ -105,12 +105,36 @@ class PersonalAI {
     findFAQAnswer(question) {
         const lowerQuestion = question.toLowerCase();
         
+        // Try exact match first
         for (const [key, data] of Object.entries(this.faqData)) {
             for (const keyword of data.keywords) {
                 if (lowerQuestion.includes(keyword.toLowerCase())) {
                     return data.answer;
                 }
             }
+        }
+        
+        // Try partial matches for common questions
+        if (lowerQuestion.includes('what') && (lowerQuestion.includes('xrmemory') || lowerQuestion.includes('xr memory'))) {
+            return this.faqData.xrmemory.answer;
+        }
+        if (lowerQuestion.includes('project') || lowerQuestion.includes('research')) {
+            return this.faqData.project.answer;
+        }
+        if (lowerQuestion.includes('award') || lowerQuestion.includes('prize') || lowerQuestion.includes('best paper')) {
+            return this.faqData.award.answer;
+        }
+        if (lowerQuestion.includes('tech') || lowerQuestion.includes('skill') || lowerQuestion.includes('language')) {
+            return this.faqData.technology.answer;
+        }
+        if (lowerQuestion.includes('publication') || lowerQuestion.includes('paper') || lowerQuestion.includes('journal')) {
+            return this.faqData.publication.answer;
+        }
+        if (lowerQuestion.includes('patent')) {
+            return this.faqData.patent.answer;
+        }
+        if (lowerQuestion.includes('education') || lowerQuestion.includes('degree') || lowerQuestion.includes('phd') || lowerQuestion.includes('master')) {
+            return this.faqData.education.answer;
         }
         
         return null;
@@ -217,7 +241,22 @@ Please answer questions about Dr. Kim in a friendly, informative manner. If you 
         
         // If not in FAQ, try using API
         if (!this.apiKey) {
-            this.showApiKeyPrompt();
+            // Show helpful message instead of error
+            const messagesDiv = document.getElementById('personal-ai-messages');
+            const infoMsg = document.createElement('div');
+            infoMsg.className = 'personal-ai-message personal-ai-message-info';
+            infoMsg.innerHTML = `
+                <div class="personal-ai-avatar">
+                    <i class="fas fa-info-circle"></i>
+                </div>
+                <div class="personal-ai-message-content">
+                    For advanced AI responses, please set your Claude API key.<br>
+                    Click the <i class="fas fa-code"></i> code icon in the bottom right corner.<br>
+                    <small>For now, try asking about: XRMemory, Projects, Awards, Technologies, Publications, Patents, or Education</small>
+                </div>
+            `;
+            messagesDiv.appendChild(infoMsg);
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
             return;
         }
         
@@ -290,12 +329,17 @@ Please answer questions about Dr. Kim in a friendly, informative manner. If you 
                 `;
             } else if (error.message === 'PROXY_NOT_FOUND' || error.message === 'PROXY_ERROR') {
                 errorContent = `
-                    <strong>⚠️ Proxy Server Not Found</strong><br><br>
-                    The proxy server is not deployed or not accessible.<br><br>
-                    <strong>Solutions:</strong><br>
-                    1. Deploy the project to Vercel<br>
-                    2. Or use the FAQ system for answers<br><br>
-                    <small>See DEPLOYMENT.md for deployment instructions.</small>
+                    <strong>ℹ️ Proxy Server Not Available</strong><br><br>
+                    The proxy server is not deployed yet. You can still use the FAQ system for common questions!<br><br>
+                    <strong>Try asking about:</strong><br>
+                    • What is XRMemory?<br>
+                    • Research projects<br>
+                    • Awards and honors<br>
+                    • Technologies used<br>
+                    • Publications<br>
+                    • Patents<br>
+                    • Education<br><br>
+                    <small>To enable full AI responses, deploy to Vercel (see DEPLOYMENT.md) or set up a proxy server.</small>
                 `;
             } else {
                 errorContent = `
@@ -396,9 +440,10 @@ Please answer questions about Dr. Kim in a friendly, informative manner. If you 
             throw new Error('Unexpected response format');
             
         } catch (error) {
-            // Detect CORS error
+            // Detect CORS/proxy error
             if (error.message === 'Failed to fetch' || error.name === 'TypeError') {
                 if (this.useProxy) {
+                    // If proxy fails, it's likely not deployed - show friendly message
                     throw new Error('PROXY_ERROR');
                 } else {
                     throw new Error('CORS_ERROR');

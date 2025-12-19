@@ -1,8 +1,4 @@
 {
-  "functions": {
-    "api/claude-proxy.js": {
-      "runtime": "nodejs18.x"
-    }
-  }
+  "version": 2
 }
 

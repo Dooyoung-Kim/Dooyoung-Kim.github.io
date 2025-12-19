@@ -20,6 +20,7 @@ Vercel은 무료로 서버리스 함수를 제공하며, GitHub와 쉽게 연동
    - Framework Preset: "Other"
    - Build Command: (비워두기)
    - Output Directory: `/` (기본값)
+   - **중요**: Vercel은 `api/` 폴더의 파일을 자동으로 서버리스 함수로 인식합니다
 
 3. **환경 변수 설정** (선택사항)
    - 필요 없음 (API 키는 클라이언트에서 전송)
@@ -73,6 +74,21 @@ Cloudflare Workers도 무료 티어를 제공합니다.
 2. **API 모드** (프록시 서버 필요)
    - FAQ에 없는 질문에 대해 Claude API 호출
    - Vercel 배포 후 작동
+
+## 문제 해결
+
+### 에러: "Function Runtimes must have a valid version"
+
+이 에러가 발생하면:
+1. `vercel.json` 파일이 올바른 형식인지 확인 (`"version": 2`만 포함)
+2. `api/claude-proxy.js` 파일이 CommonJS 형식(`module.exports`)을 사용하는지 확인
+3. Vercel 대시보드에서 프로젝트를 다시 배포
+
+### 함수가 작동하지 않는 경우
+
+1. Vercel 대시보드에서 Functions 탭 확인
+2. 배포 로그에서 에러 확인
+3. `api/claude-proxy.js` 파일이 올바른 위치에 있는지 확인
 
 ## 테스트
 
