@@ -696,36 +696,9 @@ hr {
 
 /*
 ======================================================
-10. Dark Mode Support
+10. Dark Mode Support - DISABLED (White Theme Only)
 ======================================================
 */
-@media (prefers-color-scheme: dark) {
-    :root {
-        --color-background: #1a1a1a;
-        --color-foreground: #e0e0e0;
-        --color-text-secondary: #b0b0b0;
-        --color-border: #333;
-        --color-accent-bg: #252525;
-    }
-    
-    .main-nav {
-        background-color: rgba(26, 26, 26, 0.95);
-    }
-    
-    .project-card-concise,
-    .news-card {
-        background-color: #252525;
-        border-color: #333;
-    }
-    
-    .metrics-highlight {
-        background: linear-gradient(135deg, #252525 0%, #1a1a1a 100%);
-    }
-    
-    .research-focus {
-        background: linear-gradient(135deg, #1e3a5f 0%, #2d1b3d 100%);
-    }
-}
 
 /*
 ======================================================
