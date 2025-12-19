@@ -78,7 +78,12 @@ class ClaudeCodeAPI {
                         <i class="fas fa-paper-plane"></i> Send
                     </button>
                 </div>
-                <button onclick="claudeAPI.clearChat()" class="claude-btn-clear">Clear Chat</button>
+                <div style="display: flex; gap: 10px; margin-top: 10px;">
+                    <button onclick="claudeAPI.clearChat()" class="claude-btn-clear">Clear Chat</button>
+                    <button onclick="claudeAPI.changeApiKey()" class="claude-btn-clear" style="background: #fff3cd; color: #856404; border-color: #ffc107;">
+                        <i class="fas fa-key"></i> Change API Key
+                    </button>
+                </div>
             </div>
         `;
     }
