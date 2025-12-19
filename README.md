@@ -13,10 +13,10 @@
 ### 👨‍💻 About Me
 
 - 🔭 I’m currently a **Co-PI ($3M Grant)** on Meta-Object Project & **System Manager ($6M Grant)** on OpenXR Platform.
-- 🗽 I'm also a Visiting Researcher at **NYU Future Reality Lab** (Meta-Museum Project).
+- 🗽 I'm also a Visiting Postdoc Researcher at **NYU Future Reality Lab** (Meta-Museum Project).
 - 🏆 **Key Achievements:**
   - **Best Paper Award (Top 1%)** @ IEEE ISMAR 2025 (x2)
-  - **Best Conference Paper Award (1st Prize)** @ IEEE ISMAR 2024
+  - **Best Paper Award (Top 1%)** @ IEEE ISMAR 2024
   - **Pioneering New Concepts** XRMemory & Meta-Object
 - 💬 Ask me about **Spatial Computing, AR/VR, HCI, Unity, and Research Leadership**.
 
