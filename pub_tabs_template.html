@@ -1,0 +1,51 @@
+<!-- Publication Tabs Structure -->
+<div class="pub-tabs">
+    <button class="pub-tab active" onclick="showPubTab('all')">All Publications</button>
+    <button class="pub-tab" onclick="showPubTab('first')">First Author</button>
+    <button class="pub-tab" onclick="showPubTab('supervised')">Supervised Students</button>
+    <button class="pub-tab" onclick="showPubTab('coauthor')">Co-author</button>
+</div>
+
+<!-- Tab Content: All Publications -->
+<div id="pub-all" class="pub-content active">
+    <ul class="publication-list">
+        <!-- All publications here -->
+    </ul>
+</div>
+
+<!-- Tab Content: First Author -->
+<div id="pub-first" class="pub-content">
+    <ul class="publication-list">
+        <!-- First author publications -->
+    </ul>
+</div>
+
+<!-- Tab Content: Supervised Students -->
+<div id="pub-supervised" class="pub-content">
+    <ul class="publication-list">
+        <!-- Supervised student publications where Dooyoung is last author -->
+    </ul>
+</div>
+
+<!-- Tab Content: Co-author -->
+<div id="pub-coauthor" class="pub-content">
+    <ul class="publication-list">
+        <!-- Co-author publications -->
+    </ul>
+</div>
+
+<script>
+function showPubTab(tabName) {
+    // Hide all tabs
+    document.querySelectorAll('.pub-content').forEach(content => {
+        content.classList.remove('active');
+    });
+    document.querySelectorAll('.pub-tab').forEach(tab => {
+        tab.classList.remove('active');
+    });
+
+    // Show selected tab
+    document.getElementById('pub-' + tabName).classList.add('active');
+    event.target.classList.add('active');
+}
+</script>

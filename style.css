@@ -602,6 +602,60 @@ hr {
 6. Publications & Awards
 ======================================================
 */
+
+/* Publication Tabs */
+.pub-tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 25px;
+    border-bottom: 2px solid var(--color-border);
+    flex-wrap: wrap;
+}
+
+.pub-tab {
+    padding: 12px 20px;
+    background: none;
+    border: none;
+    border-bottom: 3px solid transparent;
+    cursor: pointer;
+    font-size: 0.95em;
+    font-weight: 600;
+    color: var(--color-text-secondary);
+    transition: all 0.3s ease;
+    margin-bottom: -2px;
+    white-space: nowrap;
+}
+
+.pub-tab:hover {
+    color: var(--color-primary);
+    background: rgba(0, 86, 179, 0.05);
+}
+
+.pub-tab.active {
+    color: var(--color-primary);
+    border-bottom-color: var(--color-primary);
+}
+
+.pub-content {
+    display: none;
+}
+
+.pub-content.active {
+    display: block;
+    animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 .publication-list li {
     margin-bottom: 15px;
     padding-left: 15px;
