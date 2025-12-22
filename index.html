@@ -875,32 +875,42 @@
         });
 
         // Publication Tabs Functionality
-        function showPubTab(event, tabName) {
+        window.showPubTab = function(event, tabName) {
+            console.log('Switching to tab:', tabName); // Debug log
+
             // Hide all tab contents
-            document.querySelectorAll('.pub-content').forEach(content => {
+            const allContents = document.querySelectorAll('.pub-content');
+            allContents.forEach(content => {
                 content.classList.remove('active');
             });
 
             // Remove active class from all tabs
-            document.querySelectorAll('.pub-tab').forEach(tab => {
+            const allTabs = document.querySelectorAll('.pub-tab');
+            allTabs.forEach(tab => {
                 tab.classList.remove('active');
             });
 
             // Show selected tab content
-            document.getElementById('pub-' + tabName).classList.add('active');
+            const selectedContent = document.getElementById('pub-' + tabName);
+            if (selectedContent) {
+                selectedContent.classList.add('active');
+            }
 
             // Add active class to clicked tab
-            event.target.classList.add('active');
-
-            // Populate filtered content if needed
-            if (tabName !== 'all') {
-                populateFilteredPubs(tabName);
+            if (event && event.target) {
+                event.target.classList.add('active');
             }
         }
 
         // Populate filtered publications
         function populateFilteredPubs(filterType) {
-            const allPubs = document.querySelector('#pub-all .publication-list').children;
+            const allPubsList = document.querySelector('#pub-all .publication-list');
+            if (!allPubsList) {
+                console.error('All publications list not found');
+                return;
+            }
+
+            const allPubs = allPubsList.children;
             let targetList;
 
             if (filterType === 'first') {
@@ -911,46 +921,60 @@
                 targetList = document.getElementById('coauthor-list');
             }
 
+            if (!targetList) {
+                console.error('Target list not found for:', filterType);
+                return;
+            }
+
             // Clear existing content
             targetList.innerHTML = '';
+
+            let count = 0;
 
             // Filter and copy publications
             Array.from(allPubs).forEach(pub => {
                 const authors = pub.querySelector('.pub-authors');
                 if (!authors) return;
 
-                const authorText = authors.innerHTML;
-                const boldPattern = /<b>Dooyoung Kim<\/b>/;
+                const authorText = authors.textContent;
 
-                // Check if Dooyoung Kim is in the authors
-                if (!boldPattern.test(authorText)) return;
+                // Simple check: is "Dooyoung Kim" in the authors?
+                if (!authorText.includes('Dooyoung Kim')) return;
 
-                // Determine position
-                const beforeBold = authorText.split('<b>Dooyoung Kim</b>')[0];
-                const afterBold = authorText.split('<b>Dooyoung Kim</b>')[1];
+                // Split by commas and "and" to get author list
+                const authorList = authorText
+                    .split(/,|\sand\s/)
+                    .map(a => a.trim())
+                    .filter(a => a.length > 0);
 
-                const isFirst = beforeBold.trim() === '' || beforeBold.trim().endsWith('>');
-                const isLast = afterBold.trim() === '' || afterBold.trim().startsWith('<');
-                const isMiddle = !isFirst && !isLast;
+                if (authorList.length === 0) return;
+
+                const firstAuthor = authorList[0];
+                const lastAuthor = authorList[authorList.length - 1];
+                const isFirst = firstAuthor.includes('Dooyoung Kim');
+                const isLast = lastAuthor.includes('Dooyoung Kim');
+                const isMiddle = !isFirst && !isLast && authorText.includes('Dooyoung Kim');
 
                 // Add to appropriate category
-                if (filterType === 'first' && isFirst) {
+                if ((filterType === 'first' && isFirst) ||
+                    (filterType === 'supervised' && isLast && !isFirst) ||
+                    (filterType === 'coauthor' && isMiddle)) {
                     targetList.appendChild(pub.cloneNode(true));
-                } else if (filterType === 'supervised' && isLast) {
-                    targetList.appendChild(pub.cloneNode(true));
-                } else if (filterType === 'coauthor' && isMiddle) {
-                    targetList.appendChild(pub.cloneNode(true));
+                    count++;
                 }
             });
 
+            console.log(`Populated ${count} publications for ${filterType}`);
+
             // Add message if no results
-            if (targetList.children.length === 0) {
+            if (count === 0) {
                 targetList.innerHTML = '<li style="padding: 20px; text-align: center; color: #888;">No publications in this category.</li>';
             }
         }
 
         // Initial population on page load
-        window.addEventListener('load', () => {
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Initializing publication tabs...');
             populateFilteredPubs('first');
             populateFilteredPubs('supervised');
             populateFilteredPubs('coauthor');
