@@ -899,7 +899,7 @@ hr {
 
 /* Highlight for award news in list */
 .news-list-item.highlight .news-list-content {
-    color: #8a6d0b;
+    color: #333;
 }
 
 /*
