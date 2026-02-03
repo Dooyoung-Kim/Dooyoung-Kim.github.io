@@ -1134,7 +1134,7 @@
                 if (!authors) return;
 
                 const authorText = authors.textContent;
-                const titleText = title ? title.textContent.replace('🏆 ', '').replace('🏅 ', '').trim() : '';
+                const titleText = title ? title.textContent.replace(/\s+/g, ' ').replace('🏆 ', '').replace('🏅 ', '').trim() : '';
 
                 // Simple check: is "Dooyoung Kim" in the authors?
                 if (!authorText.includes('Dooyoung Kim')) return;
