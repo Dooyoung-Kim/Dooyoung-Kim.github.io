@@ -1,7 +1,7 @@
 # Hi there, I'm Dooyoung Kim 👋
 
 ### 🚀 Senior Researcher (PhD) @ KAIST
-> Visionary in **Spatial AI & XRMemory**: Connecting people beyond space and time.
+> Visionary in **Spatial AI & XRMemory**: Connecting All Intelligence Beyond Boundaries.
 
 ---
 
