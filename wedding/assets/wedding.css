@@ -32,7 +32,7 @@ body {
   align-items: end;
   background:
     linear-gradient(180deg, rgba(29, 23, 19, 0.2) 0%, rgba(29, 23, 19, 0.62) 100%),
-    url("../../images/profile_v1.jpg") center/cover no-repeat;
+    url("./dooyoung_selin.JPG") center/cover no-repeat;
 }
 
 .cover-overlay {
