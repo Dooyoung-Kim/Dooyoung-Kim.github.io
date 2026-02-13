@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
+  <title>Wedding AR Entrance</title>
+  <link rel="stylesheet" href="../assets/wedding.css">
+  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+</head>
+<body>
+  <main class="ar-wrap">
+    <section class="ar-header">
+      <p class="eyebrow">WEB AR ENTRANCE</p>
+      <h1>AR 입장 연출</h1>
+      <p>버튼을 눌러 공간에 AR 모델을 배치해보세요.</p>
+    </section>
+
+    <section class="ar-viewer-card">
+      <model-viewer
+        id="entranceModel"
+        src="https://modelviewer.dev/shared-assets/models/Astronaut.glb"
+        ios-src="https://modelviewer.dev/shared-assets/models/Astronaut.usdz"
+        alt="AR entrance preview model"
+        ar
+        ar-modes="webxr scene-viewer quick-look"
+        camera-controls
+        auto-rotate
+        shadow-intensity="1"
+        style="width:100%;height:56vh;background:#f7f7fb;border-radius:16px;">
+      </model-viewer>
+      <button class="primary-btn" id="launchArBtn" type="button">AR 실행</button>
+      <p class="hint">iOS Safari / Android Chrome 환경에서 AR 기능이 가장 안정적으로 동작합니다.</p>
+    </section>
+
+    <a class="secondary-btn" href="../">청첩장으로 돌아가기</a>
+  </main>
+
+  <script src="../assets/ar.js"></script>
+</body>
+</html>
