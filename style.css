@@ -1176,23 +1176,23 @@ a.pub-title-text { text-decoration: none; cursor: pointer; }
 }
 
 .personal-summary .profile-copy h2 {
-  font-size: 56px;
-  line-height: 1.06;
-  letter-spacing: -0.015em;
-  margin-bottom: 14px;
+  font-size: 40px;
+  line-height: 1.12;
+  letter-spacing: 0;
+  margin-bottom: 10px;
 }
 
 .personal-summary .subtitle {
-  font-size: 21px;
+  font-size: 18px;
   color: var(--text-secondary);
-  margin-bottom: 18px;
+  margin-bottom: 14px;
 }
 
 .personal-intro {
-  max-width: 680px;
+  max-width: 640px;
   color: var(--text-secondary);
-  font-size: 20px;
-  line-height: 1.42;
+  font-size: 17px;
+  line-height: 1.5;
   letter-spacing: 0;
 }
 
@@ -1784,15 +1784,15 @@ a.pub-title-text { text-decoration: none; cursor: pointer; }
   }
 
   .personal-summary .profile-copy h2 {
-    font-size: 36px;
+    font-size: 30px;
   }
 
   .personal-summary .subtitle {
-    font-size: 18px;
+    font-size: 16px;
   }
 
   .personal-intro {
-    font-size: 17px;
+    font-size: 16px;
   }
 
   .profile-img {
