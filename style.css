@@ -1209,6 +1209,14 @@ a.pub-title-text { text-decoration: none; cursor: pointer; }
   margin-bottom: 10px;
 }
 
+.focus-heading {
+  margin-bottom: 22px;
+}
+
+.focus-heading .profile-kicker {
+  margin-bottom: 0;
+}
+
 .section-note {
   max-width: 680px;
   margin: 0 auto;
