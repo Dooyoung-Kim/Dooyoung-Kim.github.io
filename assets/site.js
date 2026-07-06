@@ -192,6 +192,87 @@
     });
   })();
 
+  /* --- News carousel controls --- */
+  (function setupNewsCarousels() {
+    doc.querySelectorAll('.news-ticker').forEach(function (section) {
+      var track = section.querySelector('.news-ticker-track');
+      if (!track) return;
+
+      var prev = section.querySelector('[data-news-scroll="prev"]');
+      var next = section.querySelector('[data-news-scroll="next"]');
+      var canSmooth = !prefersReducedMotion;
+
+      function maxScroll() {
+        return Math.max(0, track.scrollWidth - track.clientWidth);
+      }
+
+      function updateControls() {
+        var max = maxScroll();
+        var hasOverflow = max > 2;
+        section.classList.toggle('has-news-overflow', hasOverflow);
+        if (prev) prev.disabled = !hasOverflow || track.scrollLeft <= 2;
+        if (next) next.disabled = !hasOverflow || track.scrollLeft >= max - 2;
+      }
+
+      function scrollByPage(direction) {
+        var amount = Math.min(track.clientWidth * 0.86, 720);
+        track.scrollBy({
+          left: direction * amount,
+          behavior: canSmooth ? 'smooth' : 'auto'
+        });
+      }
+
+      if (prev) prev.addEventListener('click', function () { scrollByPage(-1); });
+      if (next) next.addEventListener('click', function () { scrollByPage(1); });
+
+      var isDown = false;
+      var startX = 0;
+      var startScroll = 0;
+      var didDrag = false;
+
+      track.classList.add('is-draggable');
+      track.addEventListener('pointerdown', function (e) {
+        if (e.pointerType !== 'mouse' || e.button !== 0) return;
+        isDown = true;
+        didDrag = false;
+        startX = e.clientX;
+        startScroll = track.scrollLeft;
+        track.classList.add('is-dragging');
+        track.setPointerCapture(e.pointerId);
+      });
+
+      track.addEventListener('pointermove', function (e) {
+        if (!isDown) return;
+        var dx = e.clientX - startX;
+        if (Math.abs(dx) > 4) didDrag = true;
+        track.scrollLeft = startScroll - dx;
+        e.preventDefault();
+      });
+
+      function endDrag(e) {
+        if (!isDown) return;
+        isDown = false;
+        track.classList.remove('is-dragging');
+        if (track.hasPointerCapture && track.hasPointerCapture(e.pointerId)) {
+          track.releasePointerCapture(e.pointerId);
+        }
+      }
+
+      track.addEventListener('pointerup', endDrag);
+      track.addEventListener('pointercancel', endDrag);
+      track.addEventListener('click', function (e) {
+        if (!didDrag) return;
+        e.preventDefault();
+        e.stopPropagation();
+        didDrag = false;
+      }, true);
+
+      track.addEventListener('scroll', updateControls, { passive: true });
+      window.addEventListener('resize', updateControls, { passive: true });
+      updateControls();
+    });
+  })();
+
   /* --- Fade-in observer ---
      Uses unobserve after first reveal to keep cost low.
      `prefers-reduced-motion` removes the offset transform. */
