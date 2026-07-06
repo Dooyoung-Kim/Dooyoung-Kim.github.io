@@ -911,7 +911,7 @@ img { max-width: 100%; height: auto; display: block; }
 /* Publications — centered narrow column */
 .pub-container { max-width: 720px; margin: 0 auto; }
 .pub-list { list-style: none; }
-.pub-item { padding: 24px 0; border-bottom: 1px solid var(--border); }
+.pub-item { padding: 24px 0; border-bottom: 1px solid var(--border); scroll-margin-top: 76px; }
 .pub-item:last-child { border-bottom: none; }
 /* Award papers — same layout as regular pub-item. A small trophy icon
    is placed before the title (see .pub-award-icon below) so the
@@ -1468,6 +1468,18 @@ a.pub-title-text { text-decoration: none; cursor: pointer; }
   font-size: 15px;
   line-height: 1.5;
   margin: 0;
+}
+
+.resume-item a {
+  color: var(--text-primary);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .resume-item a:hover {
+    color: var(--link);
+  }
 }
 
 .profile-kicker {
