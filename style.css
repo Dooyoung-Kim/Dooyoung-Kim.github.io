@@ -1535,6 +1535,43 @@ a.pub-title-text { text-decoration: none; cursor: pointer; }
   margin: 0;
 }
 
+.service-groups {
+  border-top: 1px solid rgba(0,0,0,0.1);
+}
+
+.service-group {
+  padding: 20px 0;
+  border-bottom: 1px solid rgba(0,0,0,0.08);
+}
+
+.service-group h3 {
+  font-size: 18px;
+  line-height: 1.28;
+  letter-spacing: 0;
+  margin-bottom: 10px;
+}
+
+.service-line {
+  display: grid;
+  grid-template-columns: 150px 1fr;
+  gap: 24px;
+  padding: 5px 0;
+}
+
+.service-line span {
+  color: var(--text-secondary);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+.service-line p {
+  color: var(--text-tertiary);
+  font-size: 15px;
+  line-height: 1.5;
+  margin: 0;
+}
+
 .resume-item a {
   color: var(--text-primary);
   font-weight: 600;
@@ -1936,6 +1973,12 @@ a.pub-title-text { text-decoration: none; cursor: pointer; }
     grid-template-columns: 1fr;
     gap: 6px;
     padding: 16px 0;
+  }
+
+  .service-line {
+    grid-template-columns: 1fr;
+    gap: 2px;
+    padding: 7px 0;
   }
 
   .collab-list-item {
