@@ -506,9 +506,10 @@
       if (!wrap || !todayCell) return;
       var styles = window.getComputedStyle(els.monthGrid);
       var axisWidth = parseFloat(styles.getPropertyValue('--axis-col')) || 112;
+      var typeWidth = parseFloat(styles.getPropertyValue('--type-col')) || 48;
       var questWidth = parseFloat(styles.getPropertyValue('--quest-col')) || 430;
       var gap = parseFloat(styles.columnGap || styles.gap) || 6;
-      var stickyWidth = axisWidth + questWidth + (gap * 2);
+      var stickyWidth = axisWidth + typeWidth + questWidth + (gap * 2);
       var dateViewport = Math.max(1, wrap.clientWidth - stickyWidth);
       wrap.scrollLeft = Math.max(0, todayCell.offsetLeft - stickyWidth - (dateViewport / 2) + (todayCell.clientWidth / 2));
     });
