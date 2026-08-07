@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css?v=20">
-<link rel="stylesheet" href="assets/growth.css?v=58">
+<link rel="stylesheet" href="assets/growth.css?v=60">
 </head>
 <body class="growth-page">
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
@@ -155,12 +155,6 @@
           <div id="monthGrid" class="month-grid"></div>
         </div>
 
-        <section id="achievementPanel" class="achievement-panel" aria-label="Achievements"></section>
-
-        <div id="progressGraph" class="progress-graph" aria-label="Monthly progress graph"></div>
-
-        <div id="trendPanel" class="trend-panel" hidden></div>
-
         <form id="questForm" class="board-add-row" aria-label="Add quest">
           <input id="questTitle" name="title" type="text" maxlength="80" placeholder="Add a new quest" required>
           <select id="questCadence" class="quest-select quest-type-select" name="cadence" aria-label="Quest cadence">
@@ -173,15 +167,19 @@
         </form>
 
         <div class="board-tools">
-          <form id="axisForm" class="axis-inline-form">
-            <label>
-              Custom axis
-              <input id="axisName" name="axis" type="text" maxlength="28" placeholder="Add axis">
-            </label>
+          <form id="axisForm" class="axis-inline-form" aria-label="Add custom axis">
+            <span class="tool-label">Custom axis</span>
+            <input id="axisName" name="axis" type="text" maxlength="28" placeholder="Add axis">
             <button class="ghost-button" type="submit">Add</button>
           </form>
           <div id="axisList" class="axis-list inline" aria-live="polite"></div>
         </div>
+
+        <section id="achievementPanel" class="achievement-panel" aria-label="Achievements"></section>
+
+        <div id="progressGraph" class="progress-graph" aria-label="Monthly progress graph"></div>
+
+        <div id="trendPanel" class="trend-panel" hidden></div>
       </section>
     </div>
   </section>

@@ -5636,3 +5636,162 @@
     grid-template-columns: 1fr !important;
   }
 }
+
+/* Quest/axis controls: compact, rounded, and visually tied to the board. */
+.growth-page .board-add-row,
+.growth-page .board-tools {
+  margin: 8px 0 0 !important;
+  padding: 10px !important;
+  border: 1px solid var(--modern-line) !important;
+  border-radius: 8px !important;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0.018)),
+    #080b12 !important;
+  box-shadow: none !important;
+}
+
+.growth-page .board-add-row {
+  grid-template-columns: minmax(220px, 1fr) 104px minmax(130px, 170px) auto !important;
+  align-items: center !important;
+  gap: 8px !important;
+}
+
+.growth-page .board-tools {
+  display: grid !important;
+  grid-template-columns: minmax(280px, 420px) minmax(0, 1fr) !important;
+  align-items: center !important;
+  gap: 10px !important;
+}
+
+.growth-page .axis-inline-form {
+  display: grid !important;
+  grid-template-columns: auto minmax(120px, 1fr) auto !important;
+  align-items: center !important;
+  gap: 8px !important;
+  padding: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+}
+
+.growth-page .axis-inline-form .tool-label {
+  color: var(--modern-muted);
+  font-family: var(--g-font-ui);
+  font-size: 11px;
+  font-weight: 760;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.growth-page .board-add-row input,
+.growth-page .board-add-row select,
+.growth-page .axis-inline-form input,
+.growth-page .board-add-row .quest-select {
+  min-height: 36px !important;
+  height: 36px !important;
+  border: 1px solid rgba(226, 232, 255, 0.16) !important;
+  border-radius: 8px !important;
+  background: rgba(255, 255, 255, 0.028) !important;
+  color: var(--modern-text) !important;
+  font-family: var(--g-font-ui) !important;
+  font-size: 12px !important;
+  font-weight: 650 !important;
+  letter-spacing: 0 !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.035) !important;
+}
+
+.growth-page .board-add-row input,
+.growth-page .axis-inline-form input {
+  padding: 0 12px !important;
+}
+
+.growth-page .board-add-row select {
+  padding: 0 26px 0 12px !important;
+}
+
+.growth-page .board-add-row input::placeholder,
+.growth-page .axis-inline-form input::placeholder {
+  color: rgba(248, 248, 251, 0.38);
+}
+
+.growth-page .board-add-row input:focus,
+.growth-page .board-add-row select:focus,
+.growth-page .axis-inline-form input:focus {
+  border-color: rgba(125, 220, 154, 0.44) !important;
+  outline: none !important;
+  background: rgba(255, 255, 255, 0.045) !important;
+}
+
+.growth-page .board-add-row .growth-button,
+.growth-page .axis-inline-form .ghost-button {
+  min-height: 36px !important;
+  height: 36px !important;
+  border-radius: 8px !important;
+  border: 1px solid rgba(226, 232, 255, 0.18) !important;
+  background: rgba(5, 14, 60, 0.72) !important;
+  color: rgba(248, 248, 251, 0.92) !important;
+  font-family: var(--g-font-ui) !important;
+  font-size: 11px !important;
+  font-weight: 760 !important;
+  letter-spacing: 0 !important;
+  padding: 0 14px !important;
+  white-space: nowrap !important;
+  box-shadow: none !important;
+}
+
+.growth-page .board-add-row .growth-button:hover,
+.growth-page .axis-inline-form .ghost-button:hover {
+  border-color: rgba(125, 220, 154, 0.36) !important;
+  background: rgba(5, 14, 60, 0.92) !important;
+}
+
+.growth-page .axis-list.inline {
+  justify-content: flex-end !important;
+  align-items: center !important;
+  gap: 6px !important;
+  min-width: 0 !important;
+}
+
+.growth-page .axis-chip,
+.growth-page .axis-list.inline button {
+  min-height: 34px !important;
+  border-radius: 8px !important;
+  border-color: rgba(226, 232, 255, 0.16) !important;
+  background: rgba(255, 255, 255, 0.028) !important;
+  color: rgba(248, 248, 251, 0.76) !important;
+  font-family: var(--g-font-ui) !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0 !important;
+}
+
+@media (max-width: 920px) {
+  .growth-page .board-add-row,
+  .growth-page .board-tools {
+    grid-template-columns: 1fr !important;
+  }
+
+  .growth-page .axis-list.inline {
+    justify-content: flex-start !important;
+  }
+}
+
+@media (max-width: 620px) {
+  .growth-page .axis-inline-form {
+    grid-template-columns: 1fr auto !important;
+  }
+
+  .growth-page .axis-inline-form .tool-label {
+    grid-column: 1 / -1;
+  }
+}
+
+/* Keep the controls compact on tablet-sized browser widths too. */
+@media (max-width: 920px) and (min-width: 621px) {
+  .growth-page .board-add-row {
+    grid-template-columns: minmax(180px, 1fr) 92px minmax(108px, 140px) max-content !important;
+  }
+
+  .growth-page .board-tools {
+    grid-template-columns: minmax(250px, 360px) minmax(0, 1fr) !important;
+  }
+}
