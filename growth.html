@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Growth Quest | Dooyoung Kim</title>
+<meta name="description" content="A personal growth RPG tracker for quests, streaks, levels, and long-term progress.">
+<meta name="theme-color" content="#000000">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css?v=20">
+<link rel="stylesheet" href="assets/growth.css?v=45">
+</head>
+<body class="growth-page">
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <linearGradient id="brand-grad" gradientUnits="userSpaceOnUse" x1="356" y1="0" x2="929" y2="0">
+      <stop offset="0%" stop-color="#050E3C" />
+      <stop offset="25%" stop-color="#002455" />
+      <stop offset="50%" stop-color="#4A1942" />
+      <stop offset="75%" stop-color="#FF3838" />
+      <stop offset="100%" stop-color="#DC0000" />
+    </linearGradient>
+  </defs>
+  <symbol id="logo-gradient" viewBox="0 0 578 600">
+    <g transform="translate(-356 -1170)">
+      <path d="M356 1232C572.132 1232 712.869 1734 929 1734" stroke="url(#brand-grad)" stroke-width="73" stroke-linecap="butt" fill="none" />
+      <path d="M356 1734C572.132 1734 712.869 1232 929 1232" stroke="url(#brand-grad)" stroke-width="73" stroke-linecap="butt" fill="none" />
+      <rect x="356" y="1220" width="70" height="522" fill="url(#brand-grad)" />
+      <rect x="859" y="1220" width="70" height="522" fill="url(#brand-grad)" />
+    </g>
+  </symbol>
+</svg>
+
+<nav class="nav growth-nav">
+  <div class="container-wide nav-inner">
+    <a href="index.html" class="nav-logo" aria-label="Dooyoung Kim home">
+      <svg width="20" height="21" viewBox="0 0 578 600" aria-hidden="true"><use href="#logo-gradient"></use></svg>
+      <span class="nav-wordmark">Dooyoung Kim</span>
+    </a>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="lab/research.html">Research</a>
+      <a href="lab/publications.html">Publications</a>
+      <a href="experience.html">Experience</a>
+      <a href="growth.html" class="active">Growth</a>
+    </div>
+    <button class="nav-toggle" aria-label="Open menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<main>
+  <section class="growth-hero">
+    <div class="container-wide growth-shell">
+      <section class="growth-panel growth-status-card fade-in" aria-label="Growth character status">
+        <div class="character-column">
+          <div class="pixel-stage" aria-hidden="true">
+            <div id="growthAvatar" class="koala-mage" aria-label="Koala mage avatar">
+              <span class="mage-shadow"></span>
+              <span class="mage-hat"></span>
+              <span class="mage-hat-band"></span>
+              <span class="mage-ear mage-ear-left"></span>
+              <span class="mage-ear mage-ear-right"></span>
+              <span class="mage-head"></span>
+              <span class="mage-face"></span>
+              <span class="mage-eye mage-eye-left"></span>
+              <span class="mage-eye mage-eye-right"></span>
+              <span class="mage-nose"></span>
+              <span class="mage-robe"></span>
+              <span class="mage-scarf"></span>
+              <span class="mage-arm mage-arm-left"></span>
+              <span class="mage-arm mage-arm-right"></span>
+              <span class="mage-staff"></span>
+              <span class="mage-orb"></span>
+              <span class="mage-foot mage-foot-left"></span>
+              <span class="mage-foot mage-foot-right"></span>
+            </div>
+          </div>
+        </div>
+        <div class="status-copy">
+          <div class="player-line">
+            <div>
+              <h2>Dooyoung Kim <span>Lv. <strong id="levelValue">1</strong></span></h2>
+              <p><span id="rankName">Life Initiate</span> - Koala Mage</p>
+            </div>
+            <div class="player-badge" id="rankState">Quest line open</div>
+          </div>
+          <div class="status-bars" aria-label="Growth status bars">
+            <div class="stat-row stat-stamina">
+              <span class="stat-icon"></span>
+              <span class="stat-name">Health</span>
+              <div class="stat-track"><span id="staminaFill"></span></div>
+              <strong id="staminaScore">0%</strong>
+            </div>
+            <div class="stat-row stat-intelligence">
+              <span class="stat-icon"></span>
+              <span class="stat-name">Intelligence</span>
+              <div class="stat-track"><span id="intelligenceFill"></span></div>
+              <strong id="intelligenceScore">0%</strong>
+            </div>
+            <div class="stat-row stat-capital">
+              <span class="stat-icon"></span>
+              <span class="stat-name">Capital</span>
+              <div class="stat-track"><span id="capitalFill"></span></div>
+              <strong id="capitalScore">0%</strong>
+            </div>
+          </div>
+          <div class="status-bottom">
+            <div class="xp-mini">
+              <span>EXP</span>
+              <div class="xp-bar compact" aria-label="XP progress"><span id="xpFill"></span></div>
+              <strong id="xpLabel">0 / 500</strong>
+            </div>
+            <span>Month <strong id="monthlyCompletion">0%</strong></span>
+            <span>Today <strong id="statusCompletedToday">0</strong>/<strong id="statusActiveQuests">0</strong></span>
+            <span id="streakLabel">0 day streak</span>
+            <span id="currentMonthLabel">This Month</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="growth-panel quest-board fade-in" aria-label="Monthly quest board">
+        <div class="panel-heading quest-heading">
+          <div class="month-title">
+            <h2 id="boardTitle">Monthly Quest Board</h2>
+            <p>Habit Tracker</p>
+          </div>
+          <div class="board-tabs" role="tablist" aria-label="Growth view">
+            <button class="board-tab active" data-view="board" type="button">Board</button>
+            <button class="board-tab" data-view="daily" type="button">Daily</button>
+            <button class="board-tab" data-view="weekly" type="button">Weekly</button>
+            <button class="board-tab" data-view="monthly" type="button">Monthly</button>
+            <button class="board-tab" data-view="yearly" type="button">Yearly</button>
+          </div>
+          <div class="board-summary">
+            <div class="quest-ratio"><span>Daily</span><strong><span id="boardCompletedHabits">0</span>/<span id="boardActiveQuests">0</span></strong></div>
+            <div class="progress-stat">
+              <span>Monthly</span>
+              <div class="board-progress"><i id="boardProgressFill"></i></div>
+              <strong id="seasonScore">0%</strong>
+            </div>
+          </div>
+        </div>
+
+        <div class="month-grid-wrap" aria-label="Monthly quest grid">
+          <div id="monthGrid" class="month-grid"></div>
+        </div>
+
+        <section id="achievementPanel" class="achievement-panel" aria-label="Achievements"></section>
+
+        <div id="progressGraph" class="progress-graph" aria-label="Monthly progress graph"></div>
+
+        <div id="trendPanel" class="trend-panel" hidden></div>
+
+        <form id="questForm" class="board-add-row" aria-label="Add quest">
+          <input id="questTitle" name="title" type="text" maxlength="80" placeholder="Add a new quest" required>
+          <select id="questCadence" class="quest-select quest-type-select" name="cadence" aria-label="Quest cadence">
+            <option value="daily">[d] Daily</option>
+            <option value="weekly">[w] Weekly</option>
+            <option value="monthly">[m] Monthly</option>
+          </select>
+          <select id="questAxis" class="quest-select quest-axis-select" name="axis" aria-label="Quest axis"></select>
+          <button class="growth-button" type="submit">Add Quest</button>
+        </form>
+
+        <div class="board-tools">
+          <form id="axisForm" class="axis-inline-form">
+            <label>
+              Custom axis
+              <input id="axisName" name="axis" type="text" maxlength="28" placeholder="Add axis">
+            </label>
+            <button class="ghost-button" type="submit">Add</button>
+          </form>
+          <div id="axisList" class="axis-list inline" aria-live="polite"></div>
+        </div>
+      </section>
+
+      <section class="growth-note fade-in">
+        <div>
+          <strong id="growthAuthTitle">Local mode</strong>
+          <p id="growthAuthMessage">Sign in with Google to sync this quest board across devices.</p>
+        </div>
+        <div class="auth-actions">
+          <button id="googleSignIn" class="growth-button google-auth-button" type="button">Sign in with Google</button>
+          <button id="googleSignOut" class="ghost-button" type="button" hidden>Sign out</button>
+          <button id="resetDemo" class="ghost-button" type="button">Reset local data</button>
+        </div>
+      </section>
+    </div>
+  </section>
+</main>
+
+<footer class="footer main-footer growth-footer">
+  <div class="container">
+    <div class="footer-bottom">
+      <p>&copy; 2026 Dooyoung Kim. All rights reserved.</p>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/site.js?v=4" defer></script>
+<script src="assets/growth-auth-config.js?v=1"></script>
+<script src="assets/growth.js?v=21" defer></script>
+<script src="assets/growth-auth.js?v=1" type="module"></script>
+</body>
+</html>
