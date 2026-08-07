@@ -56,6 +56,8 @@
 
   var activeView = 'board';
   var selectedAchievementId = null;
+  var draggedQuestId = null;
+  var dragDropHandled = false;
   var remoteSaveReady = false;
   var state = migrateState(loadState());
   saveState();
@@ -368,8 +370,8 @@
     var groupClass = ' axis-group-' + (axisIndex % 4);
     var html = '';
     var cleanTitle = cleanQuestTitle(quest.title, quest.cadence);
-    html += '<select class="board-input cadence-select' + groupClass + '" data-cadence="' + quest.id + '" aria-label="Quest cadence">' + cadenceOptions(quest.cadence) + '</select>';
-    html += '<input class="board-input quest-title-input' + groupClass + '" data-title="' + quest.id + '" value="' + escapeAttr(cleanTitle) + '" aria-label="Quest title">';
+    html += '<select class="board-input cadence-select' + groupClass + '" data-cadence="' + quest.id + '" data-row-quest="' + quest.id + '" aria-label="Quest cadence">' + cadenceOptions(quest.cadence) + '</select>';
+    html += '<input class="board-input quest-title-input' + groupClass + '" data-title="' + quest.id + '" data-row-quest="' + quest.id + '" value="' + escapeAttr(cleanTitle) + '" draggable="true" aria-label="Quest title" title="Drag to reorder. Drop outside the board to remove.">';
 
     if (quest.cadence === 'weekly') {
       var startDay = 1;
@@ -379,7 +381,7 @@
         var checked = !!quest.checks[key];
         var weekStartKey = dateKey(year, month, startDay);
         var ready = startOfDay(today) >= parseDateKey(weekStartKey);
-        html += '<button class="check-cell check-bar weekly-bar' + groupClass + (checked ? ' checked' : '') + (ready ? ' ready' : '') + '" style="grid-column: span ' + week.length + '" data-quest="' + quest.id + '" data-date="' + key + '" type="button"' + (ready ? '' : ' disabled') + ' aria-label="' + escapeAttr(quest.title) + ' week ' + (index + 1) + ' clear"><span>Week ' + (index + 1) + '</span></button>';
+        html += '<button class="check-cell check-bar weekly-bar' + groupClass + (checked ? ' checked' : '') + (ready ? ' ready' : '') + '" style="grid-column: span ' + week.length + '" data-quest="' + quest.id + '" data-row-quest="' + quest.id + '" data-date="' + key + '" type="button"' + (ready ? '' : ' disabled') + ' aria-label="' + escapeAttr(quest.title) + ' week ' + (index + 1) + ' clear"><span>Week ' + (index + 1) + '</span></button>';
         startDay = endDay + 1;
       });
       return html;
@@ -389,7 +391,7 @@
       var monthEndKey = dateKey(year, month, days);
       var monthChecked = !!quest.checks[monthEndKey];
       var monthReady = startOfDay(today) >= new Date(year, month, 1);
-      html += '<button class="check-cell check-bar monthly-bar' + groupClass + (monthChecked ? ' checked' : '') + (monthReady ? ' ready' : '') + '" style="grid-column: span ' + days + '" data-quest="' + quest.id + '" data-date="' + monthEndKey + '" type="button"' + (monthReady ? '' : ' disabled') + ' aria-label="' + escapeAttr(quest.title) + ' month clear"><span>Month Clear</span></button>';
+      html += '<button class="check-cell check-bar monthly-bar' + groupClass + (monthChecked ? ' checked' : '') + (monthReady ? ' ready' : '') + '" style="grid-column: span ' + days + '" data-quest="' + quest.id + '" data-row-quest="' + quest.id + '" data-date="' + monthEndKey + '" type="button"' + (monthReady ? '' : ' disabled') + ' aria-label="' + escapeAttr(quest.title) + ' month clear"><span>Month Clear</span></button>';
       return html;
     }
 
@@ -397,7 +399,7 @@
       var key = dateKey(year, month, d);
       var checked = !!quest.checks[key];
       var isToday = key === todayKey;
-      html += '<button class="check-cell' + groupClass + (checked ? ' checked' : '') + (isToday ? ' today' : '') + '" data-quest="' + quest.id + '" data-date="' + key + '" type="button"' + (isToday ? '' : ' disabled') + ' aria-label="' + escapeAttr(quest.title) + ' on day ' + d + '"></button>';
+      html += '<button class="check-cell' + groupClass + (checked ? ' checked' : '') + (isToday ? ' today' : '') + '" data-quest="' + quest.id + '" data-row-quest="' + quest.id + '" data-date="' + key + '" type="button"' + (isToday ? '' : ' disabled') + ' aria-label="' + escapeAttr(quest.title) + ' on day ' + d + '"></button>';
     }
     return html;
   }
@@ -450,6 +452,108 @@
         render();
       });
     });
+
+    attachDragEvents();
+  }
+
+  function attachDragEvents() {
+    els.monthGrid.querySelectorAll('.quest-title-input[data-row-quest]').forEach(function (input) {
+      input.addEventListener('dragstart', function (event) {
+        draggedQuestId = input.getAttribute('data-row-quest');
+        dragDropHandled = false;
+        input.classList.add('dragging');
+        els.monthGrid.classList.add('is-dragging-row');
+        if (event.dataTransfer) {
+          event.dataTransfer.effectAllowed = 'move';
+          event.dataTransfer.setData('text/plain', draggedQuestId);
+        }
+      });
+
+      input.addEventListener('dragend', function (event) {
+        var shouldDelete = draggedQuestId && !dragDropHandled && !pointInsideElement(event.clientX, event.clientY, els.monthGrid.parentElement);
+        var questId = draggedQuestId;
+        clearDragState();
+        if (shouldDelete) {
+          removeQuest(questId);
+        }
+      });
+    });
+
+    els.monthGrid.querySelectorAll('[data-row-quest]').forEach(function (cell) {
+      cell.addEventListener('dragover', function (event) {
+        var targetId = cell.getAttribute('data-row-quest');
+        if (!draggedQuestId || !targetId || targetId === draggedQuestId) return;
+        event.preventDefault();
+        if (event.dataTransfer) event.dataTransfer.dropEffect = 'move';
+        highlightDropTarget(targetId);
+      });
+
+      cell.addEventListener('drop', function (event) {
+        var targetId = cell.getAttribute('data-row-quest');
+        if (!draggedQuestId || !targetId || targetId === draggedQuestId) return;
+        event.preventDefault();
+        dragDropHandled = true;
+        moveQuest(draggedQuestId, targetId);
+        clearDragState();
+        saveState();
+        render();
+      });
+    });
+
+    els.monthGrid.addEventListener('dragleave', function (event) {
+      if (event.relatedTarget && els.monthGrid.contains(event.relatedTarget)) return;
+      highlightDropTarget('');
+    });
+  }
+
+  function moveQuest(sourceId, targetId) {
+    var sourceIndex = state.quests.findIndex(function (quest) { return quest.id === sourceId; });
+    var targetIndex = state.quests.findIndex(function (quest) { return quest.id === targetId; });
+    if (sourceIndex < 0 || targetIndex < 0 || sourceIndex === targetIndex) return;
+    var source = state.quests[sourceIndex];
+    var target = state.quests[targetIndex];
+    source.axis = target.axis;
+    state.quests.splice(sourceIndex, 1);
+    var nextTargetIndex = state.quests.findIndex(function (quest) { return quest.id === targetId; });
+    state.quests.splice(nextTargetIndex, 0, source);
+  }
+
+  function removeQuest(questId) {
+    var index = state.quests.findIndex(function (quest) { return quest.id === questId; });
+    if (index < 0) return;
+    state.quests.splice(index, 1);
+    saveState();
+    render();
+  }
+
+  function highlightDropTarget(questId) {
+    els.monthGrid.querySelectorAll('.drop-target').forEach(function (cell) {
+      cell.classList.remove('drop-target');
+    });
+    if (!questId) return;
+    els.monthGrid.querySelectorAll('[data-row-quest="' + cssEscape(questId) + '"]').forEach(function (cell) {
+      cell.classList.add('drop-target');
+    });
+  }
+
+  function clearDragState() {
+    draggedQuestId = null;
+    dragDropHandled = false;
+    els.monthGrid.classList.remove('is-dragging-row');
+    els.monthGrid.querySelectorAll('.dragging, .drop-target').forEach(function (cell) {
+      cell.classList.remove('dragging', 'drop-target');
+    });
+  }
+
+  function pointInsideElement(x, y, element) {
+    if (!element || (!x && !y)) return false;
+    var rect = element.getBoundingClientRect();
+    return x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom;
+  }
+
+  function cssEscape(value) {
+    if (window.CSS && window.CSS.escape) return window.CSS.escape(value);
+    return String(value).replace(/["\\]/g, '\\$&');
   }
 
   function recordAchievement(quest, key) {
