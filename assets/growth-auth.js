@@ -29,10 +29,10 @@ function waitForBoard() {
 
 async function initFirebaseAuth() {
   if (!configured(firebaseConfig)) {
-    setAuthUi('Local mode', 'Add Firebase config to enable Google sign-in and cloud sync.');
+    setAuthUi('Local mode', 'Firebase config needed for sync.');
     if (signInButton) {
       signInButton.disabled = true;
-      signInButton.textContent = 'Google sync not configured';
+      signInButton.title = 'Google sync not configured';
     }
     return;
   }
@@ -59,7 +59,10 @@ async function initFirebaseAuth() {
       signInButton.disabled = false;
       signInButton.addEventListener('click', function () {
         authModule.signInWithPopup(auth, provider).catch(function (error) {
-          setAuthUi('Sign-in failed', error.message || 'Google sign-in could not start.');
+          var message = error && error.code === 'auth/operation-not-allowed'
+            ? 'Enable Google provider in Firebase Auth.'
+            : (error.message || 'Google sign-in could not start.');
+          setAuthUi('Sign-in failed', message);
         });
       });
     }
@@ -81,10 +84,10 @@ async function initFirebaseAuth() {
         });
         if (signInButton) {
           signInButton.hidden = false;
-          signInButton.textContent = 'Sign in with Google';
+          signInButton.title = 'Sign in with Google';
         }
         if (signOutButton) signOutButton.hidden = true;
-        setAuthUi('Local mode', 'Sign in with Google to sync this quest board across devices.');
+        setAuthUi('Local mode', 'Sign in to sync across devices.');
       }
     });
 
@@ -96,7 +99,7 @@ async function initFirebaseAuth() {
       }, 650);
     });
   } catch (error) {
-    setAuthUi('Local mode', 'Google sync could not load. The board still works locally.');
+    setAuthUi('Local mode', 'Sync unavailable. Local board works.');
     if (signInButton) signInButton.disabled = true;
   }
 }
@@ -104,7 +107,7 @@ async function initFirebaseAuth() {
 async function handleSignedIn(user) {
   if (signInButton) signInButton.hidden = true;
   if (signOutButton) signOutButton.hidden = false;
-  setAuthUi('Cloud sync', 'Signed in as ' + (user.email || 'Google user') + '. Loading saved quests...');
+  setAuthUi('Cloud sync', 'Loading ' + (user.email || 'Google user') + '...');
 
   var board = await waitForBoard();
   var remoteState = await loadRemoteState(user.uid);
@@ -116,7 +119,7 @@ async function handleSignedIn(user) {
 
   remoteReady = true;
   board.enableRemoteSave();
-  setAuthUi('Cloud sync', 'Signed in as ' + (user.email || 'Google user') + '. Changes sync automatically.');
+  setAuthUi('Cloud sync', 'Syncing as ' + (user.email || 'Google user') + '.');
 }
 
 async function loadRemoteState(uid) {

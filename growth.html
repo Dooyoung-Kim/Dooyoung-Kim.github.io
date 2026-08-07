@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css?v=20">
-<link rel="stylesheet" href="assets/growth.css?v=53">
+<link rel="stylesheet" href="assets/growth.css?v=58">
 </head>
 <body class="growth-page">
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
@@ -86,7 +86,13 @@
               <h2>Dooyoung Kim <span>Lv. <strong id="levelValue">1</strong></span></h2>
               <p><span id="rankName">Life Initiate</span> - Koala Mage</p>
             </div>
-            <div class="player-badge" id="rankState">Quest line open</div>
+            <div class="status-auth" aria-label="Growth Quest sync">
+              <div class="auth-actions status-auth-actions">
+                <button id="googleSignIn" class="growth-button google-auth-button" type="button" aria-label="Sign in with Google" title="Sign in with Google"><img src="assets/google-g-logo.png" alt=""></button>
+                <button id="googleSignOut" class="ghost-button" type="button" hidden>Sign out</button>
+                <button id="resetDemo" class="ghost-button" type="button">Reset Local</button>
+              </div>
+            </div>
           </div>
           <div class="status-bars" aria-label="Growth status bars">
             <div class="stat-row stat-stamina">
@@ -177,18 +183,6 @@
           <div id="axisList" class="axis-list inline" aria-live="polite"></div>
         </div>
       </section>
-
-      <section id="growthSync" class="growth-note fade-in">
-        <div>
-          <strong id="growthAuthTitle">Local mode</strong>
-          <p id="growthAuthMessage">Sign in with Google to sync this quest board across devices.</p>
-        </div>
-        <div class="auth-actions">
-          <button id="googleSignIn" class="growth-button google-auth-button" type="button">Sign in with Google</button>
-          <button id="googleSignOut" class="ghost-button" type="button" hidden>Sign out</button>
-          <button id="resetDemo" class="ghost-button" type="button">Reset local data</button>
-        </div>
-      </section>
     </div>
   </section>
 </main>
@@ -202,8 +196,8 @@
 </footer>
 
 <script src="assets/site.js?v=4" defer></script>
-<script src="assets/growth-auth-config.js?v=2"></script>
+<script src="assets/growth-auth-config.js?v=3"></script>
 <script src="assets/growth.js?v=22" defer></script>
-<script src="assets/growth-auth.js?v=1" type="module"></script>
+<script src="assets/growth-auth.js?v=3" type="module"></script>
 </body>
 </html>

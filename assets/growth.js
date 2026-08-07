@@ -140,13 +140,15 @@
 
     els.levelValue.textContent = level;
     els.rankName.textContent = rank;
-    els.rankState.textContent = completion >= 100
-      ? 'Perfect clear'
-      : completion >= 90
-        ? 'High clear'
-        : completion >= 80
-          ? 'Pass clear'
-          : 'Quest line open';
+    if (els.rankState) {
+      els.rankState.textContent = completion >= 100
+        ? 'Perfect clear'
+        : completion >= 90
+          ? 'High clear'
+          : completion >= 80
+            ? 'Pass clear'
+            : 'Quest line open';
+    }
     els.xpFill.style.width = Math.min(100, Math.round((levelXp / 500) * 100)) + '%';
     els.xpLabel.textContent = levelXp + ' / 500';
     els.monthlyCompletion.textContent = completion + '%';

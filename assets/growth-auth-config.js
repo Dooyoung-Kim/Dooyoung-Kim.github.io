@@ -1,11 +1,11 @@
 window.GROWTH_FIREBASE_CONFIG = {
-  apiKey: 'AIzaSyD5QE6RlbLnmSg_AmjmbwblyCp52gqtvFo',
-  authDomain: 'dooyoung-growth-quest.firebaseapp.com',
-  projectId: 'dooyoung-growth-quest',
-  storageBucket: 'dooyoung-growth-quest.firebasestorage.app',
-  messagingSenderId: '1040694540710',
-  appId: '1:1040694540710:web:982e6fcf74630eedd17767',
-  measurementId: 'G-2GDWH1E000'
+  apiKey: 'AIzaSyASBp7pN-TttRJUutIfCFTFURdQx1agERQ',
+  authDomain: 'dooyoung-growth-quest-32f3d.firebaseapp.com',
+  projectId: 'dooyoung-growth-quest-32f3d',
+  storageBucket: 'dooyoung-growth-quest-32f3d.firebasestorage.app',
+  messagingSenderId: '1064799594799',
+  appId: '1:1064799594799:web:3593f56e3e0493223019da',
+  measurementId: 'G-L6D5SHKQZZ'
 };
 
-window.GROWTH_FIREBASE_SDK_VERSION = '10.12.5';
+window.GROWTH_FIREBASE_SDK_VERSION = '12.17.1';
