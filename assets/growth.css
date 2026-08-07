@@ -5795,3 +5795,100 @@
     grid-template-columns: minmax(250px, 360px) minmax(0, 1fr) !important;
   }
 }
+
+/* Inline axis creation: Axis > Type > Quest > Add. */
+.growth-page .board-add-row {
+  position: relative !important;
+  overflow: visible !important;
+  grid-template-columns: minmax(150px, 180px) 104px minmax(220px, 1fr) max-content !important;
+}
+
+.growth-page .axis-picker {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 36px;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.growth-page .axis-picker .quest-axis-select,
+.growth-page .board-add-row .quest-type-select,
+.growth-page .board-add-row #questTitle {
+  width: 100% !important;
+  min-width: 0 !important;
+  box-sizing: border-box !important;
+}
+
+.growth-page .axis-plus-button {
+  display: inline-grid;
+  place-items: center;
+  width: 36px;
+  min-width: 36px;
+  height: 36px;
+  min-height: 36px;
+  padding: 0;
+  border: 1px solid rgba(226, 232, 255, 0.18);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.035);
+  color: rgba(248, 248, 251, 0.88);
+  font-family: var(--g-font-ui);
+  font-size: 18px;
+  font-weight: 650;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.growth-page .axis-plus-button:hover,
+.growth-page .axis-plus-button[aria-expanded="true"] {
+  border-color: rgba(125, 220, 154, 0.42);
+  background: rgba(125, 220, 154, 0.1);
+}
+
+.growth-page .axis-quick-add {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  z-index: 90;
+  display: grid;
+  grid-template-columns: minmax(150px, 1fr) auto;
+  gap: 8px;
+  width: min(330px, 78vw);
+  padding: 8px;
+  border: 1px solid var(--modern-line);
+  border-radius: 8px;
+  background: #080b12;
+  box-shadow: 0 18px 32px rgba(0, 0, 0, 0.34);
+}
+
+.growth-page .axis-quick-add[hidden] {
+  display: none !important;
+}
+
+.growth-page .axis-quick-add #axisName,
+.growth-page .axis-quick-add #axisAddButton {
+  height: 34px !important;
+  min-height: 34px !important;
+}
+
+.growth-page .axis-quick-add #axisAddButton {
+  border-radius: 8px !important;
+  padding: 0 12px !important;
+  font-size: 10px !important;
+}
+
+@media (max-width: 920px) and (min-width: 621px) {
+  .growth-page .board-add-row {
+    grid-template-columns: minmax(144px, 168px) 96px minmax(180px, 1fr) max-content !important;
+  }
+}
+
+@media (max-width: 620px) {
+  .growth-page .board-add-row {
+    grid-template-columns: 1fr !important;
+  }
+
+  .growth-page .axis-picker {
+    grid-template-columns: minmax(0, 1fr) 36px;
+  }
+}

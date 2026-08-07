@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css?v=20">
-<link rel="stylesheet" href="assets/growth.css?v=60">
+<link rel="stylesheet" href="assets/growth.css?v=61">
 </head>
 <body class="growth-page">
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
@@ -156,24 +156,22 @@
         </div>
 
         <form id="questForm" class="board-add-row" aria-label="Add quest">
-          <input id="questTitle" name="title" type="text" maxlength="80" placeholder="Add a new quest" required>
+          <div class="axis-picker">
+            <select id="questAxis" class="quest-select quest-axis-select" name="axis" aria-label="Quest axis"></select>
+            <button id="axisToggle" class="axis-plus-button" type="button" aria-label="Add axis">+</button>
+            <div id="axisQuickAdd" class="axis-quick-add" hidden>
+              <input id="axisName" name="axisName" type="text" maxlength="28" placeholder="New axis">
+              <button id="axisAddButton" class="ghost-button" type="button">Add</button>
+            </div>
+          </div>
           <select id="questCadence" class="quest-select quest-type-select" name="cadence" aria-label="Quest cadence">
             <option value="daily">[d] Daily</option>
             <option value="weekly">[w] Weekly</option>
             <option value="monthly">[m] Monthly</option>
           </select>
-          <select id="questAxis" class="quest-select quest-axis-select" name="axis" aria-label="Quest axis"></select>
+          <input id="questTitle" name="title" type="text" maxlength="80" placeholder="Add a new quest" required>
           <button class="growth-button" type="submit">Add Quest</button>
         </form>
-
-        <div class="board-tools">
-          <form id="axisForm" class="axis-inline-form" aria-label="Add custom axis">
-            <span class="tool-label">Custom axis</span>
-            <input id="axisName" name="axis" type="text" maxlength="28" placeholder="Add axis">
-            <button class="ghost-button" type="submit">Add</button>
-          </form>
-          <div id="axisList" class="axis-list inline" aria-live="polite"></div>
-        </div>
 
         <section id="achievementPanel" class="achievement-panel" aria-label="Achievements"></section>
 
@@ -195,7 +193,7 @@
 
 <script src="assets/site.js?v=4" defer></script>
 <script src="assets/growth-auth-config.js?v=3"></script>
-<script src="assets/growth.js?v=22" defer></script>
+<script src="assets/growth.js?v=23" defer></script>
 <script src="assets/growth-auth.js?v=3" type="module"></script>
 </body>
 </html>

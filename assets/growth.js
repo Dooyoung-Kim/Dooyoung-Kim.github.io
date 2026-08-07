@@ -46,6 +46,9 @@
     questTitle: byId('questTitle'),
     questCadence: byId('questCadence'),
     questAxis: byId('questAxis'),
+    axisToggle: byId('axisToggle'),
+    axisQuickAdd: byId('axisQuickAdd'),
+    axisAddButton: byId('axisAddButton'),
     axisForm: byId('axisForm'),
     axisName: byId('axisName'),
     axisList: byId('axisList'),
@@ -78,10 +81,38 @@
     addQuest();
   });
 
-  els.axisForm.addEventListener('submit', function (event) {
-    event.preventDefault();
-    addAxis();
-  });
+  if (els.axisForm) {
+    els.axisForm.addEventListener('submit', function (event) {
+      event.preventDefault();
+      addAxis();
+    });
+  }
+
+  if (els.axisToggle && els.axisQuickAdd) {
+    els.axisToggle.addEventListener('click', function () {
+      var nextHidden = !els.axisQuickAdd.hidden;
+      els.axisQuickAdd.hidden = nextHidden;
+      els.axisToggle.setAttribute('aria-expanded', String(!nextHidden));
+      if (!nextHidden && els.axisName) els.axisName.focus();
+    });
+  }
+
+  if (els.axisAddButton) {
+    els.axisAddButton.addEventListener('click', addAxis);
+  }
+
+  if (els.axisName) {
+    els.axisName.addEventListener('keydown', function (event) {
+      if (event.key === 'Enter') {
+        event.preventDefault();
+        addAxis();
+      }
+      if (event.key === 'Escape' && els.axisQuickAdd) {
+        els.axisQuickAdd.hidden = true;
+        if (els.axisToggle) els.axisToggle.setAttribute('aria-expanded', 'false');
+      }
+    });
+  }
 
   els.resetDemo.addEventListener('click', function () {
     if (!window.confirm('Reset local Growth Quest data in this browser?')) return;
@@ -103,7 +134,7 @@
     var isBoard = activeView === 'board';
     boardWrap.hidden = !isBoard;
     els.questForm.hidden = !isBoard;
-    els.boardTools.hidden = !isBoard;
+    if (els.boardTools) els.boardTools.hidden = !isBoard;
     els.progressGraph.hidden = !isBoard;
     if (els.achievementPanel) els.achievementPanel.hidden = !isBoard;
     els.trendPanel.hidden = isBoard;
@@ -659,10 +690,16 @@
   }
 
   function addAxis() {
+    if (!els.axisName) return;
     var name = els.axisName.value.trim();
-    if (!name || state.axes.indexOf(name) !== -1) return;
-    state.axes.push(name);
+    if (!name) return;
+    if (state.axes.indexOf(name) === -1) {
+      state.axes.push(name);
+    }
     els.axisName.value = '';
+    if (els.questAxis) els.questAxis.value = name;
+    if (els.axisQuickAdd) els.axisQuickAdd.hidden = true;
+    if (els.axisToggle) els.axisToggle.setAttribute('aria-expanded', 'false');
     saveState();
     render();
   }
@@ -675,6 +712,7 @@
   }
 
   function renderAxisControls() {
+    if (!els.axisList) return;
     els.axisList.innerHTML = state.axes.map(function (axis, index) {
       return '<label class="axis-chip axis-chip-' + (index % 4) + '"><input data-axis-rename="' + escapeAttr(axis) + '" value="' + escapeAttr(axis) + '" aria-label="Axis name"></label>';
     }).join('');
