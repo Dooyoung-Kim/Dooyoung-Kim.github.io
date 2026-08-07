@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css?v=20">
-<link rel="stylesheet" href="assets/growth.css?v=61">
+<link rel="stylesheet" href="assets/growth.css?v=71">
 </head>
 <body class="growth-page">
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
@@ -82,12 +82,22 @@
         </div>
         <div class="status-copy">
           <div class="player-line">
-            <div>
-              <h2>Dooyoung Kim <span>Lv. <strong id="levelValue">1</strong></span></h2>
-              <p><span id="rankName">Life Initiate</span> - Koala Mage</p>
+            <div class="player-identity">
+              <div class="player-name-row">
+                <button id="playerNameButton" class="player-name-button" type="button" aria-label="Character name" title="Sign in to set your name" disabled>
+                  <span id="playerName">Koala Mage</span>
+                </button>
+                <form id="playerNameForm" class="player-name-form" aria-label="Set character name" hidden>
+                  <input id="playerNameInput" type="text" maxlength="28" autocomplete="nickname" aria-label="Character name" required>
+                  <button type="submit">Save</button>
+                  <button id="playerNameCancel" type="button" aria-label="Cancel name edit">Cancel</button>
+                </form>
+                <span class="player-level">Lv. <strong id="levelValue">1</strong></span>
+              </div>
+              <p><span id="rankName">Life Initiate</span> · Mage Class</p>
             </div>
             <div class="status-auth" aria-label="Growth Quest sync">
-              <div class="auth-actions status-auth-actions">
+              <div id="statusAuthActions" class="auth-actions status-auth-actions">
                 <button id="googleSignIn" class="growth-button google-auth-button" type="button" aria-label="Sign in with Google" title="Sign in with Google"><img src="assets/google-g-logo.png" alt=""></button>
                 <button id="googleSignOut" class="ghost-button" type="button" hidden>Sign out</button>
                 <button id="resetDemo" class="ghost-button" type="button">Reset Local</button>
@@ -132,14 +142,7 @@
         <div class="panel-heading quest-heading">
           <div class="month-title">
             <h2 id="boardTitle">Monthly Quest Board</h2>
-            <p>Habit Tracker</p>
-          </div>
-          <div class="board-tabs" role="tablist" aria-label="Growth view">
-            <button class="board-tab active" data-view="board" type="button">Board</button>
-            <button class="board-tab" data-view="daily" type="button">Daily</button>
-            <button class="board-tab" data-view="weekly" type="button">Weekly</button>
-            <button class="board-tab" data-view="monthly" type="button">Monthly</button>
-            <button class="board-tab" data-view="yearly" type="button">Yearly</button>
+            <p id="todayLabel">Today</p>
           </div>
           <div class="board-summary">
             <div class="quest-ratio"><span>Daily</span><strong><span id="boardCompletedHabits">0</span>/<span id="boardActiveQuests">0</span></strong></div>
@@ -149,26 +152,51 @@
               <strong id="seasonScore">0%</strong>
             </div>
           </div>
+          <div class="board-tabs" role="tablist" aria-label="Growth view">
+            <button class="board-tab active" data-view="board" type="button">Board</button>
+            <button class="board-tab" data-view="statistics" type="button">Statistics</button>
+          </div>
         </div>
 
         <div class="month-grid-wrap" aria-label="Monthly quest grid">
           <div id="monthGrid" class="month-grid"></div>
         </div>
+        <div id="calendarScrollbar" class="calendar-scrollbar" aria-label="Scroll calendar weeks horizontally">
+          <div id="calendarScrollbarTrack" class="calendar-scrollbar-track"></div>
+        </div>
 
         <form id="questForm" class="board-add-row" aria-label="Add quest">
           <div class="axis-picker">
-            <select id="questAxis" class="quest-select quest-axis-select" name="axis" aria-label="Quest axis"></select>
-            <button id="axisToggle" class="axis-plus-button" type="button" aria-label="Add axis">+</button>
-            <div id="axisQuickAdd" class="axis-quick-add" hidden>
-              <input id="axisName" name="axisName" type="text" maxlength="28" placeholder="New axis">
-              <button id="axisAddButton" class="ghost-button" type="button">Add</button>
+            <div class="quest-menu axis-menu-control">
+              <button id="questAxisButton" class="quest-menu-trigger" type="button" aria-haspopup="listbox" aria-expanded="false">
+                <span id="questAxisLabel">Health</span>
+              </button>
+              <select id="questAxis" class="quest-native-select" name="axis" aria-label="Quest axis" tabindex="-1" hidden></select>
+              <div id="questAxisMenu" class="quest-menu-list" role="listbox" aria-label="Quest axis" hidden>
+                <div id="questAxisOptions" class="quest-menu-options"></div>
+                <button id="axisToggle" class="quest-menu-add" type="button" aria-label="Add axis" aria-expanded="false">+</button>
+                <div id="axisQuickAdd" class="axis-quick-add" hidden>
+                  <input id="axisName" name="axisName" type="text" maxlength="28" placeholder="New axis">
+                  <button id="axisAddButton" class="ghost-button" type="button">Add</button>
+                </div>
+              </div>
             </div>
           </div>
-          <select id="questCadence" class="quest-select quest-type-select" name="cadence" aria-label="Quest cadence">
-            <option value="daily">[d] Daily</option>
-            <option value="weekly">[w] Weekly</option>
-            <option value="monthly">[m] Monthly</option>
-          </select>
+          <div class="quest-menu cadence-menu-control">
+            <button id="questCadenceButton" class="quest-menu-trigger" type="button" aria-haspopup="listbox" aria-expanded="false">
+              <span id="questCadenceLabel">[d] Daily</span>
+            </button>
+            <select id="questCadence" class="quest-native-select" name="cadence" aria-label="Quest cadence" tabindex="-1" hidden>
+              <option value="daily">[d] Daily</option>
+              <option value="weekly">[w] Weekly</option>
+              <option value="monthly">[m] Monthly</option>
+            </select>
+            <div id="questCadenceMenu" class="quest-menu-list" role="listbox" aria-label="Quest cadence" hidden>
+              <button class="quest-menu-option" type="button" data-cadence-option="daily" role="option">[d] Daily</button>
+              <button class="quest-menu-option" type="button" data-cadence-option="weekly" role="option">[w] Weekly</button>
+              <button class="quest-menu-option" type="button" data-cadence-option="monthly" role="option">[m] Monthly</button>
+            </div>
+          </div>
           <input id="questTitle" name="title" type="text" maxlength="80" placeholder="Add a new quest" required>
           <button class="growth-button" type="submit">Add Quest</button>
         </form>
@@ -178,6 +206,8 @@
         <div id="progressGraph" class="progress-graph" aria-label="Monthly progress graph"></div>
 
         <div id="trendPanel" class="trend-panel" hidden></div>
+
+        <div id="accountDataActions" class="account-data-actions" aria-label="Account data controls" hidden></div>
       </section>
     </div>
   </section>
@@ -193,7 +223,7 @@
 
 <script src="assets/site.js?v=4" defer></script>
 <script src="assets/growth-auth-config.js?v=3"></script>
-<script src="assets/growth.js?v=23" defer></script>
-<script src="assets/growth-auth.js?v=3" type="module"></script>
+<script src="assets/growth.js?v=31" defer></script>
+<script src="assets/growth-auth.js?v=5" type="module"></script>
 </body>
 </html>

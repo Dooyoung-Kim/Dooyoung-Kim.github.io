@@ -17,6 +17,11 @@
 
   var els = {
     levelValue: byId('levelValue'),
+    playerName: byId('playerName'),
+    playerNameButton: byId('playerNameButton'),
+    playerNameForm: byId('playerNameForm'),
+    playerNameInput: byId('playerNameInput'),
+    playerNameCancel: byId('playerNameCancel'),
     rankName: byId('rankName'),
     rankState: byId('rankState'),
     xpFill: byId('xpFill'),
@@ -39,13 +44,23 @@
     capitalScore: byId('capitalScore'),
     currentMonthLabel: byId('currentMonthLabel'),
     boardTitle: byId('boardTitle'),
+    todayLabel: byId('todayLabel'),
     monthGrid: byId('monthGrid'),
+    calendarScrollbar: byId('calendarScrollbar'),
+    calendarScrollbarTrack: byId('calendarScrollbarTrack'),
     trendPanel: byId('trendPanel'),
     questForm: byId('questForm'),
     boardTools: document.querySelector('.board-tools'),
     questTitle: byId('questTitle'),
     questCadence: byId('questCadence'),
+    questCadenceButton: byId('questCadenceButton'),
+    questCadenceLabel: byId('questCadenceLabel'),
+    questCadenceMenu: byId('questCadenceMenu'),
     questAxis: byId('questAxis'),
+    questAxisButton: byId('questAxisButton'),
+    questAxisLabel: byId('questAxisLabel'),
+    questAxisMenu: byId('questAxisMenu'),
+    questAxisOptions: byId('questAxisOptions'),
     axisToggle: byId('axisToggle'),
     axisQuickAdd: byId('axisQuickAdd'),
     axisAddButton: byId('axisAddButton'),
@@ -58,22 +73,111 @@
   if (!els.monthGrid) return;
 
   var activeView = 'board';
+  var statisticsRange = 'monthly';
   var selectedAchievementId = null;
   var draggedQuestId = null;
+  var dragInsertPosition = 'before';
   var dragDropHandled = false;
+  var syncingCalendarScroll = false;
   var remoteSaveReady = false;
+  var authenticatedProfile = null;
   var state = migrateState(loadState());
   saveState();
   exposeGrowthQuest();
 
   els.currentMonthLabel.textContent = monthLabel();
   els.boardTitle.textContent = monthLabel();
+  if (els.todayLabel) els.todayLabel.textContent = todayLabel();
 
   document.querySelectorAll('.board-tab').forEach(function (button) {
     button.addEventListener('click', function () {
-      activeView = button.getAttribute('data-view') || 'board';
+      var nextView = button.getAttribute('data-view') || 'board';
+      activeView = nextView;
       render();
     });
+  });
+
+  if (els.questAxisButton && els.questAxisMenu) {
+    els.questAxisButton.addEventListener('click', function () {
+      var willOpen = els.questAxisMenu.hidden;
+      closeQuestMenus();
+      setQuestMenuOpen(els.questAxisButton, els.questAxisMenu, willOpen);
+    });
+  }
+
+  if (els.calendarScrollbar) {
+    els.calendarScrollbar.addEventListener('scroll', function () {
+      if (syncingCalendarScroll) return;
+      syncingCalendarScroll = true;
+      els.monthGrid.parentElement.scrollLeft = els.calendarScrollbar.scrollLeft;
+      syncingCalendarScroll = false;
+    });
+
+    els.monthGrid.parentElement.addEventListener('scroll', function () {
+      if (syncingCalendarScroll) return;
+      syncingCalendarScroll = true;
+      els.calendarScrollbar.scrollLeft = els.monthGrid.parentElement.scrollLeft;
+      syncingCalendarScroll = false;
+    });
+
+    els.monthGrid.parentElement.addEventListener('wheel', function (event) {
+      if (Math.abs(event.deltaX) <= Math.abs(event.deltaY)) return;
+      event.preventDefault();
+      els.calendarScrollbar.scrollLeft += event.deltaX;
+    }, { passive: false });
+
+    window.addEventListener('resize', updateCalendarScrollbar);
+  }
+
+  if (els.playerNameButton) {
+    els.playerNameButton.addEventListener('click', openPlayerNameEditor);
+  }
+
+  if (els.playerNameForm) {
+    els.playerNameForm.addEventListener('submit', function (event) {
+      event.preventDefault();
+      if (!authenticatedProfile || !els.playerNameInput) return;
+      var nextName = els.playerNameInput.value.trim();
+      if (!nextName) return;
+      state.playerName = nextName;
+      closePlayerNameEditor();
+      saveState();
+      renderPlayerName();
+    });
+  }
+
+  if (els.playerNameCancel) {
+    els.playerNameCancel.addEventListener('click', closePlayerNameEditor);
+  }
+
+  if (els.playerNameInput) {
+    els.playerNameInput.addEventListener('keydown', function (event) {
+      if (event.key === 'Escape') {
+        event.preventDefault();
+        closePlayerNameEditor();
+      }
+    });
+  }
+
+  if (els.questCadenceButton && els.questCadenceMenu) {
+    els.questCadenceButton.addEventListener('click', function () {
+      var willOpen = els.questCadenceMenu.hidden;
+      closeQuestMenus();
+      setQuestMenuOpen(els.questCadenceButton, els.questCadenceMenu, willOpen);
+    });
+  }
+
+  document.querySelectorAll('[data-cadence-option]').forEach(function (button) {
+    button.addEventListener('click', function () {
+      els.questCadence.value = button.getAttribute('data-cadence-option') || 'daily';
+      renderCadenceControl();
+      closeQuestMenus();
+    });
+  });
+
+  document.addEventListener('click', function (event) {
+    if (event.target.closest('.quest-menu')) return;
+    closeQuestMenus();
   });
 
   els.questForm.addEventListener('submit', function (event) {
@@ -90,10 +194,10 @@
 
   if (els.axisToggle && els.axisQuickAdd) {
     els.axisToggle.addEventListener('click', function () {
-      var nextHidden = !els.axisQuickAdd.hidden;
-      els.axisQuickAdd.hidden = nextHidden;
-      els.axisToggle.setAttribute('aria-expanded', String(!nextHidden));
-      if (!nextHidden && els.axisName) els.axisName.focus();
+      var willOpen = els.axisQuickAdd.hidden;
+      els.axisQuickAdd.hidden = !willOpen;
+      els.axisToggle.setAttribute('aria-expanded', String(willOpen));
+      if (willOpen && els.axisName) els.axisName.focus();
     });
   }
 
@@ -115,10 +219,15 @@
   }
 
   els.resetDemo.addEventListener('click', function () {
-    if (!window.confirm('Reset local Growth Quest data in this browser?')) return;
+    var signedIn = els.resetDemo.getAttribute('data-signed-in') === 'true';
+    var message = signedIn
+      ? 'Reset all Growth Quest data for this signed-in account? This cannot be undone.'
+      : 'Reset local Growth Quest data in this browser?';
+    if (!window.confirm(message)) return;
     state = seedState();
     saveState();
     activeView = 'board';
+    statisticsRange = 'monthly';
     render();
   });
 
@@ -126,13 +235,16 @@
 
   function render() {
     renderAxisOptions();
+    renderCadenceControl();
     renderAxisControls();
+    renderPlayerName();
     renderOverview();
     renderTabs();
 
     var boardWrap = els.monthGrid.parentElement;
     var isBoard = activeView === 'board';
     boardWrap.hidden = !isBoard;
+    if (els.calendarScrollbar) els.calendarScrollbar.hidden = !isBoard;
     els.questForm.hidden = !isBoard;
     if (els.boardTools) els.boardTools.hidden = !isBoard;
     els.progressGraph.hidden = !isBoard;
@@ -141,10 +253,11 @@
 
     if (isBoard) {
       renderMonthGrid();
+      updateCalendarScrollbar();
       renderAchievements();
       centerToday();
     } else {
-      renderTrend(activeView);
+      renderTrend(statisticsRange);
     }
   }
 
@@ -195,6 +308,34 @@
     updateStat('capital', capital);
   }
 
+  function visiblePlayerName() {
+    if (!authenticatedProfile) return 'Koala Mage';
+    return state.playerName || authenticatedProfile.displayName || 'Koala Mage';
+  }
+
+  function renderPlayerName() {
+    if (!els.playerName || !els.playerNameButton) return;
+    els.playerName.textContent = visiblePlayerName();
+    els.playerNameButton.disabled = !authenticatedProfile;
+    els.playerNameButton.classList.toggle('editable', Boolean(authenticatedProfile));
+    els.playerNameButton.title = authenticatedProfile ? 'Edit character name' : 'Sign in to set your name';
+    if (!authenticatedProfile) closePlayerNameEditor();
+  }
+
+  function openPlayerNameEditor() {
+    if (!authenticatedProfile || !els.playerNameForm || !els.playerNameInput) return;
+    els.playerNameInput.value = visiblePlayerName();
+    els.playerNameButton.hidden = true;
+    els.playerNameForm.hidden = false;
+    els.playerNameInput.focus();
+    els.playerNameInput.select();
+  }
+
+  function closePlayerNameEditor() {
+    if (els.playerNameForm) els.playerNameForm.hidden = true;
+    if (els.playerNameButton) els.playerNameButton.hidden = false;
+  }
+
   function updateStat(name, value) {
     var fill = els[name + 'Fill'];
     var score = els[name + 'Score'];
@@ -240,7 +381,7 @@
     });
 
     for (var d = 1; d <= days; d += 1) {
-      html += '<div class="board-subhead day-head' + (dateKey(year, month, d) === todayKey ? ' today' : '') + '" data-day="' + d + '">' + d + '</div>';
+      html += '<div class="board-subhead day-head' + (dateKey(year, month, d) === todayKey ? ' today' : '') + '" data-day="' + d + '"><span>' + weekdayShort(year, month, d) + '</span><strong>' + d + '</strong></div>';
     }
 
     var hasRows = false;
@@ -518,7 +659,9 @@
         if (!draggedQuestId || !targetId || targetId === draggedQuestId) return;
         event.preventDefault();
         if (event.dataTransfer) event.dataTransfer.dropEffect = 'move';
-        highlightDropTarget(targetId);
+        var rect = cell.getBoundingClientRect();
+        var position = event.clientY >= rect.top + (rect.height / 2) ? 'after' : 'before';
+        highlightDropTarget(targetId, position);
       });
 
       cell.addEventListener('drop', function (event) {
@@ -526,7 +669,7 @@
         if (!draggedQuestId || !targetId || targetId === draggedQuestId) return;
         event.preventDefault();
         dragDropHandled = true;
-        moveQuest(draggedQuestId, targetId);
+        moveQuest(draggedQuestId, targetId, dragInsertPosition);
         clearDragState();
         saveState();
         render();
@@ -539,7 +682,7 @@
     });
   }
 
-  function moveQuest(sourceId, targetId) {
+  function moveQuest(sourceId, targetId, position) {
     var sourceIndex = state.quests.findIndex(function (quest) { return quest.id === sourceId; });
     var targetIndex = state.quests.findIndex(function (quest) { return quest.id === targetId; });
     if (sourceIndex < 0 || targetIndex < 0 || sourceIndex === targetIndex) return;
@@ -548,7 +691,8 @@
     source.axis = target.axis;
     state.quests.splice(sourceIndex, 1);
     var nextTargetIndex = state.quests.findIndex(function (quest) { return quest.id === targetId; });
-    state.quests.splice(nextTargetIndex, 0, source);
+    var insertIndex = nextTargetIndex + (position === 'after' ? 1 : 0);
+    state.quests.splice(insertIndex, 0, source);
   }
 
   function removeQuest(questId) {
@@ -559,22 +703,24 @@
     render();
   }
 
-  function highlightDropTarget(questId) {
-    els.monthGrid.querySelectorAll('.drop-target').forEach(function (cell) {
-      cell.classList.remove('drop-target');
+  function highlightDropTarget(questId, position) {
+    els.monthGrid.querySelectorAll('.drop-target, .drop-before, .drop-after').forEach(function (cell) {
+      cell.classList.remove('drop-target', 'drop-before', 'drop-after');
     });
     if (!questId) return;
+    dragInsertPosition = position === 'after' ? 'after' : 'before';
     els.monthGrid.querySelectorAll('[data-row-quest="' + cssEscape(questId) + '"]').forEach(function (cell) {
-      cell.classList.add('drop-target');
+      cell.classList.add('drop-target', dragInsertPosition === 'after' ? 'drop-after' : 'drop-before');
     });
   }
 
   function clearDragState() {
     draggedQuestId = null;
+    dragInsertPosition = 'before';
     dragDropHandled = false;
     els.monthGrid.classList.remove('is-dragging-row');
-    els.monthGrid.querySelectorAll('.dragging, .drop-target').forEach(function (cell) {
-      cell.classList.remove('dragging', 'drop-target');
+    els.monthGrid.querySelectorAll('.dragging, .drop-target, .drop-before, .drop-after').forEach(function (cell) {
+      cell.classList.remove('dragging', 'drop-target', 'drop-before', 'drop-after');
     });
   }
 
@@ -612,7 +758,7 @@
   function achievementPeriodLabel(quest, key) {
     var date = parseDateKey(key);
     if (quest.cadence === 'weekly') {
-      var weeks = buildWeeks(daysInMonth(date.getFullYear(), date.getMonth()));
+      var weeks = buildWeeks(daysInMonth(date.getFullYear(), date.getMonth()), date.getFullYear(), date.getMonth());
       var day = date.getDate();
       var weekIndex = weeks.findIndex(function (week) {
         return day >= week[0] && day <= week[week.length - 1];
@@ -652,6 +798,27 @@
     });
   }
 
+  function updateCalendarScrollbar() {
+    if (!els.calendarScrollbar || !els.calendarScrollbarTrack || activeView !== 'board') return;
+    window.requestAnimationFrame(function () {
+      var wrap = els.monthGrid.parentElement;
+      var styles = window.getComputedStyle(els.monthGrid);
+      var axisWidth = parseFloat(styles.getPropertyValue('--axis-col')) || 48;
+      var typeWidth = parseFloat(styles.getPropertyValue('--type-col')) || 44;
+      var questWidth = parseFloat(styles.getPropertyValue('--quest-col')) || 236;
+      var gap = parseFloat(styles.columnGap || styles.gap) || 0;
+      var fixedWidth = axisWidth + typeWidth + questWidth + (gap * 2);
+      var calendarViewport = Math.max(1, wrap.clientWidth - fixedWidth);
+      var calendarContent = Math.max(calendarViewport, els.monthGrid.scrollWidth - fixedWidth);
+
+      els.calendarScrollbar.style.marginLeft = fixedWidth + 'px';
+      els.calendarScrollbar.style.width = 'calc(100% - ' + fixedWidth + 'px)';
+      els.calendarScrollbarTrack.style.width = calendarContent + 'px';
+      els.calendarScrollbar.hidden = calendarContent <= calendarViewport + 1;
+      els.calendarScrollbar.scrollLeft = wrap.scrollLeft;
+    });
+  }
+
   function renderTrend(view) {
     var range = trendRange(view);
     var quests = view === 'yearly'
@@ -660,12 +827,21 @@
     if (!quests.length) quests = state.quests;
 
     var previous = previousRange(range);
-    var html = '<div class="trend-heading"><p class="growth-kicker">' + escapeHtml(view) + ' rhythm</p><h3>' + escapeHtml(range.label) + '</h3></div>';
+    var periodLabels = { weekly: 'Weekly', monthly: 'Monthly', yearly: 'Yearly' };
+    var html = '<div class="statistics-toolbar">';
+    html += '<div class="trend-heading"><p class="growth-kicker">Statistics</p><h3>' + escapeHtml(range.label) + '</h3></div>';
+    html += '<div class="quest-menu statistics-period-menu">';
+    html += '<button id="statisticsPeriodButton" class="quest-menu-trigger" type="button" aria-haspopup="listbox" aria-expanded="false"><span>' + escapeHtml(periodLabels[view]) + '</span></button>';
+    html += '<div id="statisticsPeriodMenu" class="quest-menu-list" role="listbox" aria-label="Statistics period" hidden>';
+    ['weekly', 'monthly', 'yearly'].forEach(function (period) {
+      html += '<button class="quest-menu-option' + (period === view ? ' selected' : '') + '" type="button" data-statistics-period="' + period + '" role="option" aria-selected="' + (period === view ? 'true' : 'false') + '">' + periodLabels[period] + '</button>';
+    });
+    html += '</div></div></div>';
     html += '<div class="trend-grid">';
 
     state.axes.forEach(function (axis, index) {
       var axisQuests = quests.filter(function (quest) { return quest.axis === axis; });
-      var score = monthlyCompletion(axisQuests);
+      var score = rangeCompletion(axisQuests, range.start, range.end);
       var previousScore = rangeCompletion(axisQuests, previous.start, previous.end);
       var delta = score - previousScore;
       html += '<article class="trend-card axis-' + (index % 4) + '">';
@@ -676,8 +852,25 @@
     });
 
     html += '</div>';
-    html += '<div class="trend-note">The board keeps one equal-weight checkbox per day. Daily, weekly, and monthly goals stay visually consistent, while this tab changes how the same checks are interpreted.</div>';
+    html += '<div class="trend-note">Completion is compared with the previous ' + escapeHtml(range.unit) + ' using the same quest records.</div>';
     els.trendPanel.innerHTML = html;
+
+    var periodButton = byId('statisticsPeriodButton');
+    var periodMenu = byId('statisticsPeriodMenu');
+    if (periodButton && periodMenu) {
+      periodButton.addEventListener('click', function () {
+        var willOpen = periodMenu.hidden;
+        closeQuestMenus();
+        setQuestMenuOpen(periodButton, periodMenu, willOpen);
+      });
+      periodMenu.querySelectorAll('[data-statistics-period]').forEach(function (button) {
+        button.addEventListener('click', function () {
+          statisticsRange = button.getAttribute('data-statistics-period') || 'monthly';
+          closeQuestMenus();
+          render();
+        });
+      });
+    }
   }
 
   function addQuest() {
@@ -700,15 +893,56 @@
     if (els.questAxis) els.questAxis.value = name;
     if (els.axisQuickAdd) els.axisQuickAdd.hidden = true;
     if (els.axisToggle) els.axisToggle.setAttribute('aria-expanded', 'false');
+    closeQuestMenus();
     saveState();
     render();
   }
 
   function renderAxisOptions() {
-    var current = els.questAxis.value || state.axes[0];
+    var current = state.axes.indexOf(els.questAxis.value) !== -1 ? els.questAxis.value : state.axes[0];
     els.questAxis.innerHTML = state.axes.map(function (axis) {
       return '<option' + (axis === current ? ' selected' : '') + '>' + escapeHtml(axis) + '</option>';
     }).join('');
+    els.questAxis.value = current;
+    if (els.questAxisLabel) els.questAxisLabel.textContent = current;
+    if (!els.questAxisOptions) return;
+    els.questAxisOptions.innerHTML = state.axes.map(function (axis) {
+      return '<button class="quest-menu-option' + (axis === current ? ' selected' : '') + '" type="button" data-axis-option="' + escapeAttr(axis) + '" role="option" aria-selected="' + (axis === current ? 'true' : 'false') + '">' + escapeHtml(axis) + '</button>';
+    }).join('');
+    els.questAxisOptions.querySelectorAll('[data-axis-option]').forEach(function (button) {
+      button.addEventListener('click', function () {
+        els.questAxis.value = button.getAttribute('data-axis-option') || state.axes[0];
+        if (els.questAxisLabel) els.questAxisLabel.textContent = els.questAxis.value;
+        closeQuestMenus();
+      });
+    });
+  }
+
+  function renderCadenceControl() {
+    if (!els.questCadence) return;
+    var labels = { daily: '[d] Daily', weekly: '[w] Weekly', monthly: '[m] Monthly' };
+    var current = labels[els.questCadence.value] ? els.questCadence.value : 'daily';
+    els.questCadence.value = current;
+    if (els.questCadenceLabel) els.questCadenceLabel.textContent = labels[current];
+    document.querySelectorAll('[data-cadence-option]').forEach(function (button) {
+      var selected = button.getAttribute('data-cadence-option') === current;
+      button.classList.toggle('selected', selected);
+      button.setAttribute('aria-selected', selected ? 'true' : 'false');
+    });
+  }
+
+  function setQuestMenuOpen(button, menu, open) {
+    if (!button || !menu) return;
+    menu.hidden = !open;
+    button.setAttribute('aria-expanded', open ? 'true' : 'false');
+  }
+
+  function closeQuestMenus() {
+    setQuestMenuOpen(els.questAxisButton, els.questAxisMenu, false);
+    setQuestMenuOpen(els.questCadenceButton, els.questCadenceMenu, false);
+    setQuestMenuOpen(byId('statisticsPeriodButton'), byId('statisticsPeriodMenu'), false);
+    if (els.axisQuickAdd) els.axisQuickAdd.hidden = true;
+    if (els.axisToggle) els.axisToggle.setAttribute('aria-expanded', 'false');
   }
 
   function renderAxisControls() {
@@ -871,12 +1105,9 @@
   }
 
   function trendRange(view) {
-    if (view === 'daily') {
-      return { start: startOfDay(today), end: endOfDay(today), unit: 'day', label: 'Today' };
-    }
     if (view === 'weekly') {
       var weekStart = new Date(year, month, today.getDate());
-      weekStart.setDate(today.getDate() - today.getDay());
+      weekStart.setDate(today.getDate() - ((today.getDay() + 6) % 7));
       return { start: startOfDay(weekStart), end: endOfDay(today), unit: 'week', label: 'This Week' };
     }
     if (view === 'yearly') {
@@ -903,6 +1134,9 @@
   }
 
   function migrateState(nextState) {
+    nextState.playerName = typeof nextState.playerName === 'string'
+      ? nextState.playerName.trim().slice(0, 28)
+      : '';
     nextState.axes = Array.isArray(nextState.axes) && nextState.axes.length ? nextState.axes : defaultAxes.slice();
     nextState.quests = Array.isArray(nextState.quests) ? nextState.quests : [];
     nextState.quests.forEach(function (quest) {
@@ -937,6 +1171,7 @@
 
   function seedState() {
     return {
+      playerName: '',
       axes: defaultAxes.slice(),
       achievements: [],
       quests: [
@@ -945,10 +1180,9 @@
         makeQuest('Not drinking', 'Health', 'daily'),
         makeQuest('Write paper', 'Intelligence', 'daily'),
         makeQuest('Mentor students', 'Intelligence', 'weekly'),
-        makeQuest('Course development', 'Intelligence', 'weekly'),
         makeQuest('Read 1 book', 'Intelligence', 'monthly'),
-        makeQuest('Shape startup idea', 'Intelligence', 'weekly'),
-        makeQuest('Build & deploy 1 PoC', 'Intelligence', 'monthly'),
+        makeQuest('> $15 per meal', 'Capital', 'daily'),
+        makeQuest('Study stock 30min', 'Capital', 'daily'),
         makeQuest('Save $1500', 'Capital', 'monthly')
       ]
     };
@@ -1015,14 +1249,32 @@
     return cleaned;
   }
 
-  function buildWeeks(days) {
+  function buildWeeks(days, targetYear, targetMonth) {
+    var baseYear = typeof targetYear === 'number' ? targetYear : year;
+    var baseMonth = typeof targetMonth === 'number' ? targetMonth : month;
     var weeks = [];
-    for (var start = 1; start <= days; start += 7) {
-      weeks.push(Array.from({ length: Math.min(7, days - start + 1) }, function (_, index) {
-        return start + index;
-      }));
+    var current = [];
+    for (var day = 1; day <= days; day += 1) {
+      current.push(day);
+      var isSunday = new Date(baseYear, baseMonth, day).getDay() === 0;
+      if (isSunday || day === days) {
+        weeks.push(current);
+        current = [];
+      }
     }
     return weeks;
+  }
+
+  function weekdayShort(y, m, d) {
+    return ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][new Date(y, m, d).getDay()];
+  }
+
+  function todayLabel() {
+    return 'Today · ' + today.toLocaleDateString('en-US', {
+      weekday: 'short',
+      month: 'short',
+      day: 'numeric'
+    });
   }
 
   function saveState() {
@@ -1050,6 +1302,10 @@
       },
       disableRemoteSave: function () {
         remoteSaveReady = false;
+      },
+      setAuthenticatedUser: function (profile) {
+        authenticatedProfile = profile && typeof profile === 'object' ? profile : null;
+        renderPlayerName();
       }
     };
     window.dispatchEvent(new CustomEvent('growth-quest-ready', {

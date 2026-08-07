@@ -2,6 +2,9 @@ var authTitle = document.getElementById('growthAuthTitle');
 var authMessage = document.getElementById('growthAuthMessage');
 var signInButton = document.getElementById('googleSignIn');
 var signOutButton = document.getElementById('googleSignOut');
+var resetButton = document.getElementById('resetDemo');
+var statusAuthActions = document.getElementById('statusAuthActions');
+var accountDataActions = document.getElementById('accountDataActions');
 var firebaseConfig = window.GROWTH_FIREBASE_CONFIG || {};
 var sdkVersion = window.GROWTH_FIREBASE_SDK_VERSION || '10.12.5';
 var remoteReady = false;
@@ -18,6 +21,19 @@ function setAuthUi(mode, message) {
   if (authMessage) authMessage.textContent = message;
 }
 
+function placeResetControl(signedIn) {
+  if (!resetButton || !statusAuthActions || !accountDataActions) return;
+  resetButton.setAttribute('data-signed-in', signedIn ? 'true' : 'false');
+  resetButton.textContent = signedIn ? 'Reset Account Data' : 'Reset Local';
+  if (signedIn) {
+    accountDataActions.appendChild(resetButton);
+    accountDataActions.hidden = false;
+  } else {
+    statusAuthActions.appendChild(resetButton);
+    accountDataActions.hidden = true;
+  }
+}
+
 function waitForBoard() {
   if (window.GrowthQuest) return Promise.resolve(window.GrowthQuest);
   return new Promise(function (resolve) {
@@ -28,6 +44,7 @@ function waitForBoard() {
 }
 
 async function initFirebaseAuth() {
+  placeResetControl(false);
   if (!configured(firebaseConfig)) {
     setAuthUi('Local mode', 'Firebase config needed for sync.');
     if (signInButton) {
@@ -76,11 +93,14 @@ async function initFirebaseAuth() {
     authModule.onAuthStateChanged(auth, function (user) {
       remoteUser = user || null;
       if (remoteUser) {
+        placeResetControl(true);
         handleSignedIn(remoteUser);
       } else {
+        placeResetControl(false);
         remoteReady = false;
         waitForBoard().then(function (board) {
           board.disableRemoteSave();
+          board.setAuthenticatedUser(null);
         });
         if (signInButton) {
           signInButton.hidden = false;
@@ -119,6 +139,10 @@ async function handleSignedIn(user) {
 
   remoteReady = true;
   board.enableRemoteSave();
+  board.setAuthenticatedUser({
+    displayName: user.displayName || '',
+    email: user.email || ''
+  });
   setAuthUi('Cloud sync', 'Syncing as ' + (user.email || 'Google user') + '.');
 }
 
