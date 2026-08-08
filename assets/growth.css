@@ -7684,3 +7684,71 @@ body.growth-page .growth-footer {
 .growth-page .monthly-bar {
   z-index: 1 !important;
 }
+
+/* Compact player HUD: EXP belongs with the character identity, not a footer row. */
+.growth-page .status-copy {
+  grid-template-rows: auto minmax(0, 1fr) !important;
+}
+
+.growth-page .player-identity {
+  min-width: 0;
+}
+
+.growth-page .player-xp {
+  display: grid !important;
+  grid-template-columns: max-content minmax(72px, 240px) max-content !important;
+  align-items: center !important;
+  gap: 8px !important;
+  width: min(100%, 360px) !important;
+  min-height: 26px !important;
+  height: 26px !important;
+  margin-top: 9px !important;
+  padding: 0 10px !important;
+  border: 1px solid #303643 !important;
+  border-radius: 7px !important;
+  background: #0d111a !important;
+  color: #9da3af !important;
+  font-size: 10px !important;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.growth-page .player-xp .xp-bar {
+  min-width: 0;
+  width: 100% !important;
+  height: 7px !important;
+}
+
+.growth-page .player-xp strong {
+  color: #f4f5f8;
+  font-size: 10px !important;
+  white-space: nowrap;
+}
+
+@media (max-width: 760px) {
+  .growth-page .player-xp {
+    grid-template-columns: max-content minmax(30px, 1fr) max-content !important;
+    gap: 5px !important;
+    width: min(100%, 240px) !important;
+    min-height: 20px !important;
+    height: 20px !important;
+    margin-top: 5px !important;
+    padding: 0 6px !important;
+    border-radius: 5px !important;
+    font-size: 7px !important;
+  }
+
+  .growth-page .player-xp .xp-bar {
+    height: 5px !important;
+  }
+
+  .growth-page .player-xp strong {
+    font-size: 8px !important;
+  }
+}
+
+@media (max-width: 420px) {
+  .growth-page .player-xp {
+    max-width: 170px !important;
+  }
+}

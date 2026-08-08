@@ -87,7 +87,7 @@
   saveState();
   exposeGrowthQuest();
 
-  els.currentMonthLabel.textContent = monthLabel();
+  if (els.currentMonthLabel) els.currentMonthLabel.textContent = monthLabel();
   els.boardTitle.textContent = monthLabel();
   if (els.todayLabel) els.todayLabel.textContent = todayLabel();
 
@@ -299,7 +299,7 @@
     els.xpFill.style.width = Math.min(100, Math.round((levelXp / 500) * 100)) + '%';
     els.xpLabel.textContent = levelXp + ' / 500';
     if (els.monthlyCompletion) els.monthlyCompletion.textContent = completion + '%';
-    els.streakLabel.textContent = streak + ' day streak';
+    if (els.streakLabel) els.streakLabel.textContent = streak + ' day streak';
     if (els.statusCompletedToday) els.statusCompletedToday.textContent = todayDone;
     if (els.statusActiveQuests) els.statusActiveQuests.textContent = state.quests.length;
     els.boardCompletedHabits.textContent = todayDone;

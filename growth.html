@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css?v=20">
-<link rel="stylesheet" href="assets/growth.css?v=78">
+<link rel="stylesheet" href="assets/growth.css?v=79">
 </head>
 <body class="growth-page">
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
@@ -100,6 +100,11 @@
                 <span class="player-level">Lv. <strong id="levelValue">1</strong></span>
               </div>
               <p><span id="rankName">Life Initiate</span> &middot; <span id="className">Unassigned Class</span></p>
+              <div class="xp-mini player-xp">
+                <span>EXP</span>
+                <div class="xp-bar compact" aria-label="XP progress"><span id="xpFill"></span></div>
+                <strong id="xpLabel">0 / 500</strong>
+              </div>
             </div>
             <div class="status-auth" aria-label="Growth Quest sync">
               <div id="statusAuthActions" class="auth-actions status-auth-actions">
@@ -128,15 +133,6 @@
               <div class="stat-track"><span id="capitalFill"></span></div>
               <strong id="capitalScore">0%</strong>
             </div>
-          </div>
-          <div class="status-bottom">
-            <div class="xp-mini">
-              <span>EXP</span>
-              <div class="xp-bar compact" aria-label="XP progress"><span id="xpFill"></span></div>
-              <strong id="xpLabel">0 / 500</strong>
-            </div>
-            <span id="streakLabel" class="status-streak">0 day streak</span>
-            <span id="currentMonthLabel" class="status-period">This Month</span>
           </div>
         </div>
       </section>
@@ -226,7 +222,7 @@
 
 <script src="assets/site.js?v=4" defer></script>
 <script src="assets/growth-auth-config.js?v=3"></script>
-<script src="assets/growth.js?v=32" defer></script>
+<script src="assets/growth.js?v=33" defer></script>
 <script src="assets/growth-auth.js?v=5" type="module"></script>
 </body>
 </html>
