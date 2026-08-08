@@ -23,6 +23,8 @@
     playerNameInput: byId('playerNameInput'),
     playerNameCancel: byId('playerNameCancel'),
     rankName: byId('rankName'),
+    className: byId('className'),
+    growthAvatar: byId('growthAvatar'),
     rankState: byId('rankState'),
     xpFill: byId('xpFill'),
     xpLabel: byId('xpLabel'),
@@ -284,6 +286,7 @@
 
     els.levelValue.textContent = level;
     els.rankName.textContent = rank;
+    renderCharacterClass(level);
     if (els.rankState) {
       els.rankState.textContent = completion >= 100
         ? 'Perfect clear'
@@ -295,10 +298,10 @@
     }
     els.xpFill.style.width = Math.min(100, Math.round((levelXp / 500) * 100)) + '%';
     els.xpLabel.textContent = levelXp + ' / 500';
-    els.monthlyCompletion.textContent = completion + '%';
+    if (els.monthlyCompletion) els.monthlyCompletion.textContent = completion + '%';
     els.streakLabel.textContent = streak + ' day streak';
-    els.statusCompletedToday.textContent = todayDone;
-    els.statusActiveQuests.textContent = state.quests.length;
+    if (els.statusCompletedToday) els.statusCompletedToday.textContent = todayDone;
+    if (els.statusActiveQuests) els.statusActiveQuests.textContent = state.quests.length;
     els.boardCompletedHabits.textContent = todayDone;
     els.boardActiveQuests.textContent = state.quests.length;
     els.seasonScore.textContent = completion + '%';
@@ -309,8 +312,48 @@
   }
 
   function visiblePlayerName() {
-    if (!authenticatedProfile) return 'Koala Mage';
-    return state.playerName || authenticatedProfile.displayName || 'Koala Mage';
+    if (!authenticatedProfile) return 'Koala';
+    return state.playerName || authenticatedProfile.displayName || 'Koala';
+  }
+
+  function renderCharacterClass(level) {
+    if (!els.growthAvatar) return;
+
+    var avatarClass = 'avatar-novice';
+    var classLabel = 'Unassigned Class';
+
+    if (level >= 11) {
+      var paths = [
+        { className: 'avatar-warrior', label: 'Warrior Class', xp: lifetimeXpForAxes(['Health', 'Stamina']) },
+        { className: 'avatar-mage', label: 'Mage Class', xp: lifetimeXpForAxes(['Intelligence', 'Work', 'Growth']) },
+        { className: 'avatar-entrepreneur', label: 'Entrepreneur Class', xp: lifetimeXpForAxes(['Capital']) }
+      ];
+      paths.sort(function (a, b) { return b.xp - a.xp; });
+      avatarClass = paths[0].className;
+      classLabel = paths[0].label;
+    }
+
+    els.growthAvatar.classList.remove(
+      'avatar-novice',
+      'avatar-warrior',
+      'avatar-mage',
+      'avatar-entrepreneur',
+      'avatar-tier-1',
+      'avatar-tier-2',
+      'avatar-tier-3',
+      'avatar-tier-4',
+      'avatar-tier-5'
+    );
+    els.growthAvatar.classList.add(avatarClass, 'avatar-tier-' + Math.min(5, Math.max(1, Math.ceil(level / 10))));
+    els.growthAvatar.setAttribute('aria-label', classLabel.replace(' Class', '') + ' koala character');
+    if (els.className) els.className.textContent = classLabel;
+  }
+
+  function lifetimeXpForAxes(axisNames) {
+    return state.quests.reduce(function (sum, quest) {
+      if (axisNames.indexOf(quest.axis) === -1) return sum;
+      return sum + Object.keys(quest.checks || {}).length * xpForCadence(quest.cadence);
+    }, 0);
   }
 
   function renderPlayerName() {

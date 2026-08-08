@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css?v=20">
-<link rel="stylesheet" href="assets/growth.css?v=75">
+<link rel="stylesheet" href="assets/growth.css?v=78">
 </head>
 <body class="growth-page">
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
@@ -58,7 +58,7 @@
       <section class="growth-panel growth-status-card fade-in" aria-label="Growth character status">
         <div class="character-column">
           <div class="pixel-stage" aria-hidden="true">
-            <div id="growthAvatar" class="koala-mage" aria-label="Koala mage avatar">
+            <div id="growthAvatar" class="koala-mage avatar-novice" aria-label="Koala character">
               <span class="mage-shadow"></span>
               <span class="mage-hat"></span>
               <span class="mage-hat-band"></span>
@@ -69,12 +69,17 @@
               <span class="mage-eye mage-eye-left"></span>
               <span class="mage-eye mage-eye-right"></span>
               <span class="mage-nose"></span>
+              <span class="koala-body"></span>
               <span class="mage-robe"></span>
               <span class="mage-scarf"></span>
               <span class="mage-arm mage-arm-left"></span>
               <span class="mage-arm mage-arm-right"></span>
               <span class="mage-staff"></span>
               <span class="mage-orb"></span>
+              <span class="eucalyptus-stem"></span>
+              <span class="eucalyptus-leaf eucalyptus-leaf-one"></span>
+              <span class="eucalyptus-leaf eucalyptus-leaf-two"></span>
+              <span class="eucalyptus-leaf eucalyptus-leaf-three"></span>
               <span class="mage-foot mage-foot-left"></span>
               <span class="mage-foot mage-foot-right"></span>
             </div>
@@ -85,7 +90,7 @@
             <div class="player-identity">
               <div class="player-name-row">
                 <button id="playerNameButton" class="player-name-button" type="button" aria-label="Character name" title="Sign in to set your name" disabled>
-                  <span id="playerName">Koala Mage</span>
+                  <span id="playerName">Koala</span>
                 </button>
                 <form id="playerNameForm" class="player-name-form" aria-label="Set character name" hidden>
                   <input id="playerNameInput" type="text" maxlength="28" autocomplete="nickname" aria-label="Character name" required>
@@ -94,7 +99,7 @@
                 </form>
                 <span class="player-level">Lv. <strong id="levelValue">1</strong></span>
               </div>
-              <p><span id="rankName">Life Initiate</span> · Mage Class</p>
+              <p><span id="rankName">Life Initiate</span> &middot; <span id="className">Unassigned Class</span></p>
             </div>
             <div class="status-auth" aria-label="Growth Quest sync">
               <div id="statusAuthActions" class="auth-actions status-auth-actions">
@@ -130,10 +135,8 @@
               <div class="xp-bar compact" aria-label="XP progress"><span id="xpFill"></span></div>
               <strong id="xpLabel">0 / 500</strong>
             </div>
-            <span>Month <strong id="monthlyCompletion">0%</strong></span>
-            <span>Today <strong id="statusCompletedToday">0</strong>/<strong id="statusActiveQuests">0</strong></span>
-            <span id="streakLabel">0 day streak</span>
-            <span id="currentMonthLabel">This Month</span>
+            <span id="streakLabel" class="status-streak">0 day streak</span>
+            <span id="currentMonthLabel" class="status-period">This Month</span>
           </div>
         </div>
       </section>
@@ -223,7 +226,7 @@
 
 <script src="assets/site.js?v=4" defer></script>
 <script src="assets/growth-auth-config.js?v=3"></script>
-<script src="assets/growth.js?v=31" defer></script>
+<script src="assets/growth.js?v=32" defer></script>
 <script src="assets/growth-auth.js?v=5" type="module"></script>
 </body>
 </html>

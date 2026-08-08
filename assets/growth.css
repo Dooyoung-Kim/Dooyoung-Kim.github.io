@@ -7292,3 +7292,395 @@ body.growth-page .growth-footer {
     font-size: 12px !important;
   }
 }
+
+/* Final HUD and board-header pass: neutral origin, compact status, stable readouts. */
+.growth-page .status-bottom {
+  grid-template-columns: minmax(180px, 1fr) max-content max-content !important;
+}
+
+.growth-page .status-streak,
+.growth-page .status-period {
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (min-width: 761px) {
+  .growth-page .growth-status-card .status-copy {
+    gap: 7px !important;
+  }
+}
+
+.growth-page .koala-body,
+.growth-page .eucalyptus-stem,
+.growth-page .eucalyptus-leaf {
+  display: none !important;
+}
+
+.growth-page .avatar-novice .mage-hat,
+.growth-page .avatar-novice .mage-hat-band,
+.growth-page .avatar-novice .mage-robe,
+.growth-page .avatar-novice .mage-scarf,
+.growth-page .avatar-novice .mage-staff,
+.growth-page .avatar-novice .mage-orb {
+  display: none !important;
+}
+
+.growth-page .avatar-novice .koala-body {
+  left: 38px;
+  top: 86px;
+  z-index: 0;
+  display: block !important;
+  width: 52px;
+  height: 40px;
+  border: 4px solid #30333c;
+  border-radius: 44% 44% 32% 32%;
+  background: #aeb3bf;
+}
+
+.growth-page .avatar-novice .eucalyptus-stem {
+  right: 11px;
+  top: 70px;
+  z-index: 5;
+  display: block !important;
+  width: 5px;
+  height: 58px;
+  border-radius: 3px;
+  background: #789b79;
+  transform: rotate(18deg);
+  transform-origin: 50% 100%;
+}
+
+.growth-page .avatar-novice .eucalyptus-leaf {
+  z-index: 6;
+  display: block !important;
+  width: 17px;
+  height: 9px;
+  border: 2px solid #355f4f;
+  border-radius: 80% 20% 80% 20%;
+  background: #7ddc9a;
+}
+
+.growth-page .avatar-novice .eucalyptus-leaf-one {
+  right: 3px;
+  top: 71px;
+  transform: rotate(-26deg);
+}
+
+.growth-page .avatar-novice .eucalyptus-leaf-two {
+  right: 15px;
+  top: 83px;
+  transform: rotate(24deg) scaleX(-1);
+}
+
+.growth-page .avatar-novice .eucalyptus-leaf-three {
+  right: 0;
+  top: 96px;
+  transform: rotate(-18deg);
+}
+
+.growth-page .avatar-warrior .mage-hat {
+  top: 17px;
+  height: 26px;
+  clip-path: polygon(15% 0, 85% 0, 100% 82%, 64% 82%, 50% 100%, 36% 82%, 0 82%);
+  background: linear-gradient(180deg, #8c929e, #353a45);
+}
+
+.growth-page .avatar-warrior .mage-hat-band {
+  display: none !important;
+}
+
+.growth-page .avatar-warrior .mage-robe {
+  background: linear-gradient(180deg, #4a1942, #dc0000);
+}
+
+.growth-page .avatar-warrior .mage-staff {
+  width: 7px;
+  background: #c8ceda;
+  transform: rotate(20deg);
+}
+
+.growth-page .avatar-warrior .mage-orb {
+  border-radius: 2px;
+  background: #8c929e;
+  box-shadow: none;
+  transform: rotate(45deg);
+}
+
+.growth-page .avatar-entrepreneur .mage-hat,
+.growth-page .avatar-entrepreneur .mage-hat-band,
+.growth-page .avatar-entrepreneur .mage-staff,
+.growth-page .avatar-entrepreneur .mage-orb {
+  display: none !important;
+}
+
+.growth-page .avatar-entrepreneur .mage-robe {
+  background: linear-gradient(90deg, #050e3c 0 44%, #cda44b 44% 56%, #050e3c 56%);
+}
+
+.growth-page .avatar-entrepreneur .mage-scarf {
+  width: 11px;
+  left: 59px;
+  background: #cda44b;
+}
+
+.growth-page .quest-heading,
+.growth-page .month-title,
+.growth-page .board-summary,
+.growth-page .board-tabs,
+.growth-page .board-summary > div {
+  min-width: 0 !important;
+}
+
+.growth-page .board-summary {
+  flex: 0 1 332px !important;
+  width: min(332px, 34vw) !important;
+  grid-template-columns: 92px minmax(168px, 1fr) !important;
+  gap: 7px !important;
+}
+
+.growth-page .quest-ratio {
+  display: grid !important;
+  grid-template-columns: max-content max-content !important;
+  align-items: center !important;
+  justify-content: center !important;
+  justify-items: center !important;
+  gap: 8px !important;
+  overflow: hidden;
+}
+
+.growth-page .quest-ratio > span,
+.growth-page .quest-ratio > strong,
+.growth-page .progress-stat > span,
+.growth-page .progress-stat > strong {
+  margin: 0 !important;
+  line-height: 1 !important;
+  white-space: nowrap;
+}
+
+.growth-page .board-summary > .progress-stat {
+  overflow: hidden;
+}
+
+@media (max-width: 1050px) and (min-width: 761px) {
+  .growth-page .quest-heading {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+  }
+
+  .growth-page .month-title {
+    flex: 1 1 180px !important;
+  }
+
+  .growth-page .board-tabs {
+    flex: 0 0 184px !important;
+    width: 184px !important;
+    min-width: 184px !important;
+    max-width: 184px !important;
+  }
+
+  .growth-page .board-summary {
+    flex: 0 1 270px !important;
+    width: 270px !important;
+    grid-template-columns: 80px minmax(0, 1fr) !important;
+  }
+}
+
+@media (max-width: 760px) {
+  .growth-page .status-bottom {
+    grid-template-columns: minmax(112px, 1fr) max-content !important;
+  }
+
+  .growth-page .status-streak {
+    display: flex !important;
+  }
+
+  .growth-page .status-bottom > .status-period {
+    display: none !important;
+  }
+
+  .growth-page .board-summary {
+    width: 100% !important;
+    grid-template-columns: 84px minmax(0, 1fr) !important;
+  }
+}
+
+/* The starting koala hangs from a eucalyptus branch before choosing a class. */
+.growth-page .avatar-novice .mage-shadow {
+  display: none !important;
+}
+
+.growth-page .avatar-novice .eucalyptus-stem {
+  right: 7px;
+  top: 2px;
+  z-index: 1;
+  width: 12px;
+  height: 132px;
+  border: 2px solid #355f4f;
+  border-radius: 5px 2px 3px 6px;
+  background: linear-gradient(90deg, #6f846d, #9aae85 58%, #526a59);
+  transform: none;
+}
+
+.growth-page .avatar-novice .mage-staff {
+  right: auto;
+  left: 18px;
+  top: 27px;
+  z-index: 2;
+  display: block !important;
+  width: 94px;
+  height: 11px;
+  border: 2px solid #355f4f;
+  border-radius: 6px 3px 5px 4px;
+  background: linear-gradient(180deg, #9aae85, #657b66);
+  transform: rotate(-2deg);
+}
+
+.growth-page .avatar-novice .eucalyptus-leaf {
+  border-color: #355f4f;
+  background: #7ddc9a;
+  box-shadow:
+    8px -5px 0 -2px #5eae7c,
+    -7px 5px 0 -2px #92cfa0;
+}
+
+.growth-page .avatar-novice .eucalyptus-leaf-one {
+  right: 0;
+  top: 4px;
+  transform: rotate(-20deg);
+}
+
+.growth-page .avatar-novice .eucalyptus-leaf-two {
+  right: 15px;
+  top: 15px;
+  transform: rotate(24deg) scaleX(-1);
+}
+
+.growth-page .avatar-novice .eucalyptus-leaf-three {
+  right: 0;
+  top: 42px;
+  transform: rotate(-18deg);
+}
+
+.growth-page .avatar-novice .mage-ear {
+  top: 43px;
+  z-index: 3;
+}
+
+.growth-page .avatar-novice .mage-head {
+  top: 40px;
+  z-index: 4;
+}
+
+.growth-page .avatar-novice .mage-face {
+  top: 58px;
+  z-index: 5;
+}
+
+.growth-page .avatar-novice .mage-eye {
+  top: 68px;
+  z-index: 6;
+}
+
+.growth-page .avatar-novice .mage-nose {
+  top: 76px;
+  z-index: 6;
+}
+
+.growth-page .avatar-novice .koala-body {
+  top: 92px;
+  z-index: 3;
+  height: 34px;
+}
+
+.growth-page .avatar-novice .mage-arm {
+  top: 29px;
+  z-index: 3;
+  width: 15px;
+  height: 38px;
+  border: 3px solid #30333c;
+  background: #aeb3bf;
+}
+
+.growth-page .avatar-novice .mage-arm-left {
+  left: 30px;
+  transform: rotate(8deg);
+}
+
+.growth-page .avatar-novice .mage-arm-right {
+  right: 29px;
+  transform: rotate(-8deg);
+}
+
+.growth-page .avatar-novice .mage-foot {
+  top: 121px;
+  z-index: 4;
+  height: 12px;
+  background: #4c515c;
+}
+
+.growth-page .avatar-novice .mage-foot-left {
+  left: 40px;
+  transform: rotate(13deg);
+}
+
+.growth-page .avatar-novice .mage-foot-right {
+  left: 71px;
+  transform: rotate(-13deg);
+}
+
+/* Sticky identity columns are opaque masks over the horizontally scrolling dates. */
+.growth-page .month-grid {
+  isolation: isolate;
+}
+
+.growth-page .axis-head,
+.growth-page .cadence-head,
+.growth-page .board-quest-head {
+  z-index: 140 !important;
+  background: #10131d !important;
+  background-color: #10131d !important;
+  background-image: none !important;
+  opacity: 1 !important;
+}
+
+.growth-page .axis-band,
+.growth-page .cadence-select,
+.growth-page .quest-title-input,
+.growth-page .summary-label {
+  z-index: 120 !important;
+  background-color: #080a12 !important;
+  background-image: none !important;
+  background-clip: border-box !important;
+  opacity: 1 !important;
+}
+
+.growth-page .axis-band {
+  overflow: hidden;
+}
+
+.growth-page .month-grid .axis-band.axis-0 {
+  background: #190c12 !important;
+}
+
+.growth-page .month-grid .axis-band.axis-1 {
+  background: #0b1421 !important;
+}
+
+.growth-page .month-grid .axis-band.axis-2 {
+  background: #18140c !important;
+}
+
+.growth-page .month-grid .axis-band.axis-3 {
+  background: #0d1714 !important;
+}
+
+.growth-page .week-head,
+.growth-page .day-head,
+.growth-page .check-cell,
+.growth-page .summary-cell,
+.growth-page .weekly-bar,
+.growth-page .monthly-bar {
+  z-index: 1 !important;
+}
