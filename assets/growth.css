@@ -9,6 +9,30 @@
   letter-spacing: 0 !important;
 }
 
+html {
+  min-height: 100%;
+  background: #000;
+  color-scheme: dark;
+}
+
+body.growth-page {
+  min-height: 100dvh;
+  background: #000;
+  overscroll-behavior-y: none;
+}
+
+body.growth-page main,
+body.growth-page .growth-hero,
+body.growth-page .growth-footer,
+body.growth-page .growth-footer .container,
+body.growth-page .growth-footer .footer-bottom {
+  background-color: #000 !important;
+}
+
+body.growth-page .growth-footer {
+  padding-bottom: max(12px, env(safe-area-inset-bottom));
+}
+
 .growth-page {
   --g-bg: #050505;
   --g-panel: #080a12;
@@ -6987,9 +7011,9 @@
 
   .growth-page .month-grid-wrap,
   .growth-page .month-grid {
-    --axis-col: 34px;
-    --type-col: 38px;
-    --quest-col: 136px;
+    --axis-col: 30px;
+    --type-col: 32px;
+    --quest-col: 108px;
   }
 
   .growth-page .month-grid-wrap {
@@ -7018,8 +7042,68 @@
   }
 
   .growth-page .quest-title-input {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
     padding-right: 6px !important;
     padding-left: 7px !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .growth-page .axis-head,
+  .growth-page .cadence-head,
+  .growth-page .board-quest-head {
+    z-index: 92 !important;
+    background: #10131d !important;
+    background-color: #10131d !important;
+  }
+
+  .growth-page .axis-band,
+  .growth-page .cadence-select,
+  .growth-page .quest-title-input,
+  .growth-page .summary-label {
+    z-index: 84 !important;
+    background: #080a12 !important;
+    background-color: #080a12 !important;
+  }
+
+  .growth-page .month-grid .axis-band.axis-0 {
+    background: #190c12 !important;
+    background-color: #190c12 !important;
+  }
+
+  .growth-page .month-grid .axis-band.axis-1 {
+    background: #0b1421 !important;
+    background-color: #0b1421 !important;
+  }
+
+  .growth-page .month-grid .axis-band.axis-2 {
+    background: #18140c !important;
+    background-color: #18140c !important;
+  }
+
+  .growth-page .month-grid .axis-band.axis-3 {
+    background: #0d1714 !important;
+    background-color: #0d1714 !important;
+  }
+
+  .growth-page .board-quest-head,
+  .growth-page .quest-title-input {
+    border-right-color: rgba(226, 232, 255, 0.2) !important;
+    box-shadow:
+      1px 0 0 rgba(226, 232, 255, 0.14),
+      8px 0 12px rgba(0, 0, 0, 0.34) !important;
+  }
+
+  .growth-page .week-head,
+  .growth-page .day-head,
+  .growth-page .check-cell,
+  .growth-page .summary-cell,
+  .growth-page .weekly-bar,
+  .growth-page .monthly-bar {
+    z-index: 1 !important;
   }
 
   .growth-page .calendar-scrollbar {
@@ -7149,8 +7233,62 @@
 
   .growth-page .month-grid-wrap,
   .growth-page .month-grid {
-    --axis-col: 32px;
-    --type-col: 36px;
-    --quest-col: 124px;
+    --axis-col: 28px;
+    --type-col: 30px;
+    --quest-col: 96px;
+  }
+}
+
+/* Keep compact status readouts centered and let Monthly progress use available space. */
+.growth-page .board-summary span,
+.growth-page .progress-stat > span {
+  font-size: 10px !important;
+  transform: none !important;
+}
+
+.growth-page .board-summary strong,
+.growth-page .progress-stat > strong {
+  font-size: 12px !important;
+}
+
+.growth-page .board-summary > .progress-stat {
+  display: grid !important;
+  grid-template-columns: max-content minmax(36px, 1fr) max-content !important;
+  align-items: center !important;
+  justify-content: stretch !important;
+  justify-items: stretch !important;
+  gap: 8px !important;
+}
+
+.growth-page .progress-stat > .board-progress {
+  width: 100% !important;
+  min-width: 36px !important;
+  max-width: none !important;
+  flex: 1 1 auto !important;
+}
+
+@media (max-width: 760px) {
+  .growth-page .status-bottom > span {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 3px;
+    line-height: 1 !important;
+    white-space: nowrap;
+  }
+
+  .growth-page .status-bottom > span strong {
+    margin: 0;
+    line-height: 1;
+  }
+
+  .growth-page .board-summary span,
+  .growth-page .progress-stat > span {
+    font-size: 10px !important;
+  }
+
+  .growth-page .board-summary strong,
+  .growth-page .progress-stat > strong {
+    font-size: 12px !important;
   }
 }
