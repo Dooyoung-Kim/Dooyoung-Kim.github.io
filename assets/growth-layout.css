@@ -163,6 +163,27 @@
   font-variant-numeric: tabular-nums;
 }
 
+.growth-page .quest-ratio {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.growth-page .quest-ratio > strong {
+  display: inline-flex !important;
+  align-items: baseline !important;
+  justify-content: center !important;
+  gap: 0 !important;
+}
+
+.growth-page .quest-ratio > strong > span {
+  display: inline !important;
+  margin: 0 !important;
+  color: inherit !important;
+  font: inherit !important;
+  line-height: inherit !important;
+}
+
 .growth-page .board-tabs {
   display: grid !important;
   grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
@@ -256,6 +277,35 @@
 
   .growth-page .board-tabs {
     width: 184px !important;
+  }
+}
+
+@media (min-width: 761px) {
+  .growth-page .growth-status-card {
+    --status-rail: clamp(164px, 12vw, 180px);
+    gap: 20px !important;
+    padding: 12px 18px !important;
+  }
+
+  .growth-page .status-copy {
+    gap: 5px !important;
+  }
+
+  .growth-page .status-bars {
+    gap: 2px !important;
+  }
+
+  .growth-page .stat-row {
+    min-height: 25px !important;
+  }
+
+  .growth-page .stat-track {
+    height: 12px !important;
+    border-radius: 4px !important;
+  }
+
+  .growth-page .stat-track > span {
+    border-radius: 3px !important;
   }
 }
 
