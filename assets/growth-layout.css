@@ -1,0 +1,562 @@
+/* Final responsive layout layer for Growth Quest. */
+.growth-page {
+  --layout-line: rgba(226, 232, 255, 0.16);
+  --layout-panel: #0b0e16;
+  --layout-control: #10141e;
+  --layout-muted: rgba(248, 248, 251, 0.62);
+}
+
+.growth-page [hidden] {
+  display: none !important;
+}
+
+.growth-page .growth-hero {
+  padding-bottom: 24px;
+}
+
+.growth-page .growth-shell {
+  width: 100% !important;
+  max-width: 1480px !important;
+  gap: 8px !important;
+  padding-inline: clamp(16px, 2vw, 24px) !important;
+}
+
+.growth-page .growth-panel,
+.growth-page .growth-status-card,
+.growth-page .quest-board {
+  border-color: var(--layout-line) !important;
+  border-radius: 8px !important;
+  background: var(--layout-panel) !important;
+}
+
+.growth-page .growth-status-card {
+  --status-rail: clamp(176px, 13vw, 196px);
+  --avatar-size: var(--status-rail);
+  grid-template-columns: var(--status-rail) minmax(0, 1fr) !important;
+  align-items: stretch !important;
+  gap: 24px !important;
+  padding: 14px 20px !important;
+  overflow: hidden !important;
+}
+
+.growth-page .character-column,
+.growth-page .pixel-stage {
+  width: var(--status-rail) !important;
+  height: var(--status-rail) !important;
+  min-width: var(--status-rail) !important;
+  min-height: var(--status-rail) !important;
+}
+
+.growth-page .status-copy {
+  display: grid !important;
+  grid-template-rows: auto minmax(0, 1fr) !important;
+  min-height: var(--status-rail) !important;
+  gap: 8px !important;
+  overflow: hidden !important;
+}
+
+.growth-page .player-line {
+  align-items: start !important;
+  gap: 12px !important;
+}
+
+.growth-page .player-name-button {
+  font-size: 22px !important;
+  line-height: 26px !important;
+}
+
+.growth-page .player-identity > p {
+  color: var(--layout-muted) !important;
+  line-height: 16px !important;
+}
+
+.growth-page .player-xp {
+  width: min(100%, 360px) !important;
+  margin-top: 7px !important;
+}
+
+.growth-page .status-bars {
+  align-self: center !important;
+  gap: 7px !important;
+}
+
+.growth-page .stat-row {
+  grid-template-columns: 30px minmax(92px, 122px) minmax(100px, 1fr) 42px !important;
+  gap: 9px !important;
+  min-height: 26px !important;
+}
+
+.growth-page .stat-icon {
+  width: 24px !important;
+  height: 24px !important;
+}
+
+.growth-page .stat-name,
+.growth-page .stat-row strong {
+  font-size: 12px !important;
+  line-height: 16px !important;
+  font-variant-numeric: tabular-nums;
+}
+
+.growth-page .quest-board {
+  padding: 10px !important;
+}
+
+.growth-page .quest-heading {
+  display: grid !important;
+  grid-template-columns: minmax(220px, 1fr) 332px 206px !important;
+  align-items: center !important;
+  gap: 10px !important;
+  width: 100% !important;
+  min-height: 50px !important;
+  height: auto !important;
+  margin-bottom: 6px !important;
+  overflow: visible !important;
+}
+
+.growth-page .month-title {
+  width: auto !important;
+  min-width: 0 !important;
+  height: 50px !important;
+}
+
+.growth-page .month-title h2 {
+  font-size: clamp(26px, 2.2vw, 34px) !important;
+  line-height: 34px !important;
+}
+
+.growth-page .month-title p {
+  font-size: 10px !important;
+  line-height: 12px !important;
+}
+
+.growth-page .board-summary {
+  display: grid !important;
+  grid-template-columns: 92px minmax(0, 1fr) !important;
+  gap: 7px !important;
+  width: 332px !important;
+  min-width: 0 !important;
+  margin: 0 !important;
+}
+
+.growth-page .board-summary > div,
+.growth-page .board-summary > .progress-stat,
+.growth-page .board-tabs {
+  height: 36px !important;
+  min-height: 36px !important;
+}
+
+.growth-page .board-summary span,
+.growth-page .progress-stat > span,
+.growth-page .board-tab {
+  font-size: 11px !important;
+  line-height: 14px !important;
+}
+
+.growth-page .board-summary strong,
+.growth-page .progress-stat > strong,
+.growth-page .quest-ratio strong {
+  min-height: 16px !important;
+  overflow: visible !important;
+  font-size: 13px !important;
+  line-height: 16px !important;
+  font-variant-numeric: tabular-nums;
+}
+
+.growth-page .board-tabs {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  width: 206px !important;
+  min-width: 0 !important;
+  max-width: none !important;
+  padding: 3px !important;
+}
+
+.growth-page .board-tab {
+  min-height: 28px !important;
+}
+
+.growth-page .month-grid-wrap {
+  margin-bottom: 6px !important;
+}
+
+.growth-page .month-grid {
+  --axis-col: 44px;
+  --type-col: 42px;
+  --quest-col: clamp(196px, 17vw, 224px);
+  --day-col: 36px;
+}
+
+.growth-page .week-head {
+  font-size: 10px !important;
+  line-height: 14px !important;
+}
+
+.growth-page .day-head span {
+  font-size: 8px !important;
+  line-height: 10px !important;
+}
+
+.growth-page .day-head strong,
+.growth-page .summary-cell {
+  font-size: 11px !important;
+  line-height: 14px !important;
+  font-variant-numeric: tabular-nums;
+}
+
+.growth-page .axis-label {
+  line-height: 1 !important;
+}
+
+.growth-page .board-add-row {
+  grid-template-columns: 160px 116px minmax(240px, 1fr) 96px !important;
+  gap: 8px !important;
+  min-height: 48px !important;
+  margin-top: 6px !important;
+  padding: 6px !important;
+}
+
+.growth-page .quest-menu-trigger,
+.growth-page .board-add-row input,
+.growth-page .board-add-row > .growth-button {
+  height: 36px !important;
+  min-height: 36px !important;
+  border-radius: 7px !important;
+  font-size: 12px !important;
+}
+
+.growth-page .achievement-panel {
+  margin: 8px 0 !important;
+}
+
+.growth-page .progress-graph {
+  display: none !important;
+}
+
+.growth-page .trend-panel {
+  min-height: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+@media (max-width: 1180px) and (min-width: 761px) {
+  .growth-page .growth-status-card {
+    --status-rail: 176px;
+    gap: 20px !important;
+  }
+
+  .growth-page .quest-heading {
+    grid-template-columns: minmax(180px, 1fr) 270px 184px !important;
+    gap: 8px !important;
+  }
+
+  .growth-page .board-summary {
+    grid-template-columns: 80px minmax(0, 1fr) !important;
+    width: 270px !important;
+  }
+
+  .growth-page .board-tabs {
+    width: 184px !important;
+  }
+}
+
+@media (max-width: 900px) and (min-width: 761px) {
+  .growth-page .growth-status-card {
+    --status-rail: clamp(138px, 18vw, 162px);
+    gap: 16px !important;
+    padding: 12px 16px !important;
+  }
+
+  .growth-page .stat-row {
+    grid-template-columns: 26px minmax(86px, 104px) minmax(80px, 1fr) 38px !important;
+    gap: 7px !important;
+  }
+}
+
+@media (max-width: 760px) {
+  .growth-page .growth-hero {
+    padding-top: 54px !important;
+    padding-bottom: 16px !important;
+  }
+
+  .growth-page .growth-shell {
+    max-width: 100% !important;
+    gap: 8px !important;
+    padding: 8px 10px 0 !important;
+  }
+
+  .growth-page .growth-status-card {
+    --status-rail: clamp(82px, 24vw, 92px);
+    --avatar-size: var(--status-rail);
+    grid-template-columns: var(--status-rail) minmax(0, 1fr) !important;
+    grid-template-rows: auto auto !important;
+    align-items: start !important;
+    gap: 7px 10px !important;
+    padding: 10px !important;
+  }
+
+  .growth-page .status-copy {
+    display: contents !important;
+    min-height: 0 !important;
+  }
+
+  .growth-page .player-line {
+    position: relative;
+    grid-column: 2;
+    grid-row: 1;
+    display: block !important;
+    width: 100%;
+    min-width: 0;
+    height: var(--status-rail);
+  }
+
+  .growth-page .player-identity {
+    width: 100%;
+    min-width: 0;
+    overflow: hidden;
+  }
+
+  .growth-page .player-name-row {
+    min-height: 22px !important;
+    padding-right: 98px;
+  }
+
+  .growth-page .player-name-button {
+    max-width: 100%;
+    overflow: hidden;
+    font-size: 15px !important;
+    line-height: 20px !important;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .growth-page .player-level {
+    font-size: 8px !important;
+  }
+
+  .growth-page .player-identity > p {
+    width: 100%;
+    margin-top: 6px !important;
+    overflow: hidden;
+    font-size: 9px !important;
+    line-height: 11px !important;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .growth-page .player-xp {
+    grid-template-columns: max-content minmax(30px, 1fr) max-content !important;
+    width: 100% !important;
+    max-width: none !important;
+    height: 20px !important;
+    min-height: 20px !important;
+    margin-top: 5px !important;
+    padding: 0 6px !important;
+  }
+
+  .growth-page .status-auth {
+    position: absolute !important;
+    top: 0;
+    right: 0;
+    margin: 0 !important;
+  }
+
+  .growth-page .status-auth-actions,
+  .growth-page .status-auth-actions button,
+  .growth-page .status-auth-actions .google-auth-button {
+    height: 32px !important;
+    min-height: 32px !important;
+  }
+
+  .growth-page .status-auth-actions .google-auth-button {
+    width: 32px !important;
+    min-width: 32px !important;
+  }
+
+  .growth-page .status-auth-actions #resetDemo,
+  .growth-page .status-auth-actions #googleSignOut {
+    min-width: 48px !important;
+    height: 32px !important;
+    padding-inline: 7px !important;
+    font-size: 7px !important;
+  }
+
+  .growth-page .status-bars {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    gap: 3px !important;
+  }
+
+  .growth-page .stat-row {
+    grid-template-columns: 22px 78px minmax(0, 1fr) 30px !important;
+    gap: 6px !important;
+    min-height: 22px !important;
+  }
+
+  .growth-page .stat-icon {
+    width: 22px !important;
+    height: 22px !important;
+  }
+
+  .growth-page .stat-name,
+  .growth-page .stat-row strong {
+    font-size: 10px !important;
+    line-height: 12px !important;
+  }
+
+  .growth-page .quest-board {
+    padding: 9px !important;
+  }
+
+  .growth-page .quest-heading {
+    grid-template-columns: minmax(0, 1fr) clamp(124px, 38vw, 142px) !important;
+    gap: 7px !important;
+    min-height: 77px !important;
+    margin-bottom: 7px !important;
+  }
+
+  .growth-page .month-title {
+    height: 36px !important;
+  }
+
+  .growth-page .month-title h2 {
+    overflow: hidden;
+    font-size: clamp(18px, 5.2vw, 20px) !important;
+    line-height: 22px !important;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .growth-page .month-title p {
+    font-size: 8px !important;
+    line-height: 10px !important;
+  }
+
+  .growth-page .board-tabs {
+    width: 100% !important;
+    height: 36px !important;
+  }
+
+  .growth-page .board-tab {
+    font-size: 9px !important;
+    line-height: 12px !important;
+  }
+
+  .growth-page .board-summary {
+    grid-column: 1 / -1 !important;
+    grid-row: 2 !important;
+    grid-template-columns: 84px minmax(0, 1fr) !important;
+    width: 100% !important;
+    gap: 6px !important;
+  }
+
+  .growth-page .board-summary span,
+  .growth-page .progress-stat > span {
+    font-size: 9px !important;
+    line-height: 12px !important;
+  }
+
+  .growth-page .board-summary strong,
+  .growth-page .progress-stat > strong {
+    font-size: 12px !important;
+    line-height: 14px !important;
+  }
+
+  .growth-page .month-grid-wrap,
+  .growth-page .month-grid {
+    --axis-col: 28px;
+    --type-col: 28px;
+    --quest-col: clamp(92px, 28vw, 108px);
+    --day-col: 34px;
+  }
+
+  .growth-page .axis-head,
+  .growth-page .cadence-head,
+  .growth-page .board-quest-head,
+  .growth-page .week-head {
+    font-size: 8px !important;
+  }
+
+  .growth-page .cadence-select,
+  .growth-page .quest-title-input {
+    font-size: 9px !important;
+  }
+
+  .growth-page .calendar-scrollbar {
+    height: 14px !important;
+  }
+
+  .growth-page .board-add-row {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) 76px !important;
+    grid-template-rows: 36px 36px !important;
+    gap: 6px !important;
+    min-height: 90px !important;
+    padding: 6px !important;
+  }
+
+  .growth-page .axis-picker {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .growth-page .cadence-menu-control {
+    grid-column: 2 / 4;
+    grid-row: 1;
+  }
+
+  .growth-page .board-add-row #questTitle {
+    grid-column: 1 / 3;
+    grid-row: 2;
+  }
+
+  .growth-page .board-add-row > .growth-button {
+    grid-column: 3;
+    grid-row: 2;
+    width: 100%;
+    padding-inline: 6px !important;
+    font-size: 9px !important;
+  }
+
+  .growth-page .achievement-panel {
+    grid-template-columns: 1fr !important;
+    gap: 8px !important;
+    padding: 8px !important;
+  }
+
+  .growth-page .achievement-head {
+    grid-template-columns: 1fr auto !important;
+    gap: 8px !important;
+  }
+
+  .growth-page .achievement-head p {
+    align-self: center;
+    font-size: 9px !important;
+  }
+
+  .growth-page .badge-row {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 6px !important;
+  }
+
+  .growth-page .axis-badge {
+    grid-template-columns: 1fr !important;
+    justify-items: center;
+    min-height: 98px;
+    gap: 5px !important;
+    padding: 7px 4px !important;
+    text-align: center;
+  }
+
+  .growth-page .badge-copy {
+    width: 100%;
+  }
+
+  .growth-page .badge-copy span,
+  .growth-page .badge-copy strong,
+  .growth-page .badge-copy em {
+    font-size: 8px !important;
+  }
+
+  .growth-page .achievement-log {
+    padding: 7px !important;
+  }
+}

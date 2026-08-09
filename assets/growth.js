@@ -249,16 +249,16 @@
     if (els.calendarScrollbar) els.calendarScrollbar.hidden = !isBoard;
     els.questForm.hidden = !isBoard;
     if (els.boardTools) els.boardTools.hidden = !isBoard;
-    els.progressGraph.hidden = !isBoard;
-    if (els.achievementPanel) els.achievementPanel.hidden = !isBoard;
+    if (els.progressGraph) els.progressGraph.hidden = true;
+    if (els.achievementPanel) els.achievementPanel.hidden = isBoard;
     els.trendPanel.hidden = isBoard;
 
     if (isBoard) {
       renderMonthGrid();
       updateCalendarScrollbar();
-      renderAchievements();
       centerToday();
     } else {
+      renderAchievements();
       renderTrend(statisticsRange);
     }
   }
@@ -420,11 +420,11 @@
     html += '<div class="board-head cadence-head">Type</div>';
     html += '<div class="board-head board-quest-head">Items</div>';
     weeks.forEach(function (week, index) {
-      html += '<div class="board-head week-head" style="grid-column: span ' + week.length + '">Week ' + (index + 1) + '</div>';
+      html += '<div class="board-head week-head" style="grid-column: span ' + week.length + '">' + (week.length < 3 ? 'W' : 'Week ') + (index + 1) + '</div>';
     });
 
     for (var d = 1; d <= days; d += 1) {
-      html += '<div class="board-subhead day-head' + (dateKey(year, month, d) === todayKey ? ' today' : '') + '" data-day="' + d + '"><span>' + weekdayShort(year, month, d) + '</span><strong>' + d + '</strong></div>';
+      html += '<div class="board-subhead day-head' + (dateKey(year, month, d) === todayKey ? ' today' : '') + '" data-day="' + d + '"' + (dateKey(year, month, d) === todayKey ? ' aria-current="date"' : '') + '><span>' + weekdayShort(year, month, d) + '</span><strong>' + d + '</strong></div>';
     }
 
     var hasRows = false;
@@ -598,7 +598,7 @@
         var checked = !!quest.checks[key];
         var weekStartKey = dateKey(year, month, startDay);
         var ready = startOfDay(today) >= parseDateKey(weekStartKey);
-        html += '<button class="check-cell check-bar weekly-bar' + groupClass + (checked ? ' checked' : '') + (ready ? ' ready' : '') + '" style="grid-column: span ' + week.length + '" data-quest="' + quest.id + '" data-row-quest="' + quest.id + '" data-date="' + key + '" type="button"' + (ready ? '' : ' disabled') + ' aria-label="' + escapeAttr(quest.title) + ' week ' + (index + 1) + ' clear"><span>Week ' + (index + 1) + '</span></button>';
+        html += '<button class="check-cell check-bar weekly-bar' + groupClass + (checked ? ' checked' : '') + (ready ? ' ready' : '') + '" style="grid-column: span ' + week.length + '" data-quest="' + quest.id + '" data-row-quest="' + quest.id + '" data-date="' + key + '" type="button" aria-pressed="' + (checked ? 'true' : 'false') + '"' + (ready ? '' : ' disabled') + ' aria-label="' + escapeAttr(quest.title) + ' week ' + (index + 1) + ' clear"><span>' + (week.length < 3 ? 'W' : 'Week ') + (index + 1) + '</span></button>';
         startDay = endDay + 1;
       });
       return html;
@@ -608,7 +608,7 @@
       var monthEndKey = dateKey(year, month, days);
       var monthChecked = !!quest.checks[monthEndKey];
       var monthReady = startOfDay(today) >= new Date(year, month, 1);
-      html += '<button class="check-cell check-bar monthly-bar' + groupClass + (monthChecked ? ' checked' : '') + (monthReady ? ' ready' : '') + '" style="grid-column: span ' + days + '" data-quest="' + quest.id + '" data-row-quest="' + quest.id + '" data-date="' + monthEndKey + '" type="button"' + (monthReady ? '' : ' disabled') + ' aria-label="' + escapeAttr(quest.title) + ' month clear"><span>Month Clear</span></button>';
+      html += '<button class="check-cell check-bar monthly-bar' + groupClass + (monthChecked ? ' checked' : '') + (monthReady ? ' ready' : '') + '" style="grid-column: span ' + days + '" data-quest="' + quest.id + '" data-row-quest="' + quest.id + '" data-date="' + monthEndKey + '" type="button" aria-pressed="' + (monthChecked ? 'true' : 'false') + '"' + (monthReady ? '' : ' disabled') + ' aria-label="' + escapeAttr(quest.title) + ' month clear"><span>Month Clear</span></button>';
       return html;
     }
 
@@ -616,7 +616,7 @@
       var key = dateKey(year, month, d);
       var checked = !!quest.checks[key];
       var isToday = key === todayKey;
-      html += '<button class="check-cell' + groupClass + (checked ? ' checked' : '') + (isToday ? ' today' : '') + '" data-quest="' + quest.id + '" data-row-quest="' + quest.id + '" data-date="' + key + '" type="button"' + (isToday ? '' : ' disabled') + ' aria-label="' + escapeAttr(quest.title) + ' on day ' + d + '"></button>';
+      html += '<button class="check-cell' + groupClass + (checked ? ' checked' : '') + (isToday ? ' today' : '') + '" data-quest="' + quest.id + '" data-row-quest="' + quest.id + '" data-date="' + key + '" type="button" aria-pressed="' + (checked ? 'true' : 'false') + '"' + (isToday ? '' : ' disabled') + ' aria-label="' + escapeAttr(quest.title) + ' on day ' + d + '"></button>';
     }
     return html;
   }
