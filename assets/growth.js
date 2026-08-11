@@ -277,7 +277,8 @@
     var levelXp = xp % 500;
     var completion = monthlyCompletion(state.quests);
     var streak = currentStreak();
-    var todayDone = state.quests.filter(function (quest) { return quest.checks[todayKey]; }).length;
+    var dailyQuests = state.quests.filter(function (quest) { return quest.cadence === 'daily'; });
+    var todayDone = dailyQuests.filter(function (quest) { return quest.checks[todayKey]; }).length;
     var monthDoneQuests = completedQuestCountInMonth();
     var rank = rankNames[Math.min(rankNames.length - 1, Math.floor((level - 1) / 3))];
     var stamina = scoreForAxes(['Health', 'Stamina']);
@@ -303,7 +304,7 @@
     if (els.statusCompletedToday) els.statusCompletedToday.textContent = todayDone;
     if (els.statusActiveQuests) els.statusActiveQuests.textContent = state.quests.length;
     els.boardCompletedHabits.textContent = todayDone;
-    els.boardActiveQuests.textContent = state.quests.length;
+    els.boardActiveQuests.textContent = dailyQuests.length;
     els.seasonScore.textContent = completion + '%';
     els.boardProgressFill.style.width = completion + '%';
     updateStat('stamina', stamina);
@@ -830,27 +831,35 @@
       var wrap = els.monthGrid.parentElement;
       var todayCell = els.monthGrid.querySelector('.day-head.today');
       if (!wrap || !todayCell) return;
-      var styles = window.getComputedStyle(els.monthGrid);
-      var axisWidth = parseFloat(styles.getPropertyValue('--axis-col')) || 112;
-      var typeWidth = parseFloat(styles.getPropertyValue('--type-col')) || 48;
-      var questWidth = parseFloat(styles.getPropertyValue('--quest-col')) || 430;
-      var gap = parseFloat(styles.columnGap || styles.gap) || 6;
-      var stickyWidth = axisWidth + typeWidth + questWidth + (gap * 2);
+      var stickyWidth = fixedBoardWidth();
       var dateViewport = Math.max(1, wrap.clientWidth - stickyWidth);
       wrap.scrollLeft = Math.max(0, todayCell.offsetLeft - stickyWidth - (dateViewport / 2) + (todayCell.clientWidth / 2));
     });
+  }
+
+  function fixedBoardWidth() {
+    var axisHead = els.monthGrid.querySelector('.axis-head');
+    var typeHead = els.monthGrid.querySelector('.cadence-head');
+    var itemsHead = els.monthGrid.querySelector('.board-quest-head');
+    var styles = window.getComputedStyle(els.monthGrid);
+    var gap = parseFloat(styles.columnGap || styles.gap) || 0;
+
+    if (axisHead && typeHead && itemsHead) {
+      return axisHead.offsetWidth + typeHead.offsetWidth + itemsHead.offsetWidth + (gap * 2);
+    }
+
+    var resolvedColumns = styles.gridTemplateColumns.split(/\s+/).slice(0, 3);
+    var resolvedWidth = resolvedColumns.reduce(function (sum, value) {
+      return sum + (parseFloat(value) || 0);
+    }, 0);
+    return resolvedWidth + (gap * 2);
   }
 
   function updateCalendarScrollbar() {
     if (!els.calendarScrollbar || !els.calendarScrollbarTrack || activeView !== 'board') return;
     window.requestAnimationFrame(function () {
       var wrap = els.monthGrid.parentElement;
-      var styles = window.getComputedStyle(els.monthGrid);
-      var axisWidth = parseFloat(styles.getPropertyValue('--axis-col')) || 48;
-      var typeWidth = parseFloat(styles.getPropertyValue('--type-col')) || 44;
-      var questWidth = parseFloat(styles.getPropertyValue('--quest-col')) || 236;
-      var gap = parseFloat(styles.columnGap || styles.gap) || 0;
-      var fixedWidth = axisWidth + typeWidth + questWidth + (gap * 2);
+      var fixedWidth = fixedBoardWidth();
       var calendarViewport = Math.max(1, wrap.clientWidth - fixedWidth);
       var calendarContent = Math.max(calendarViewport, els.monthGrid.scrollWidth - fixedWidth);
 
@@ -1022,9 +1031,13 @@
   }
 
   function totalXp() {
-    return state.quests.reduce(function (sum, quest) {
+    return (Number(state.baseXp) || 0) + questXpTotal(state.quests) + completionBonus();
+  }
+
+  function questXpTotal(quests) {
+    return quests.reduce(function (sum, quest) {
       return sum + Object.keys(quest.checks || {}).length * xpForCadence(quest.cadence);
-    }, 0) + completionBonus();
+    }, 0);
   }
 
   function xpForCadence(cadence) {
@@ -1067,7 +1080,10 @@
   }
 
   function completionBonus() {
-    var score = monthlyCompletion(state.quests);
+    return completionBonusForScore(monthlyCompletion(state.quests));
+  }
+
+  function completionBonusForScore(score) {
     if (score >= 100) return 500;
     if (score >= 90) return 250;
     if (score >= 80) return 100;
@@ -1075,7 +1091,7 @@
   }
 
   function monthlyCompletion(quests) {
-    return rangeCompletion(quests, startOfMonth(today), endOfMonth(today));
+    return rangeCompletion(quests, startOfMonth(today), endOfDay(today));
   }
 
   function rangeCompletion(quests, start, end) {
@@ -1099,7 +1115,7 @@
       var monthCursor = new Date(cursor.getFullYear(), cursor.getMonth(), 1);
       while (monthCursor <= limit) {
         var monthEnd = startOfDay(endOfMonth(monthCursor));
-        if (monthEnd >= cursor && monthEnd <= limit) {
+        if (monthEnd >= cursor && monthCursor <= limit) {
           keys.push(toDateKey(monthEnd));
         }
         monthCursor = new Date(monthCursor.getFullYear(), monthCursor.getMonth() + 1, 1);
@@ -1107,22 +1123,17 @@
       return keys.length ? keys : [toDateKey(limit)];
     }
     if (quest.cadence === 'weekly') {
-      while (cursor <= limit) {
-        var currentMonth = cursor.getMonth();
-        var lastDay = daysInMonth(cursor.getFullYear(), currentMonth);
-        for (var day = 7; day <= lastDay; day += 7) {
-          var weekEnd = new Date(cursor.getFullYear(), currentMonth, day);
-          if (weekEnd >= startOfDay(start) && weekEnd <= limit) {
-            keys.push(toDateKey(weekEnd));
-          }
-        }
-        if (lastDay % 7 !== 0) {
-          var finalEnd = new Date(cursor.getFullYear(), currentMonth, lastDay);
-          if (finalEnd >= startOfDay(start) && finalEnd <= limit) {
-            keys.push(toDateKey(finalEnd));
-          }
-        }
-        cursor = new Date(cursor.getFullYear(), cursor.getMonth() + 1, 1);
+      var weekMonth = new Date(cursor.getFullYear(), cursor.getMonth(), 1);
+      while (weekMonth <= limit) {
+        var weekYear = weekMonth.getFullYear();
+        var weekMonthIndex = weekMonth.getMonth();
+        var monthWeeks = buildWeeks(daysInMonth(weekYear, weekMonthIndex), weekYear, weekMonthIndex);
+        monthWeeks.forEach(function (week) {
+          var weekStart = new Date(weekYear, weekMonthIndex, week[0]);
+          var weekEnd = new Date(weekYear, weekMonthIndex, week[week.length - 1]);
+          if (weekEnd >= cursor && weekStart <= limit) keys.push(toDateKey(weekEnd));
+        });
+        weekMonth = new Date(weekYear, weekMonthIndex + 1, 1);
       }
       return keys.length ? keys : [toDateKey(limit)];
     }
@@ -1171,12 +1182,17 @@
   function loadState() {
     try {
       var raw = localStorage.getItem(KEY);
-      if (raw) return JSON.parse(raw);
+      if (raw) {
+        var parsed = JSON.parse(raw);
+        return shouldUpgradeToDemo(parsed) ? demoState() : parsed;
+      }
     } catch (e) {}
-    return seedState();
+    return demoState();
   }
 
   function migrateState(nextState) {
+    nextState.mode = nextState.mode === 'demo' ? 'demo' : 'user';
+    nextState.baseXp = Math.max(0, Number(nextState.baseXp) || 0);
     nextState.playerName = typeof nextState.playerName === 'string'
       ? nextState.playerName.trim().slice(0, 28)
       : '';
@@ -1214,6 +1230,8 @@
 
   function seedState() {
     return {
+      mode: 'user',
+      baseXp: 0,
       playerName: '',
       axes: defaultAxes.slice(),
       achievements: [],
@@ -1229,6 +1247,76 @@
         makeQuest('Save $1500', 'Capital', 'monthly')
       ]
     };
+  }
+
+  function shouldUpgradeToDemo(nextState) {
+    if (!nextState || nextState.mode || nextState.playerName) return false;
+    if (Array.isArray(nextState.achievements) && nextState.achievements.length) return false;
+    if (!Array.isArray(nextState.quests)) return true;
+    if (nextState.quests.some(function (quest) {
+      return quest && quest.checks && Object.keys(quest.checks).length;
+    })) return false;
+
+    var defaultState = seedState();
+    var nextAxes = Array.isArray(nextState.axes) ? nextState.axes.join('|') : '';
+    var defaultQuestSignature = defaultState.quests.map(questSignature).sort().join('|');
+    var nextQuestSignature = nextState.quests.map(questSignature).sort().join('|');
+    return nextAxes === defaultState.axes.join('|') && nextQuestSignature === defaultQuestSignature;
+  }
+
+  function questSignature(quest) {
+    if (!quest) return '';
+    return [quest.title || '', quest.axis || '', quest.cadence || ''].join('::');
+  }
+
+  function demoState() {
+    var nextState = seedState();
+    nextState.mode = 'demo';
+    var dailyQuests = nextState.quests.filter(function (quest) { return quest.cadence === 'daily'; });
+    var currentDay = today.getDate();
+
+    dailyQuests.forEach(function (quest, questIndex) {
+      for (var day = 1; day <= currentDay; day += 1) {
+        if ((day + (questIndex * 2)) % 7 !== 0) {
+          quest.checks[dateKey(year, month, day)] = true;
+        }
+      }
+    });
+
+    var availableWeeks = buildWeeks(daysInMonth(year, month)).filter(function (week) {
+      return week[0] <= currentDay;
+    });
+    nextState.quests.filter(function (quest) { return quest.cadence === 'weekly'; }).forEach(function (quest) {
+      availableWeeks.slice(0, Math.max(1, availableWeeks.length - 1)).forEach(function (week) {
+        quest.checks[dateKey(year, month, week[week.length - 1])] = true;
+      });
+    });
+
+    var monthlyQuests = nextState.quests.filter(function (quest) { return quest.cadence === 'monthly'; });
+    if (monthlyQuests[0]) {
+      monthlyQuests[0].checks[dateKey(year, month, daysInMonth(year, month))] = true;
+    }
+
+    nextState.achievements = [];
+    nextState.quests.filter(function (quest) { return quest.cadence !== 'daily'; }).forEach(function (quest) {
+      Object.keys(quest.checks).forEach(function (key) {
+        nextState.achievements.unshift({
+          id: 'demo-' + quest.id + '-' + key,
+          questId: quest.id,
+          title: cleanQuestTitle(quest.title, quest.cadence),
+          axis: canonicalAxis(quest.axis),
+          cadence: quest.cadence,
+          xp: xpForCadence(quest.cadence),
+          key: key,
+          period: achievementPeriodLabel(quest, key),
+          completedAt: parseDateKey(key).toISOString()
+        });
+      });
+    });
+
+    var demoScore = rangeCompletion(nextState.quests, startOfMonth(today), endOfDay(today));
+    nextState.baseXp = Math.max(0, 8200 - questXpTotal(nextState.quests) - completionBonusForScore(demoScore));
+    return nextState;
   }
 
   function makeQuest(title, axis, cadence) {
@@ -1313,7 +1401,7 @@
   }
 
   function todayLabel() {
-    return 'Today · ' + today.toLocaleDateString('en-US', {
+    return 'Today / ' + today.toLocaleDateString('en-US', {
       weekday: 'short',
       month: 'short',
       day: 'numeric'
@@ -1338,6 +1426,14 @@
         state = migrateState(nextState || seedState());
         localStorage.setItem(KEY, JSON.stringify(state));
         render();
+      },
+      startFresh: function () {
+        state = migrateState(seedState());
+        localStorage.setItem(KEY, JSON.stringify(state));
+        activeView = 'board';
+        statisticsRange = 'monthly';
+        render();
+        return cloneState(state);
       },
       enableRemoteSave: function () {
         remoteSaveReady = true;

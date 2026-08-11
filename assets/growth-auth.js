@@ -134,7 +134,11 @@ async function handleSignedIn(user) {
   if (remoteState) {
     board.replaceState(remoteState);
   } else {
-    await saveRemoteState(user.uid, board.getState());
+    var localState = board.getState();
+    if (localState.mode === 'demo' && board.startFresh) {
+      localState = board.startFresh();
+    }
+    await saveRemoteState(user.uid, localState);
   }
 
   remoteReady = true;
