@@ -2,6 +2,7 @@
   'use strict';
 
   var KEY = 'dooyoung-growth-quest-v10';
+  var DEMO_VERSION = 3;
   var today = new Date();
   var year = today.getFullYear();
   var month = today.getMonth();
@@ -1184,6 +1185,7 @@
       var raw = localStorage.getItem(KEY);
       if (raw) {
         var parsed = JSON.parse(raw);
+        if (parsed.mode === 'demo' && parsed.demoVersion !== DEMO_VERSION) return demoState();
         return shouldUpgradeToDemo(parsed) ? demoState() : parsed;
       }
     } catch (e) {}
@@ -1192,6 +1194,7 @@
 
   function migrateState(nextState) {
     nextState.mode = nextState.mode === 'demo' ? 'demo' : 'user';
+    nextState.demoVersion = nextState.mode === 'demo' ? Number(nextState.demoVersion) || 0 : 0;
     nextState.baseXp = Math.max(0, Number(nextState.baseXp) || 0);
     nextState.playerName = typeof nextState.playerName === 'string'
       ? nextState.playerName.trim().slice(0, 28)
@@ -1236,15 +1239,15 @@
       axes: defaultAxes.slice(),
       achievements: [],
       quests: [
-        makeQuest('Workout 1hr', 'Health', 'daily'),
-        makeQuest('Eat healthy', 'Health', 'daily'),
-        makeQuest('Not drinking', 'Health', 'daily'),
-        makeQuest('Write paper', 'Intelligence', 'daily'),
-        makeQuest('Mentor students', 'Intelligence', 'weekly'),
-        makeQuest('Read 1 book', 'Intelligence', 'monthly'),
-        makeQuest('> $15 per meal', 'Capital', 'daily'),
-        makeQuest('Study stock 30min', 'Capital', 'daily'),
-        makeQuest('Save $1500', 'Capital', 'monthly')
+        makeQuest('30 min exercise', 'Health', 'daily'),
+        makeQuest('2 vegetable servings', 'Health', 'daily'),
+        makeQuest('Alcohol-free day', 'Health', 'daily'),
+        makeQuest('30 min focused learning', 'Intelligence', 'daily'),
+        makeQuest('Set 3 priorities for next week', 'Intelligence', 'weekly'),
+        makeQuest('Finish 2 books', 'Intelligence', 'monthly'),
+        makeQuest('Lunch at or under $15', 'Capital', 'daily'),
+        makeQuest('Log every expense', 'Capital', 'daily'),
+        makeQuest('Save 10% of income', 'Capital', 'monthly')
       ]
     };
   }
@@ -1261,7 +1264,19 @@
     var nextAxes = Array.isArray(nextState.axes) ? nextState.axes.join('|') : '';
     var defaultQuestSignature = defaultState.quests.map(questSignature).sort().join('|');
     var nextQuestSignature = nextState.quests.map(questSignature).sort().join('|');
-    return nextAxes === defaultState.axes.join('|') && nextQuestSignature === defaultQuestSignature;
+    var legacyQuestSignature = [
+      'Workout 1hr::Health::daily',
+      'Eat healthy::Health::daily',
+      'Not drinking::Health::daily',
+      'Write paper::Intelligence::daily',
+      'Mentor students::Intelligence::weekly',
+      'Read 1 book::Intelligence::monthly',
+      '> $15 per meal::Capital::daily',
+      'Study stock 30min::Capital::daily',
+      'Save $1500::Capital::monthly'
+    ].sort().join('|');
+    return nextAxes === defaultState.axes.join('|') &&
+      (nextQuestSignature === defaultQuestSignature || nextQuestSignature === legacyQuestSignature);
   }
 
   function questSignature(quest) {
@@ -1272,6 +1287,7 @@
   function demoState() {
     var nextState = seedState();
     nextState.mode = 'demo';
+    nextState.demoVersion = DEMO_VERSION;
     var dailyQuests = nextState.quests.filter(function (quest) { return quest.cadence === 'daily'; });
     var currentDay = today.getDate();
 
