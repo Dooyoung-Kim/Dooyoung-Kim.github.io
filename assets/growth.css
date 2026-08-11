@@ -7752,3 +7752,141 @@ body.growth-page .growth-footer {
     max-width: 170px !important;
   }
 }
+
+/* A small, periodic spell cast for the mage path. */
+.growth-page .magic-fireball,
+.growth-page .magic-spark {
+  display: none !important;
+  pointer-events: none;
+}
+
+.growth-page .avatar-mage .magic-fireball,
+.growth-page .avatar-mage .magic-spark {
+  display: block !important;
+}
+
+.growth-page .avatar-mage .mage-arm-right {
+  transform-origin: 50% 12%;
+  animation: koala-cast-arm 4.2s steps(4, end) infinite;
+}
+
+.growth-page .avatar-mage .mage-staff {
+  z-index: 9;
+  transform-origin: 50% 92%;
+  animation: koala-cast-staff 4.2s steps(5, end) infinite;
+}
+
+.growth-page .avatar-mage .mage-orb {
+  z-index: 11;
+  animation: koala-orb-charge 4.2s steps(4, end) infinite;
+}
+
+.growth-page .avatar-mage .magic-fireball {
+  right: -1px;
+  top: 48px;
+  z-index: 12;
+  width: 10px;
+  height: 10px;
+  background: #ff5a4d;
+  box-shadow:
+    -5px 0 0 #ffb449,
+    0 0 8px rgba(255, 90, 77, 0.76);
+  opacity: 0;
+  animation: koala-fireball 4.2s steps(5, end) infinite;
+}
+
+.growth-page .avatar-mage .magic-fireball::before {
+  content: "";
+  position: absolute;
+  inset: 3px;
+  background: #fff0b3;
+}
+
+.growth-page .avatar-mage .magic-fireball::after {
+  content: "";
+  position: absolute;
+  left: -8px;
+  top: 3px;
+  width: 5px;
+  height: 4px;
+  background: #ff7a4f;
+}
+
+.growth-page .avatar-mage .magic-spark {
+  right: 4px;
+  top: 50px;
+  z-index: 10;
+  width: 4px;
+  height: 4px;
+  background: #ffd166;
+  opacity: 0;
+}
+
+.growth-page .avatar-mage .magic-spark-one {
+  animation: koala-spark-one 4.2s steps(4, end) infinite;
+}
+
+.growth-page .avatar-mage .magic-spark-two {
+  background: #ff8d66;
+  animation: koala-spark-two 4.2s steps(4, end) infinite;
+}
+
+.growth-page .avatar-mage .magic-spark-three {
+  width: 3px;
+  height: 3px;
+  background: #f8f8fb;
+  animation: koala-spark-three 4.2s steps(4, end) infinite;
+}
+
+@keyframes koala-cast-arm {
+  0%, 36%, 68%, 100% { transform: rotate(-20deg); }
+  44% { transform: rotate(-36deg); }
+  52% { transform: rotate(-8deg); }
+}
+
+@keyframes koala-cast-staff {
+  0%, 36%, 68%, 100% { transform: rotate(12deg); }
+  44% { transform: rotate(-8deg); }
+  52% { transform: rotate(22deg); }
+}
+
+@keyframes koala-orb-charge {
+  0%, 36%, 68%, 100% {
+    transform: translate(0, 0) scale(1);
+    box-shadow: 0 0 8px rgba(220, 0, 0, 0.48);
+  }
+  44% {
+    transform: translate(4px, -2px) scale(1.24);
+    box-shadow: 0 0 14px rgba(255, 90, 77, 0.9);
+  }
+  52% { transform: translate(-2px, 2px) scale(0.9); }
+}
+
+@keyframes koala-fireball {
+  0%, 44% { opacity: 0; transform: translate(0, 0) scale(0.55); }
+  48% { opacity: 1; transform: translate(4px, -2px) scale(0.82); }
+  56% { opacity: 1; transform: translate(15px, -5px) scale(1); }
+  66% { opacity: 0.82; transform: translate(30px, -7px) scale(0.72); }
+  72%, 100% { opacity: 0; transform: translate(38px, -8px) scale(0.4); }
+}
+
+@keyframes koala-spark-one {
+  0%, 45% { opacity: 0; transform: translate(0, 0); }
+  50% { opacity: 1; transform: translate(7px, -8px); }
+  62% { opacity: 0; transform: translate(18px, -16px); }
+  100% { opacity: 0; }
+}
+
+@keyframes koala-spark-two {
+  0%, 47% { opacity: 0; transform: translate(0, 0); }
+  53% { opacity: 1; transform: translate(10px, 7px); }
+  66% { opacity: 0; transform: translate(24px, 12px); }
+  100% { opacity: 0; }
+}
+
+@keyframes koala-spark-three {
+  0%, 49% { opacity: 0; transform: translate(0, 0); }
+  55% { opacity: 1; transform: translate(14px, -1px); }
+  68% { opacity: 0; transform: translate(28px, 2px); }
+  100% { opacity: 0; }
+}
