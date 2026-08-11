@@ -2,7 +2,7 @@
   'use strict';
 
   var KEY = 'dooyoung-growth-quest-v10';
-  var DEMO_VERSION = 3;
+  var DEMO_VERSION = 4;
   var today = new Date();
   var year = today.getFullYear();
   var month = today.getMonth();
@@ -874,12 +874,8 @@
 
   function renderTrend(view) {
     var range = trendRange(view);
-    var quests = view === 'yearly'
-      ? state.quests
-      : state.quests.filter(function (quest) { return quest.cadence === view; });
-    if (!quests.length) quests = state.quests;
-
-    var previous = previousRange(range);
+    var quests = state.quests;
+    var previous = previousComparableRange(view, range);
     var periodLabels = { weekly: 'Weekly', monthly: 'Monthly', yearly: 'Yearly' };
     var html = '<div class="statistics-toolbar">';
     html += '<div class="trend-heading"><p class="growth-kicker">Statistics</p><h3>' + escapeHtml(range.label) + '</h3></div>';
@@ -890,22 +886,24 @@
       html += '<button class="quest-menu-option' + (period === view ? ' selected' : '') + '" type="button" data-statistics-period="' + period + '" role="option" aria-selected="' + (period === view ? 'true' : 'false') + '">' + periodLabels[period] + '</button>';
     });
     html += '</div></div></div>';
+    html += renderCompletionChart(view, range);
     html += '<div class="trend-grid">';
 
     state.axes.forEach(function (axis, index) {
       var axisQuests = quests.filter(function (quest) { return quest.axis === axis; });
-      var score = rangeCompletion(axisQuests, range.start, range.end);
-      var previousScore = rangeCompletion(axisQuests, previous.start, previous.end);
-      var delta = score - previousScore;
+      var currentData = rangeCompletionData(axisQuests, range.start, range.end);
+      var previousData = rangeCompletionData(axisQuests, previous.start, previous.end);
+      var delta = currentData.percent - previousData.percent;
       html += '<article class="trend-card axis-' + (index % 4) + '">';
-      html += '<div><span>' + escapeHtml(axis) + '</span><strong>' + score + '%</strong></div>';
-      html += '<div class="trend-bar"><span style="width:' + score + '%"></span></div>';
-      html += '<p class="' + (delta >= 0 ? 'positive' : 'negative') + '">' + (delta >= 0 ? '+' : '') + delta + '% vs previous ' + range.unit + '</p>';
+      html += '<div><span>' + escapeHtml(axis) + '</span><strong>' + currentData.percent + '%</strong></div>';
+      html += '<div class="trend-bar"><span style="width:' + currentData.percent + '%"></span></div>';
+      html += '<p class="' + (delta >= 0 ? 'positive' : 'negative') + '">' + currentData.done + ' / ' + currentData.possible + ' clears &middot; ' + (delta >= 0 ? '+' : '') + delta + '% vs previous period</p>';
       html += '</article>';
     });
 
     html += '</div>';
-    html += '<div class="trend-note">Completion is compared with the previous ' + escapeHtml(range.unit) + ' using the same quest records.</div>';
+    html += renderRecentClears(range);
+    html += '<div class="trend-note">The chart and cards are calculated directly from the checks saved on your quest board.</div>';
     els.trendPanel.innerHTML = html;
 
     var periodButton = byId('statisticsPeriodButton');
@@ -924,6 +922,161 @@
         });
       });
     }
+  }
+
+  function renderCompletionChart(view, range) {
+    var points = trendPoints(view, range);
+    var width = 720;
+    var height = 230;
+    var left = 46;
+    var right = 18;
+    var top = 18;
+    var bottom = 38;
+    var plotWidth = width - left - right;
+    var plotHeight = height - top - bottom;
+    var axisColors = ['#ff5a5f', '#4f8edc', '#d8b45a', '#72c69a'];
+    var html = '<section class="trend-chart-panel" aria-label="Actual quest completion trend">';
+    html += '<div class="trend-chart-header"><div><strong>Actual completion trend</strong><span>' + escapeHtml(view === 'yearly' ? 'Monthly completion' : 'Daily completion') + '</span></div>';
+    html += '<div class="trend-legend">';
+    state.axes.forEach(function (axis, index) {
+      html += '<span><i style="background:' + axisColors[index % axisColors.length] + '"></i>' + escapeHtml(axis) + '</span>';
+    });
+    html += '</div></div>';
+    html += '<div class="trend-chart-scroll"><svg class="trend-chart" viewBox="0 0 ' + width + ' ' + height + '" role="img" aria-label="Completion percentage over ' + escapeAttr(range.label) + '">';
+
+    [100, 50, 0].forEach(function (guide) {
+      var y = top + ((100 - guide) / 100) * plotHeight;
+      html += '<line class="trend-guide" x1="' + left + '" y1="' + y + '" x2="' + (width - right) + '" y2="' + y + '"></line>';
+      html += '<text class="trend-y-label" x="' + (left - 8) + '" y="' + (y + 4) + '" text-anchor="end">' + guide + '%</text>';
+    });
+
+    state.axes.forEach(function (axis, axisIndex) {
+      var axisQuests = state.quests.filter(function (quest) { return quest.axis === axis; });
+      var path = points.map(function (point, pointIndex) {
+        var x = points.length === 1 ? left + (plotWidth / 2) : left + (pointIndex / (points.length - 1)) * plotWidth;
+        var score = trendPointCompletion(axisQuests, point, view);
+        var y = top + ((100 - score) / 100) * plotHeight;
+        return (pointIndex === 0 ? 'M' : 'L') + x.toFixed(1) + ' ' + y.toFixed(1);
+      }).join(' ');
+      html += '<path class="trend-series axis-' + (axisIndex % 4) + '" d="' + path + '"></path>';
+    });
+
+    points.forEach(function (point, pointIndex) {
+      if (!shouldLabelTrendPoint(view, point, pointIndex, points.length)) return;
+      var x = points.length === 1 ? left + (plotWidth / 2) : left + (pointIndex / (points.length - 1)) * plotWidth;
+      html += '<text class="trend-x-label" x="' + x.toFixed(1) + '" y="' + (height - 12) + '" text-anchor="middle">' + escapeHtml(point.label) + '</text>';
+    });
+
+    html += '</svg></div></section>';
+    return html;
+  }
+
+  function trendPoints(view, range) {
+    var points = [];
+    if (view === 'yearly') {
+      for (var monthIndex = 0; monthIndex <= range.end.getMonth(); monthIndex += 1) {
+        var monthStart = new Date(range.end.getFullYear(), monthIndex, 1);
+        var monthEnd = monthIndex === range.end.getMonth() ? range.end : endOfMonth(monthStart);
+        points.push({
+          start: startOfDay(monthStart),
+          end: endOfDay(monthEnd),
+          date: monthEnd,
+          label: monthStart.toLocaleDateString('en-US', { month: 'short' })
+        });
+      }
+      return points;
+    }
+
+    var cursor = startOfDay(range.start);
+    var limit = startOfDay(range.end);
+    while (cursor <= limit) {
+      points.push({
+        start: startOfDay(cursor),
+        end: endOfDay(cursor),
+        date: new Date(cursor),
+        label: view === 'weekly' ? weekdayShort(cursor.getFullYear(), cursor.getMonth(), cursor.getDate()) : String(cursor.getDate())
+      });
+      cursor.setDate(cursor.getDate() + 1);
+    }
+    return points;
+  }
+
+  function trendPointCompletion(quests, point, view) {
+    if (view === 'yearly') return rangeCompletion(quests, point.start, point.end);
+    var key = toDateKey(point.date);
+    var possible = 0;
+    var done = 0;
+
+    quests.forEach(function (quest) {
+      if (quest.cadence === 'daily') {
+        possible += 1;
+        if (quest.checks[key]) done += 1;
+        return;
+      }
+      if (quest.cadence === 'weekly' && isWeeklyPeriodEnd(point.date)) {
+        possible += 1;
+        if (quest.checks[key]) done += 1;
+        return;
+      }
+      if (quest.cadence === 'monthly' && point.date.getDate() === daysInMonth(point.date.getFullYear(), point.date.getMonth())) {
+        possible += 1;
+        if (quest.checks[key]) done += 1;
+      }
+    });
+
+    return possible ? Math.round((done / possible) * 100) : 0;
+  }
+
+  function isWeeklyPeriodEnd(date) {
+    return date.getDay() === 0 || date.getDate() === daysInMonth(date.getFullYear(), date.getMonth());
+  }
+
+  function shouldLabelTrendPoint(view, point, index, total) {
+    if (view === 'weekly' || view === 'yearly') return true;
+    return index === 0 || index === total - 1 || point.date.getDate() % 5 === 0;
+  }
+
+  function renderRecentClears(range) {
+    var entries = recentClears(range);
+    var html = '<section class="trend-activity"><div class="trend-activity-heading"><div><strong>Recent clears</strong><span>Completed during this period</span></div><em>' + entries.length + '</em></div>';
+    if (!entries.length) {
+      return html + '<p class="trend-empty">No quest clears recorded in this period yet.</p></section>';
+    }
+
+    html += '<div class="trend-clear-list">';
+    entries.slice(0, 6).forEach(function (entry) {
+      html += '<div class="trend-clear-item"><i class="axis-' + (entry.axisIndex % 4) + '">' + escapeHtml(axisCode(entry.axis)) + '</i>';
+      html += '<div><strong>' + escapeHtml(entry.title) + '</strong><span>' + escapeHtml(entry.date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })) + ' &middot; ' + escapeHtml(entry.axis) + '</span></div>';
+      html += '<em>+' + entry.xp + ' XP</em></div>';
+    });
+    html += '</div></section>';
+    return html;
+  }
+
+  function recentClears(range) {
+    var achievements = {};
+    state.achievements.forEach(function (item) {
+      achievements[item.questId + '::' + item.key] = item;
+    });
+    var entries = [];
+
+    state.quests.forEach(function (quest) {
+      Object.keys(quest.checks || {}).forEach(function (key) {
+        if (!quest.checks[key]) return;
+        var achievement = achievements[quest.id + '::' + key];
+        var date = achievement && achievement.completedAt ? new Date(achievement.completedAt) : parseDateKey(key);
+        if (Number.isNaN(date.getTime()) || date < range.start || date > range.end) return;
+        entries.push({
+          title: cleanQuestTitle(quest.title, quest.cadence),
+          axis: quest.axis,
+          axisIndex: Math.max(0, state.axes.indexOf(quest.axis)),
+          date: date,
+          xp: xpForCadence(quest.cadence)
+        });
+      });
+    });
+
+    return entries.sort(function (a, b) { return b.date - a.date; });
   }
 
   function addQuest() {
@@ -1096,16 +1249,24 @@
   }
 
   function rangeCompletion(quests, start, end) {
-    if (!quests.length) return 0;
+    return rangeCompletionData(quests, start, end).percent;
+  }
+
+  function rangeCompletionData(quests, start, end) {
+    if (!quests.length) return { done: 0, possible: 0, percent: 0 };
     var possible = 0;
     var done = quests.reduce(function (sum, quest) {
       var expected = expectedKeys(quest, start, end);
       possible += expected.length;
       return sum + expected.filter(function (key) { return !!quest.checks[key]; }).length;
     }, 0);
-    if (!possible) return 0;
+    if (!possible) return { done: done, possible: 0, percent: 0 };
     var percent = Math.round((done / possible) * 100);
-    return done > 0 && percent === 0 ? 1 : percent;
+    return {
+      done: done,
+      possible: possible,
+      percent: done > 0 && percent === 0 ? 1 : percent
+    };
   }
 
   function expectedKeys(quest, start, end) {
@@ -1168,16 +1329,30 @@
     if (view === 'yearly') {
       return { start: new Date(year, 0, 1), end: endOfDay(today), unit: 'year', label: String(year) };
     }
-    return { start: startOfMonth(today), end: endOfMonth(today), unit: 'month', label: monthLabel() };
+    return { start: startOfMonth(today), end: endOfDay(today), unit: 'month', label: monthLabel() };
   }
 
-  function previousRange(range) {
+  function previousComparableRange(view, range) {
+    if (view === 'monthly') {
+      var previousMonthStart = new Date(range.start.getFullYear(), range.start.getMonth() - 1, 1);
+      var previousMonthDay = Math.min(range.end.getDate(), daysInMonth(previousMonthStart.getFullYear(), previousMonthStart.getMonth()));
+      return {
+        start: startOfDay(previousMonthStart),
+        end: endOfDay(new Date(previousMonthStart.getFullYear(), previousMonthStart.getMonth(), previousMonthDay))
+      };
+    }
+    if (view === 'yearly') {
+      return {
+        start: new Date(range.start.getFullYear() - 1, 0, 1),
+        end: endOfDay(new Date(range.end.getFullYear() - 1, range.end.getMonth(), range.end.getDate()))
+      };
+    }
     var span = daysBetween(range.start, range.end);
-    var end = new Date(range.start);
-    end.setDate(end.getDate() - 1);
-    var start = new Date(end);
-    start.setDate(end.getDate() - span + 1);
-    return { start: startOfDay(start), end: endOfDay(end) };
+    var previousEnd = new Date(range.start);
+    previousEnd.setDate(previousEnd.getDate() - 1);
+    var previousStart = new Date(previousEnd);
+    previousStart.setDate(previousEnd.getDate() - span + 1);
+    return { start: startOfDay(previousStart), end: endOfDay(previousEnd) };
   }
 
   function loadState() {
@@ -1316,6 +1491,8 @@
     nextState.achievements = [];
     nextState.quests.filter(function (quest) { return quest.cadence !== 'daily'; }).forEach(function (quest) {
       Object.keys(quest.checks).forEach(function (key) {
+        var achievementDate = parseDateKey(key);
+        if (achievementDate > today) achievementDate = today;
         nextState.achievements.unshift({
           id: 'demo-' + quest.id + '-' + key,
           questId: quest.id,
@@ -1325,7 +1502,7 @@
           xp: xpForCadence(quest.cadence),
           key: key,
           period: achievementPeriodLabel(quest, key),
-          completedAt: parseDateKey(key).toISOString()
+          completedAt: achievementDate.toISOString()
         });
       });
     });
