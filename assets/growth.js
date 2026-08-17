@@ -2,7 +2,9 @@
   'use strict';
 
   var KEY = 'dooyoung-growth-quest-v10';
-  var DEMO_VERSION = 4;
+  var DEMO_VERSION = 5;
+  var MAX_LEVEL = 50;
+  var XP_PER_LEVEL = 170;
   var today = new Date();
   var year = today.getFullYear();
   var month = today.getMonth();
@@ -15,6 +17,82 @@
     'Growth Strategist',
     'Systems Master'
   ];
+  var commonEvolution = [
+    { name: 'Eucalyptus Dreamer', kind: 'outfit', unlock: 'Natural Koala', detail: 'A quiet beginning among eucalyptus leaves.' },
+    { name: 'Leaf Forager', kind: 'effect', unlock: 'Leaf Trail', detail: 'Fresh leaves follow each happy movement.' },
+    { name: 'Branch Listener', kind: 'motion', unlock: 'Ear Wiggle', detail: 'A curious idle motion joins the character loop.' },
+    { name: 'Pocket Explorer', kind: 'outfit', unlock: 'Canvas Satchel', detail: 'A small satchel appears for the first collected plans.' },
+    { name: 'Gumtree Scout', kind: 'skill', unlock: 'Leaf Toss', detail: 'The first playful skill can be cast.' },
+    { name: 'Morning Climber', kind: 'motion', unlock: 'Branch Swing', detail: 'The koala swings with more confidence.' },
+    { name: 'Trail Keeper', kind: 'outfit', unlock: 'Explorer Scarf', detail: 'A simple scarf marks a growing routine.' },
+    { name: 'Canopy Seeker', kind: 'effect', unlock: 'Sun Motes', detail: 'Soft motes gather around the eucalyptus canopy.' },
+    { name: 'Pathfinder', kind: 'skill', unlock: 'Eucalyptus Guard', detail: 'A protective ring of leaves becomes available.' },
+    { name: 'Crossroads', kind: 'scene', unlock: 'Path Aurora', detail: 'The three career paths become visible.' }
+  ];
+  var evolutionPaths = {
+    guardian: {
+      label: 'Guardian',
+      classLabel: 'Guardian Class',
+      axis: 'Health',
+      accent: '#ff5a5f',
+      accents: ['#b9424b', '#d64d54', '#ff5a5f', '#ff6c63', '#e69a55', '#e0a85d', '#7bcf90', '#f1d06a'],
+      chapters: [
+        chapter('Trail Guardian', 'Bushland Trail', ['Training Vest', 'Guard Stance', 'Branch Strike', 'Ember Pulse', 'Trail Camp']),
+        chapter('Ironbark Guard', 'Ironbark Grove', ['Ironbark Pauldrons', 'Shield Ready', 'Bark Barrier', 'Impact Sparks', 'Ironbark Gate']),
+        chapter('Red Earth Knight', 'Red Earth Ridge', ['Crimson Mantle', 'Grounded Step', 'Red Earth Cleave', 'Dust Halo', 'Sunset Ridge']),
+        chapter('Stormwall Warden', 'Coastal Storm', ['Stormplate Vest', 'Storm Brace', 'Thunder Guard', 'Rain Sparks', 'Stormwall Lookout']),
+        chapter('Sunforged Champion', 'Sunlit Range', ['Sunforged Crown', 'Champion Salute', 'Solar Breaker', 'Gold Ember Ring', 'Sunforge Arena']),
+        chapter('Southern Sentinel', 'Southern Night', ['Sentinel Cape', 'Starwatch Stance', 'Cross Guard', 'Starsteel Sparks', 'Southern Watch']),
+        chapter('Canopy Protector', 'Ancient Canopy', ['Canopy Aegis', 'Guardian Roar', 'Worldroot Shield', 'Verdant Aura', 'Great Tree Sanctuary']),
+        chapter('Worldtree Vanguard', 'Worldtree Dawn', ['Vanguard Regalia', 'Victory Rise', 'Worldtree Nova', 'Crown of Sparks', 'Worldtree Horizon'])
+      ]
+    },
+    arcanist: {
+      label: 'Arcanist',
+      classLabel: 'Arcanist Class',
+      axis: 'Intelligence',
+      accent: '#4f8edc',
+      accents: ['#416fae', '#4f8edc', '#6f7fe2', '#5aa8db', '#8d73df', '#63b7c8', '#8a79e6', '#73d0d1'],
+      chapters: [
+        chapter('Gumleaf Adept', 'Scholar Grove', ['Apprentice Robe', 'Page Turn', 'Leaf Spark', 'Ink Motes', 'Study Nook']),
+        chapter('Ember Scholar', 'Ember Library', ['Ember Hood', 'Focused Cast', 'Cinder Bolt', 'Ember Glyphs', 'Firelit Archive']),
+        chapter('Moonlit Arcanist', 'Moonlit Canopy', ['Moonweave Mantle', 'Moonstep', 'Lunar Orb', 'Silver Runes', 'Moon Observatory']),
+        chapter('Stormcaller', 'Cloud Laboratory', ['Storm Collar', 'Staff Spin', 'Arc Lightning', 'Cloud Sparks', 'Storm Observatory']),
+        chapter('Starbloom Magus', 'Starbloom Garden', ['Starbloom Crown', 'Hovering Read', 'Comet Bloom', 'Orbiting Stars', 'Celestial Garden']),
+        chapter('Aurora Sage', 'Aurora Range', ['Aurora Robe', 'Sage Levitation', 'Spectrum Ray', 'Aurora Veil', 'Polar Observatory']),
+        chapter('Cosmic Weaver', 'Deep Sky', ['Cosmic Mantle', 'Constellation Cast', 'Gravity Well', 'Nebula Orbit', 'Astral Library']),
+        chapter('Eucalypt Archmage', 'Eternal Canopy', ['Archmage Regalia', 'Grand Invocation', 'Eucalypt Nova', 'Infinite Runes', 'Eternal Canopy'])
+      ]
+    },
+    founder: {
+      label: 'Founder',
+      classLabel: 'Founder Class',
+      axis: 'Capital',
+      accent: '#d8b45a',
+      accents: ['#a9853c', '#c39a44', '#d8b45a', '#d6a857', '#e1bd67', '#d7c06f', '#89c398', '#e3ca74'],
+      chapters: [
+        chapter('Market Scout', 'Weekend Market', ['Utility Jacket', 'Price Check', 'Coin Compass', 'Ledger Ticks', 'Market Stall']),
+        chapter('Venture Builder', 'Workshop Floor', ['Builder Vest', 'Prototype Pose', 'Launch Spark', 'Blueprint Lines', 'Maker Workshop']),
+        chapter('Goldleaf Broker', 'Goldleaf Arcade', ['Goldleaf Tie', 'Deal Gesture', 'Value Pulse', 'Coin Orbit', 'Goldleaf Arcade']),
+        chapter('Harbour Founder', 'Harbour Studio', ['Founder Coat', 'Pitch Stance', 'Harbour Beacon', 'Signal Waves', 'Harbour Office']),
+        chapter('Scale Architect', 'City Network', ['Architect Blazer', 'Systems Scan', 'Network Link', 'Data Nodes', 'City Grid']),
+        chapter('Southern Magnate', 'Southern Exchange', ['Magnate Cape', 'Confident Step', 'Capital Surge', 'Golden Trails', 'Southern Exchange']),
+        chapter('Ecosystem Shaper', 'Living Network', ['Ecosystem Mantle', 'Network Conduct', 'Alliance Field', 'Partner Nodes', 'Living Network']),
+        chapter('Prosperity Pioneer', 'Future City', ['Pioneer Regalia', 'Horizon Point', 'Prosperity Wave', 'Crown of Coins', 'Future Horizon'])
+      ]
+    }
+  };
+
+  function chapter(name, scene, unlockNames) {
+    var kinds = ['outfit', 'motion', 'skill', 'effect', 'scene'];
+    return {
+      name: name,
+      scene: scene,
+      unlocks: unlockNames.map(function (unlock, index) {
+        return { kind: kinds[index], unlock: unlock };
+      })
+    };
+  }
 
   var els = {
     levelValue: byId('levelValue'),
@@ -26,6 +104,20 @@
     rankName: byId('rankName'),
     className: byId('className'),
     growthAvatar: byId('growthAvatar'),
+    evolutionScene: byId('evolutionScene'),
+    evolutionOpen: byId('evolutionOpen'),
+    evolutionDialog: byId('evolutionDialog'),
+    evolutionClose: byId('evolutionClose'),
+    evolutionPathTabs: byId('evolutionPathTabs'),
+    evolutionGrid: byId('evolutionGrid'),
+    evolutionDetail: byId('evolutionDetail'),
+    momentumDots: byId('momentumDots'),
+    momentumLabel: byId('momentumLabel'),
+    nextUnlockButton: byId('nextUnlockButton'),
+    nextUnlockLabel: byId('nextUnlockLabel'),
+    nextUnlockName: byId('nextUnlockName'),
+    monthlyChestLabel: byId('monthlyChestLabel'),
+    growthRewardToast: byId('growthRewardToast'),
     rankState: byId('rankState'),
     xpFill: byId('xpFill'),
     xpLabel: byId('xpLabel'),
@@ -84,6 +176,9 @@
   var syncingCalendarScroll = false;
   var remoteSaveReady = false;
   var authenticatedProfile = null;
+  var selectedEvolutionPath = 'arcanist';
+  var selectedEvolutionLevel = 1;
+  var rewardToastTimer = null;
   var state = migrateState(loadState());
   saveState();
   exposeGrowthQuest();
@@ -134,6 +229,29 @@
 
   if (els.playerNameButton) {
     els.playerNameButton.addEventListener('click', openPlayerNameEditor);
+  }
+
+  if (els.evolutionOpen) {
+    els.evolutionOpen.addEventListener('click', function () {
+      openEvolutionDialog();
+    });
+  }
+
+  if (els.nextUnlockButton) {
+    els.nextUnlockButton.addEventListener('click', function () {
+      var level = levelFromXp(totalXp());
+      openEvolutionDialog(Math.min(MAX_LEVEL, level + 1));
+    });
+  }
+
+  if (els.evolutionClose) {
+    els.evolutionClose.addEventListener('click', closeEvolutionDialog);
+  }
+
+  if (els.evolutionDialog) {
+    els.evolutionDialog.addEventListener('click', function (event) {
+      if (event.target === els.evolutionDialog) closeEvolutionDialog();
+    });
   }
 
   if (els.playerNameForm) {
@@ -274,14 +392,14 @@
 
   function renderOverview() {
     var xp = totalXp();
-    var level = Math.floor(xp / 500) + 1;
-    var levelXp = xp % 500;
+    var level = levelFromXp(xp);
+    var levelXp = level >= MAX_LEVEL ? XP_PER_LEVEL : xp % XP_PER_LEVEL;
     var completion = monthlyCompletion(state.quests);
     var streak = currentStreak();
     var dailyQuests = state.quests.filter(function (quest) { return quest.cadence === 'daily'; });
     var todayDone = dailyQuests.filter(function (quest) { return quest.checks[todayKey]; }).length;
     var monthDoneQuests = completedQuestCountInMonth();
-    var rank = rankNames[Math.min(rankNames.length - 1, Math.floor((level - 1) / 3))];
+    var rank = rankNames[Math.min(rankNames.length - 1, Math.floor((level - 1) / 10))];
     var stamina = scoreForAxes(['Health', 'Stamina']);
     var intelligence = scoreForAxes(['Intelligence', 'Work', 'Growth']);
     var capital = scoreForAxes(['Capital']);
@@ -298,8 +416,8 @@
             ? 'Pass clear'
             : 'Quest line open';
     }
-    els.xpFill.style.width = Math.min(100, Math.round((levelXp / 500) * 100)) + '%';
-    els.xpLabel.textContent = levelXp + ' / 500';
+    els.xpFill.style.width = Math.min(100, Math.round((levelXp / XP_PER_LEVEL) * 100)) + '%';
+    els.xpLabel.textContent = level >= MAX_LEVEL ? 'MAX' : levelXp + ' / ' + XP_PER_LEVEL;
     if (els.monthlyCompletion) els.monthlyCompletion.textContent = completion + '%';
     if (els.streakLabel) els.streakLabel.textContent = streak + ' day streak';
     if (els.statusCompletedToday) els.statusCompletedToday.textContent = todayDone;
@@ -311,6 +429,7 @@
     updateStat('stamina', stamina);
     updateStat('intelligence', intelligence);
     updateStat('capital', capital);
+    renderProgressionStrip(level, completion);
   }
 
   function visiblePlayerName() {
@@ -320,20 +439,15 @@
 
   function renderCharacterClass(level) {
     if (!els.growthAvatar) return;
-
-    var avatarClass = 'avatar-novice';
-    var classLabel = 'Unassigned Class';
-
-    if (level >= 11) {
-      var paths = [
-        { className: 'avatar-warrior', label: 'Warrior Class', xp: lifetimeXpForAxes(['Health', 'Stamina']) },
-        { className: 'avatar-mage', label: 'Mage Class', xp: lifetimeXpForAxes(['Intelligence', 'Work', 'Growth']) },
-        { className: 'avatar-entrepreneur', label: 'Entrepreneur Class', xp: lifetimeXpForAxes(['Capital']) }
-      ];
-      paths.sort(function (a, b) { return b.xp - a.xp; });
-      avatarClass = paths[0].className;
-      classLabel = paths[0].label;
-    }
+    var path = level >= 11 ? dominantEvolutionPath() : 'novice';
+    var profile = evolutionProfile(level, path);
+    var avatarClass = path === 'guardian'
+      ? 'avatar-warrior'
+      : path === 'arcanist'
+        ? 'avatar-mage'
+        : path === 'founder'
+          ? 'avatar-entrepreneur'
+          : 'avatar-novice';
 
     els.growthAvatar.classList.remove(
       'avatar-novice',
@@ -344,11 +458,126 @@
       'avatar-tier-2',
       'avatar-tier-3',
       'avatar-tier-4',
-      'avatar-tier-5'
+      'avatar-tier-5',
+      'motion-calm',
+      'motion-sway',
+      'motion-hop',
+      'motion-guard',
+      'motion-cast',
+      'motion-plan'
     );
-    els.growthAvatar.classList.add(avatarClass, 'avatar-tier-' + Math.min(5, Math.max(1, Math.ceil(level / 10))));
-    els.growthAvatar.setAttribute('aria-label', classLabel.replace(' Class', '') + ' koala character');
-    if (els.className) els.className.textContent = classLabel;
+    els.growthAvatar.classList.add(avatarClass, 'avatar-tier-' + Math.min(5, Math.max(1, Math.ceil(level / 10))), 'motion-' + profile.motionCode);
+    els.growthAvatar.setAttribute('data-path', path);
+    els.growthAvatar.setAttribute('data-level', String(level));
+    els.growthAvatar.setAttribute('data-tier', String(profile.tier));
+    els.growthAvatar.setAttribute('data-step', String(profile.step));
+    els.growthAvatar.setAttribute('data-unlock-kind', profile.unlock.kind);
+    els.growthAvatar.style.setProperty('--evolution-accent', profile.accent);
+    els.growthAvatar.style.setProperty('--evolution-intensity', String(profile.intensity));
+    els.growthAvatar.style.setProperty('--evolution-scale', String((1 + (profile.tier * 0.012) + (profile.step * 0.003)).toFixed(3)));
+    els.growthAvatar.style.setProperty('--cape-visible', level >= 7 ? '1' : '0');
+    els.growthAvatar.style.setProperty('--emblem-visible', level >= 4 ? '1' : '0');
+    els.growthAvatar.style.setProperty('--skill-visible', level >= 5 ? '1' : '0');
+    els.growthAvatar.style.setProperty('--particle-two-visible', level >= 8 ? '1' : '0');
+    els.growthAvatar.style.setProperty('--particle-three-visible', level >= 14 ? '1' : '0');
+    els.growthAvatar.setAttribute('aria-label', profile.classLabel.replace(' Class', '') + ' koala, level ' + level);
+    if (els.evolutionScene) {
+      els.evolutionScene.setAttribute('data-path', path);
+      els.evolutionScene.setAttribute('data-tier', String(profile.tier));
+      els.evolutionScene.setAttribute('data-step', String(profile.step));
+      els.evolutionScene.style.setProperty('--evolution-accent', profile.accent);
+      els.evolutionScene.style.setProperty('--evolution-intensity', String(profile.intensity));
+    }
+    if (els.className) els.className.textContent = profile.classLabel;
+    if (els.rankName) els.rankName.textContent = profile.title;
+    return profile;
+  }
+
+  function levelFromXp(xp) {
+    return Math.min(MAX_LEVEL, Math.floor(Math.max(0, xp) / XP_PER_LEVEL) + 1);
+  }
+
+  function dominantEvolutionPath() {
+    var paths = [
+      { key: 'guardian', xp: lifetimeXpForAxes(['Health', 'Stamina']) },
+      { key: 'arcanist', xp: lifetimeXpForAxes(['Intelligence', 'Work', 'Growth']) },
+      { key: 'founder', xp: lifetimeXpForAxes(['Capital']) }
+    ];
+    paths.sort(function (a, b) { return b.xp - a.xp; });
+    return paths[0].key;
+  }
+
+  function evolutionProfile(level, requestedPath) {
+    var safeLevel = Math.max(1, Math.min(MAX_LEVEL, Number(level) || 1));
+    var path = safeLevel <= 10 ? 'novice' : (evolutionPaths[requestedPath] ? requestedPath : 'arcanist');
+    var base = {
+      level: safeLevel,
+      path: path,
+      classLabel: 'Unassigned Class',
+      title: commonEvolution[Math.min(9, safeLevel - 1)].name,
+      chapter: 'The Eucalyptus Beginning',
+      unlock: commonEvolution[Math.min(9, safeLevel - 1)],
+      outfit: 'Natural Koala',
+      motion: 'Leaf Nibble',
+      motionCode: 'sway',
+      skill: 'Quiet Rest',
+      effect: 'Soft Leaf Drift',
+      scene: 'Eucalyptus Dawn',
+      accent: '#72c69a',
+      tier: Math.max(1, Math.ceil(safeLevel / 5)),
+      step: ((safeLevel - 1) % 5) + 1,
+      intensity: Number((safeLevel / MAX_LEVEL).toFixed(2))
+    };
+
+    commonEvolution.slice(0, Math.min(10, safeLevel)).forEach(function (item) {
+      applyEvolutionUnlock(base, item);
+    });
+    if (safeLevel <= 10) return base;
+
+    var pathData = evolutionPaths[path];
+    base.classLabel = pathData.classLabel;
+    base.tier = Math.floor((safeLevel - 11) / 5) + 1;
+    base.step = ((safeLevel - 11) % 5) + 1;
+    base.accent = pathData.accents[Math.min(pathData.accents.length - 1, base.tier - 1)] || pathData.accent;
+    base.motionCode = path === 'guardian' ? 'guard' : path === 'arcanist' ? 'cast' : 'plan';
+    pathData.chapters.forEach(function (chapterData, chapterIndex) {
+      var firstLevel = 11 + (chapterIndex * 5);
+      if (firstLevel > safeLevel) return;
+      base.chapter = chapterData.name;
+      chapterData.unlocks.forEach(function (item, unlockIndex) {
+        if (firstLevel + unlockIndex <= safeLevel) applyEvolutionUnlock(base, item);
+      });
+    });
+    var activeChapter = pathData.chapters[Math.min(pathData.chapters.length - 1, base.tier - 1)];
+    base.title = activeChapter.name;
+    var activeUnlock = activeChapter.unlocks[base.step - 1];
+    base.unlock = {
+      kind: activeUnlock.kind,
+      unlock: activeUnlock.unlock,
+      detail: evolutionUnlockDetail(activeUnlock, activeChapter.name)
+    };
+    return base;
+  }
+
+  function applyEvolutionUnlock(profile, item) {
+    if (!item) return;
+    if (item.kind === 'outfit') profile.outfit = item.unlock;
+    if (item.kind === 'motion') profile.motion = item.unlock;
+    if (item.kind === 'skill') profile.skill = item.unlock;
+    if (item.kind === 'effect') profile.effect = item.unlock;
+    if (item.kind === 'scene') profile.scene = item.unlock;
+  }
+
+  function evolutionUnlockDetail(item, chapterName) {
+    if (item.detail) return item.detail;
+    var labels = {
+      outfit: 'A new outfit piece changes the character silhouette.',
+      motion: 'A new idle motion joins the character loop.',
+      skill: 'A new active skill effect becomes visible.',
+      effect: 'Particles and aura gain a new layer.',
+      scene: 'The character background advances to a new chapter.'
+    };
+    return chapterName + ': ' + (labels[item.kind] || 'A new evolution detail is unlocked.');
   }
 
   function lifetimeXpForAxes(axisNames) {
@@ -356,6 +585,142 @@
       if (axisNames.indexOf(quest.axis) === -1) return sum;
       return sum + Object.keys(quest.checks || {}).length * xpForCadence(quest.cadence);
     }, 0);
+  }
+
+  function renderProgressionStrip(level, completion) {
+    var momentum = momentumProfile();
+    if (els.momentumDots) {
+      els.momentumDots.innerHTML = momentum.days.map(function (day) {
+        return '<i class="' + (day.complete ? 'complete' : '') + (day.today ? ' today' : '') + '" title="' + escapeAttr(day.label) + '"></i>';
+      }).join('');
+      els.momentumDots.setAttribute('aria-label', momentum.count + ' of the last 7 days reached 80 percent');
+    }
+    if (els.momentumLabel) els.momentumLabel.textContent = momentum.count + '/7';
+
+    var nextLevel = Math.min(MAX_LEVEL, level + 1);
+    var nextProfile = evolutionProfile(nextLevel, level >= 11 ? dominantEvolutionPath() : selectedEvolutionPath);
+    if (els.nextUnlockLabel) els.nextUnlockLabel.textContent = level >= MAX_LEVEL ? 'Lv. 50' : 'Lv. ' + nextLevel;
+    if (els.nextUnlockName) els.nextUnlockName.textContent = level >= MAX_LEVEL ? 'Journey Complete' : nextProfile.unlock.unlock;
+    if (els.nextUnlockButton) els.nextUnlockButton.disabled = level >= MAX_LEVEL;
+
+    if (els.monthlyChestLabel) {
+      if (completion >= 100) els.monthlyChestLabel.textContent = 'Crown claimed';
+      else if (completion >= 90) els.monthlyChestLabel.textContent = 'Next: 100% Crown';
+      else if (completion >= 80) els.monthlyChestLabel.textContent = 'Next: 90% Gold';
+      else els.monthlyChestLabel.textContent = 'Next: 80% Bronze';
+      var chest = els.monthlyChestLabel.closest('.monthly-chest');
+      if (chest) {
+        chest.classList.toggle('bronze', completion >= 80 && completion < 90);
+        chest.classList.toggle('gold', completion >= 90 && completion < 100);
+        chest.classList.toggle('crown', completion >= 100);
+      }
+    }
+  }
+
+  function momentumProfile() {
+    var days = [];
+    var count = 0;
+    for (var offset = 6; offset >= 0; offset -= 1) {
+      var date = new Date(today.getFullYear(), today.getMonth(), today.getDate() - offset);
+      var complete = dailyCompletionForDate(date) >= 80;
+      if (complete) count += 1;
+      days.push({
+        complete: complete,
+        today: offset === 0,
+        label: date.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })
+      });
+    }
+    return { count: count, days: days };
+  }
+
+  function dailyCompletionForDate(date) {
+    var dailyQuests = state.quests.filter(function (quest) { return quest.cadence === 'daily'; });
+    if (!dailyQuests.length) return 0;
+    var key = toDateKey(date);
+    var done = dailyQuests.filter(function (quest) { return !!quest.checks[key]; }).length;
+    return Math.round((done / dailyQuests.length) * 100);
+  }
+
+  function openEvolutionDialog(level) {
+    if (!els.evolutionDialog) return;
+    var currentLevel = levelFromXp(totalXp());
+    selectedEvolutionPath = currentLevel >= 11 ? dominantEvolutionPath() : selectedEvolutionPath;
+    selectedEvolutionLevel = Math.max(1, Math.min(MAX_LEVEL, Number(level) || currentLevel));
+    renderEvolutionDialog();
+    if (typeof els.evolutionDialog.showModal === 'function') els.evolutionDialog.showModal();
+    else els.evolutionDialog.setAttribute('open', '');
+  }
+
+  function closeEvolutionDialog() {
+    if (!els.evolutionDialog) return;
+    if (typeof els.evolutionDialog.close === 'function' && els.evolutionDialog.open) els.evolutionDialog.close();
+    else els.evolutionDialog.removeAttribute('open');
+  }
+
+  function renderEvolutionDialog() {
+    if (!els.evolutionPathTabs || !els.evolutionGrid || !els.evolutionDetail) return;
+    var currentLevel = levelFromXp(totalXp());
+    els.evolutionPathTabs.innerHTML = Object.keys(evolutionPaths).map(function (path) {
+      var selected = path === selectedEvolutionPath;
+      return '<button type="button" role="tab" aria-selected="' + (selected ? 'true' : 'false') + '" class="' + (selected ? 'active' : '') + '" data-evolution-path="' + path + '">' + escapeHtml(evolutionPaths[path].label) + '</button>';
+    }).join('');
+
+    els.evolutionGrid.innerHTML = Array.from({ length: MAX_LEVEL }, function (_, index) {
+      var level = index + 1;
+      var profile = evolutionProfile(level, selectedEvolutionPath);
+      var classes = ['evolution-level'];
+      if (level <= currentLevel) classes.push('unlocked');
+      if (level === currentLevel) classes.push('current');
+      if (level === selectedEvolutionLevel) classes.push('selected');
+      if (level % 10 === 0) classes.push('milestone');
+      return '<button class="' + classes.join(' ') + '" type="button" data-evolution-level="' + level + '" title="Lv. ' + level + ' / ' + escapeAttr(profile.unlock.unlock) + '"><span>' + level + '</span><i data-kind="' + escapeAttr(profile.unlock.kind) + '"></i></button>';
+    }).join('');
+
+    var detail = evolutionProfile(selectedEvolutionLevel, selectedEvolutionPath);
+    var stateLabel = selectedEvolutionLevel <= currentLevel ? 'Unlocked' : 'Locked';
+    els.evolutionDetail.innerHTML =
+      '<div class="evolution-detail-visual" data-path="' + escapeAttr(detail.path) + '" data-tier="' + detail.tier + '" style="--evolution-accent:' + escapeAttr(detail.accent) + '">' +
+        '<span class="detail-aura"></span><span class="detail-koala"></span><span class="detail-gear"></span><span class="detail-skill"></span>' +
+      '</div>' +
+      '<div class="evolution-detail-copy"><span>Lv. ' + detail.level + ' / ' + escapeHtml(stateLabel) + '</span><h3>' + escapeHtml(detail.title) + '</h3><strong>' + escapeHtml(detail.unlock.unlock) + '</strong><p>' + escapeHtml(detail.unlock.detail || evolutionUnlockDetail(detail.unlock, detail.title)) + '</p>' +
+      '<dl><div><dt>Outfit</dt><dd>' + escapeHtml(detail.outfit) + '</dd></div><div><dt>Motion</dt><dd>' + escapeHtml(detail.motion) + '</dd></div><div><dt>Skill</dt><dd>' + escapeHtml(detail.skill) + '</dd></div><div><dt>Effect</dt><dd>' + escapeHtml(detail.effect) + '</dd></div><div><dt>Scene</dt><dd>' + escapeHtml(detail.scene) + '</dd></div></dl></div>';
+
+    els.evolutionPathTabs.querySelectorAll('[data-evolution-path]').forEach(function (button) {
+      button.addEventListener('click', function () {
+        selectedEvolutionPath = button.getAttribute('data-evolution-path') || 'arcanist';
+        renderEvolutionDialog();
+      });
+    });
+    els.evolutionGrid.querySelectorAll('[data-evolution-level]').forEach(function (button) {
+      button.addEventListener('click', function () {
+        selectedEvolutionLevel = Number(button.getAttribute('data-evolution-level')) || 1;
+        renderEvolutionDialog();
+      });
+    });
+  }
+
+  function playQuestReward(quest, cadence, previousLevel) {
+    if (!quest || !els.growthRewardToast) return;
+    var nextLevel = levelFromXp(totalXp());
+    var axis = canonicalAxis(quest.axis);
+    var bonus = xpForCadence(cadence);
+    var leveledUp = nextLevel > previousLevel;
+    els.growthRewardToast.innerHTML = '<strong>' + (leveledUp ? 'Level Up! Lv. ' + nextLevel : '+' + bonus + ' EXP') + '</strong><span>' + escapeHtml(cleanQuestTitle(quest.title, cadence)) + ' / ' + escapeHtml(axis) + '</span>';
+    els.growthRewardToast.hidden = false;
+    els.growthRewardToast.classList.remove('show');
+    void els.growthRewardToast.offsetWidth;
+    els.growthRewardToast.classList.add('show');
+    if (els.growthAvatar) {
+      els.growthAvatar.classList.remove('quest-cleared', 'level-up');
+      void els.growthAvatar.offsetWidth;
+      els.growthAvatar.classList.add(leveledUp ? 'level-up' : 'quest-cleared');
+    }
+    if (rewardToastTimer) window.clearTimeout(rewardToastTimer);
+    rewardToastTimer = window.setTimeout(function () {
+      els.growthRewardToast.classList.remove('show');
+      els.growthRewardToast.hidden = true;
+      if (els.growthAvatar) els.growthAvatar.classList.remove('quest-cleared', 'level-up');
+    }, leveledUp ? 3200 : 2200);
   }
 
   function renderPlayerName() {
@@ -661,6 +1026,7 @@
         var quest = findQuest(button.getAttribute('data-quest'));
         var key = button.getAttribute('data-date');
         if (!quest) return;
+        var previousLevel = levelFromXp(totalXp());
         var wasChecked = !!quest.checks[key];
         quest.checks[key] = !quest.checks[key];
         if (!quest.checks[key]) delete quest.checks[key];
@@ -669,6 +1035,7 @@
         }
         saveState();
         render();
+        if (!wasChecked && quest.checks[key]) playQuestReward(quest, quest.cadence, previousLevel);
       });
     });
 
@@ -1185,7 +1552,7 @@
   }
 
   function totalXp() {
-    return (Number(state.baseXp) || 0) + questXpTotal(state.quests) + completionBonus();
+    return (Number(state.baseXp) || 0) + questXpTotal(state.quests) + attendanceBonusXp(state.quests) + completionBonus();
   }
 
   function questXpTotal(quests) {
@@ -1198,6 +1565,31 @@
     if (cadence === 'monthly') return 300;
     if (cadence === 'weekly') return 70;
     return 10;
+  }
+
+  function attendanceBonusXp(quests) {
+    var dailyQuests = quests.filter(function (quest) { return quest.cadence === 'daily'; });
+    if (!dailyQuests.length) return 0;
+    var keys = {};
+    dailyQuests.forEach(function (quest) {
+      Object.keys(quest.checks || {}).forEach(function (key) {
+        if (quest.checks[key] && parseDateKey(key) <= today) keys[key] = true;
+      });
+    });
+    var qualified = Object.keys(keys).filter(function (key) {
+      var done = dailyQuests.filter(function (quest) { return !!quest.checks[key]; }).length;
+      return (done / dailyQuests.length) >= 0.8;
+    }).sort();
+    var total = 0;
+    var run = 0;
+    var previous = null;
+    qualified.forEach(function (key) {
+      var date = parseDateKey(key);
+      run = previous && daysBetween(previous, date) === 1 ? run + 1 : 1;
+      total += 10 + Math.min(60, run * 2);
+      previous = date;
+    });
+    return total;
   }
 
   function achievementXp(item) {
@@ -1311,9 +1703,7 @@
     var cursor = new Date(today.getFullYear(), today.getMonth(), today.getDate());
     var streak = 0;
     while (streak < 365) {
-      var key = toDateKey(cursor);
-      var anyDone = state.quests.some(function (quest) { return quest.checks[key]; });
-      if (!anyDone) break;
+      if (dailyCompletionForDate(cursor) < 80) break;
       streak += 1;
       cursor.setDate(cursor.getDate() - 1);
     }
@@ -1508,7 +1898,8 @@
     });
 
     var demoScore = rangeCompletion(nextState.quests, startOfMonth(today), endOfDay(today));
-    nextState.baseXp = Math.max(0, 8200 - questXpTotal(nextState.quests) - completionBonusForScore(demoScore));
+    var demoTargetXp = (16 * XP_PER_LEVEL) + 80;
+    nextState.baseXp = Math.max(0, demoTargetXp - questXpTotal(nextState.quests) - attendanceBonusXp(nextState.quests) - completionBonusForScore(demoScore));
     return nextState;
   }
 

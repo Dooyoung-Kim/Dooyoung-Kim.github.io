@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css?v=20">
-<link rel="stylesheet" href="assets/growth.css?v=81">
+<link rel="stylesheet" href="assets/growth.css?v=82">
 <link rel="stylesheet" href="assets/growth-layout.css?v=3">
 </head>
 <body class="growth-page">
@@ -59,6 +59,13 @@
       <section class="growth-panel growth-status-card fade-in" aria-label="Growth character status">
         <div class="character-column">
           <div class="pixel-stage" aria-hidden="true">
+            <div id="evolutionScene" class="evolution-scene">
+              <span class="scene-glow"></span>
+              <span class="scene-landscape"></span>
+              <span class="scene-star scene-star-one"></span>
+              <span class="scene-star scene-star-two"></span>
+              <span class="scene-star scene-star-three"></span>
+            </div>
             <div id="growthAvatar" class="koala-mage avatar-novice" aria-label="Koala character">
               <span class="mage-shadow"></span>
               <span class="mage-hat"></span>
@@ -85,6 +92,12 @@
               <span class="eucalyptus-leaf eucalyptus-leaf-one"></span>
               <span class="eucalyptus-leaf eucalyptus-leaf-two"></span>
               <span class="eucalyptus-leaf eucalyptus-leaf-three"></span>
+              <span class="evolution-cape"></span>
+              <span class="evolution-emblem"></span>
+              <span class="evolution-skill"></span>
+              <span class="evolution-particle evolution-particle-one"></span>
+              <span class="evolution-particle evolution-particle-two"></span>
+              <span class="evolution-particle evolution-particle-three"></span>
               <span class="mage-foot mage-foot-left"></span>
               <span class="mage-foot mage-foot-right"></span>
             </div>
@@ -108,13 +121,14 @@
               <div class="xp-mini player-xp">
                 <span>EXP</span>
                 <div class="xp-bar compact" aria-label="XP progress"><span id="xpFill"></span></div>
-                <strong id="xpLabel">0 / 500</strong>
+                <strong id="xpLabel">0 / 170</strong>
               </div>
             </div>
             <div class="status-auth" aria-label="Growth Quest sync">
               <div id="statusAuthActions" class="auth-actions status-auth-actions">
                 <button id="googleSignIn" class="growth-button google-auth-button" type="button" aria-label="Sign in with Google" title="Sign in with Google"><img src="assets/google-g-logo.png" alt=""></button>
                 <button id="googleSignOut" class="ghost-button" type="button" hidden>Sign out</button>
+                <button id="evolutionOpen" class="ghost-button evolution-open" type="button" aria-label="Open character evolution journey" title="Evolution journey">Evolution</button>
                 <button id="resetDemo" class="ghost-button" type="button">Reset Local</button>
               </div>
             </div>
@@ -139,8 +153,43 @@
               <strong id="capitalScore">0%</strong>
             </div>
           </div>
+          <div class="progression-strip" aria-label="Character progression">
+            <div class="momentum-readout">
+              <span>Momentum</span>
+              <div id="momentumDots" class="momentum-dots" aria-label="Seven-day momentum"></div>
+              <strong id="momentumLabel">0/7</strong>
+            </div>
+            <button id="nextUnlockButton" class="next-unlock" type="button">
+              <span>Next unlock</span>
+              <strong id="nextUnlockLabel">Lv. 2</strong>
+              <em id="nextUnlockName">Leaf Crown</em>
+            </button>
+            <div class="monthly-chest">
+              <span>Monthly chest</span>
+              <strong id="monthlyChestLabel">80% Bronze</strong>
+            </div>
+          </div>
         </div>
       </section>
+
+      <dialog id="evolutionDialog" class="evolution-dialog" aria-labelledby="evolutionTitle">
+        <div class="evolution-dialog-shell">
+          <header class="evolution-dialog-header">
+            <div>
+              <span>Character Evolution</span>
+              <h2 id="evolutionTitle">50-Level Journey</h2>
+            </div>
+            <button id="evolutionClose" class="evolution-close" type="button" aria-label="Close evolution journey">&times;</button>
+          </header>
+          <div id="evolutionPathTabs" class="evolution-path-tabs" role="tablist" aria-label="Evolution path"></div>
+          <div class="evolution-dialog-content">
+            <div id="evolutionGrid" class="evolution-grid" aria-label="Evolution levels"></div>
+            <aside id="evolutionDetail" class="evolution-detail" aria-live="polite"></aside>
+          </div>
+        </div>
+      </dialog>
+
+      <div id="growthRewardToast" class="growth-reward-toast" role="status" aria-live="polite" hidden></div>
 
       <section id="growthTracker" class="growth-panel quest-board fade-in" aria-label="Monthly quest board">
         <div class="panel-heading quest-heading">
@@ -227,7 +276,7 @@
 
 <script src="assets/site.js?v=4" defer></script>
 <script src="assets/growth-auth-config.js?v=3"></script>
-<script src="assets/growth.js?v=37" defer></script>
+<script src="assets/growth.js?v=38" defer></script>
 <script src="assets/growth-auth.js?v=6" type="module"></script>
 </body>
 </html>
