@@ -2,7 +2,7 @@
   'use strict';
 
   var KEY = 'dooyoung-growth-quest-v10';
-  var DEMO_VERSION = 6;
+  var DEMO_VERSION = 7;
   var MAX_LEVEL = 50;
   var XP_PER_LEVEL = 170;
   var today = new Date();
@@ -1744,15 +1744,15 @@
       axes: defaultAxes.slice(),
       achievements: [],
       quests: [
-        makeQuest('30 min exercise', 'Health', 'daily'),
+        makeQuest('1hr workout', 'Health', 'daily'),
         makeQuest('2 vegetable servings', 'Health', 'daily'),
         makeQuest('Alcohol-free day', 'Health', 'daily'),
-        makeQuest('30 min focused learning', 'Intelligence', 'daily'),
-        makeQuest('Set 3 priorities for next week', 'Intelligence', 'weekly'),
-        makeQuest('Finish 2 books', 'Intelligence', 'monthly'),
-        makeQuest('Lunch at or under $15', 'Capital', 'daily'),
+        makeQuest('1st Authored Paper Submission', 'Intelligence', 'monthly'),
+        makeQuest('Teaching & Service 3hrs', 'Intelligence', 'weekly'),
+        makeQuest('Finish 1 book', 'Intelligence', 'weekly'),
+        makeQuest('Finance Study 30 min', 'Capital', 'daily'),
         makeQuest('Log every expense', 'Capital', 'daily'),
-        makeQuest('Save 10% of income', 'Capital', 'monthly')
+        makeQuest('Save 30% of income', 'Capital', 'monthly')
       ]
     };
   }

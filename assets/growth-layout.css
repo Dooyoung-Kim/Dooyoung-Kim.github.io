@@ -208,6 +208,21 @@
   --day-col: 36px;
 }
 
+/* Keep every frozen board cell on the same grid tracks. The legacy site
+   stylesheet gives quest inputs a 230px minimum, which otherwise pushes the
+   item rows past the Items header and the summary labels. */
+.growth-page .month-grid .board-quest-head,
+.growth-page .month-grid .quest-title-input,
+.growth-page .month-grid .summary-label {
+  box-sizing: border-box !important;
+  min-width: 0 !important;
+  max-width: 100% !important;
+}
+
+.growth-page .month-grid .quest-title-input {
+  width: 100% !important;
+}
+
 .growth-page .week-head {
   font-size: 10px !important;
   line-height: 14px !important;
