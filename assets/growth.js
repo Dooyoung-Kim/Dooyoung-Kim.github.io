@@ -2,7 +2,7 @@
   'use strict';
 
   var KEY = 'dooyoung-growth-quest-v10';
-  var DEMO_VERSION = 5;
+  var DEMO_VERSION = 6;
   var MAX_LEVEL = 50;
   var XP_PER_LEVEL = 170;
   var today = new Date();
@@ -111,12 +111,6 @@
     evolutionPathTabs: byId('evolutionPathTabs'),
     evolutionGrid: byId('evolutionGrid'),
     evolutionDetail: byId('evolutionDetail'),
-    momentumDots: byId('momentumDots'),
-    momentumLabel: byId('momentumLabel'),
-    nextUnlockButton: byId('nextUnlockButton'),
-    nextUnlockLabel: byId('nextUnlockLabel'),
-    nextUnlockName: byId('nextUnlockName'),
-    monthlyChestLabel: byId('monthlyChestLabel'),
     growthRewardToast: byId('growthRewardToast'),
     rankState: byId('rankState'),
     xpFill: byId('xpFill'),
@@ -237,13 +231,6 @@
     });
   }
 
-  if (els.nextUnlockButton) {
-    els.nextUnlockButton.addEventListener('click', function () {
-      var level = levelFromXp(totalXp());
-      openEvolutionDialog(Math.min(MAX_LEVEL, level + 1));
-    });
-  }
-
   if (els.evolutionClose) {
     els.evolutionClose.addEventListener('click', closeEvolutionDialog);
   }
@@ -345,7 +332,7 @@
       ? 'Reset all Growth Quest data for this signed-in account? This cannot be undone.'
       : 'Reset local Growth Quest data in this browser?';
     if (!window.confirm(message)) return;
-    state = seedState();
+    state = signedIn ? seedState() : demoState();
     saveState();
     activeView = 'board';
     statisticsRange = 'monthly';
@@ -429,7 +416,6 @@
     updateStat('stamina', stamina);
     updateStat('intelligence', intelligence);
     updateStat('capital', capital);
-    renderProgressionStrip(level, completion);
   }
 
   function visiblePlayerName() {
@@ -585,52 +571,6 @@
       if (axisNames.indexOf(quest.axis) === -1) return sum;
       return sum + Object.keys(quest.checks || {}).length * xpForCadence(quest.cadence);
     }, 0);
-  }
-
-  function renderProgressionStrip(level, completion) {
-    var momentum = momentumProfile();
-    if (els.momentumDots) {
-      els.momentumDots.innerHTML = momentum.days.map(function (day) {
-        return '<i class="' + (day.complete ? 'complete' : '') + (day.today ? ' today' : '') + '" title="' + escapeAttr(day.label) + '"></i>';
-      }).join('');
-      els.momentumDots.setAttribute('aria-label', momentum.count + ' of the last 7 days reached 80 percent');
-    }
-    if (els.momentumLabel) els.momentumLabel.textContent = momentum.count + '/7';
-
-    var nextLevel = Math.min(MAX_LEVEL, level + 1);
-    var nextProfile = evolutionProfile(nextLevel, level >= 11 ? dominantEvolutionPath() : selectedEvolutionPath);
-    if (els.nextUnlockLabel) els.nextUnlockLabel.textContent = level >= MAX_LEVEL ? 'Lv. 50' : 'Lv. ' + nextLevel;
-    if (els.nextUnlockName) els.nextUnlockName.textContent = level >= MAX_LEVEL ? 'Journey Complete' : nextProfile.unlock.unlock;
-    if (els.nextUnlockButton) els.nextUnlockButton.disabled = level >= MAX_LEVEL;
-
-    if (els.monthlyChestLabel) {
-      if (completion >= 100) els.monthlyChestLabel.textContent = 'Crown claimed';
-      else if (completion >= 90) els.monthlyChestLabel.textContent = 'Next: 100% Crown';
-      else if (completion >= 80) els.monthlyChestLabel.textContent = 'Next: 90% Gold';
-      else els.monthlyChestLabel.textContent = 'Next: 80% Bronze';
-      var chest = els.monthlyChestLabel.closest('.monthly-chest');
-      if (chest) {
-        chest.classList.toggle('bronze', completion >= 80 && completion < 90);
-        chest.classList.toggle('gold', completion >= 90 && completion < 100);
-        chest.classList.toggle('crown', completion >= 100);
-      }
-    }
-  }
-
-  function momentumProfile() {
-    var days = [];
-    var count = 0;
-    for (var offset = 6; offset >= 0; offset -= 1) {
-      var date = new Date(today.getFullYear(), today.getMonth(), today.getDate() - offset);
-      var complete = dailyCompletionForDate(date) >= 80;
-      if (complete) count += 1;
-      days.push({
-        complete: complete,
-        today: offset === 0,
-        label: date.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })
-      });
-    }
-    return { count: count, days: days };
   }
 
   function dailyCompletionForDate(date) {
@@ -1818,7 +1758,9 @@
   }
 
   function shouldUpgradeToDemo(nextState) {
-    if (!nextState || nextState.mode || nextState.playerName) return false;
+    if (!nextState || nextState.playerName) return false;
+    if (nextState.mode && nextState.mode !== 'user') return false;
+    if (Number(nextState.baseXp) > 0) return false;
     if (Array.isArray(nextState.achievements) && nextState.achievements.length) return false;
     if (!Array.isArray(nextState.quests)) return true;
     if (nextState.quests.some(function (quest) {

@@ -8382,118 +8382,6 @@ body.growth-page .growth-footer {
   animation: evolution-level-up 920ms steps(7, end) 2;
 }
 
-.growth-page .progression-strip {
-  display: grid;
-  grid-template-columns: minmax(170px, 0.9fr) minmax(240px, 1.35fr) minmax(150px, 0.8fr);
-  align-items: stretch;
-  gap: 7px;
-  min-width: 0;
-}
-
-.growth-page .progression-strip > div,
-.growth-page .progression-strip > button {
-  min-width: 0;
-  min-height: 38px;
-  padding: 6px 9px;
-  border: 1px solid var(--modern-line);
-  border-radius: 7px;
-  background: rgba(255, 255, 255, 0.018);
-  color: var(--modern-text);
-  font-family: var(--g-font-ui);
-}
-
-.growth-page .momentum-readout,
-.growth-page .monthly-chest {
-  display: grid;
-  grid-template-columns: max-content minmax(58px, 1fr) max-content;
-  align-items: center;
-  gap: 8px;
-}
-
-.growth-page .monthly-chest {
-  grid-template-columns: max-content minmax(0, 1fr);
-}
-
-.growth-page .progression-strip span {
-  color: var(--modern-muted);
-  font-size: 8px;
-  font-weight: 700;
-  white-space: nowrap;
-}
-
-.growth-page .progression-strip strong,
-.growth-page .progression-strip em {
-  overflow: hidden;
-  font-size: 9px;
-  font-style: normal;
-  font-weight: 760;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.growth-page .monthly-chest {
-  transition: border-color 180ms ease, background-color 180ms ease, box-shadow 180ms ease;
-}
-
-.growth-page .monthly-chest.bronze {
-  border-color: color-mix(in srgb, var(--growth-gold) 44%, var(--growth-line));
-  background: color-mix(in srgb, var(--growth-gold) 7%, var(--growth-panel));
-}
-
-.growth-page .monthly-chest.gold,
-.growth-page .monthly-chest.crown {
-  border-color: color-mix(in srgb, var(--growth-gold) 68%, var(--growth-line));
-  background: color-mix(in srgb, var(--growth-gold) 12%, var(--growth-panel));
-  box-shadow: inset 0 0 16px color-mix(in srgb, var(--growth-gold) 12%, transparent);
-}
-
-.growth-page .monthly-chest.crown strong {
-  color: var(--growth-gold);
-}
-
-.growth-page .momentum-dots {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  gap: 3px;
-  min-width: 58px;
-}
-
-.growth-page .momentum-dots i {
-  height: 7px;
-  border: 1px solid rgba(226, 232, 255, 0.16);
-  border-radius: 2px;
-  background: #080a0f;
-}
-
-.growth-page .momentum-dots i.complete {
-  border-color: rgba(114, 198, 154, 0.6);
-  background: #457b62;
-}
-
-.growth-page .momentum-dots i.today {
-  box-shadow: 0 0 0 1px rgba(238, 241, 248, 0.42);
-}
-
-.growth-page .next-unlock {
-  display: grid;
-  grid-template-columns: max-content max-content minmax(0, 1fr);
-  align-items: center;
-  gap: 8px;
-  text-align: left;
-  cursor: pointer;
-}
-
-.growth-page .next-unlock:hover,
-.growth-page .next-unlock:focus-visible {
-  border-color: rgba(114, 198, 154, 0.55);
-  background: rgba(114, 198, 154, 0.07);
-}
-
-.growth-page .next-unlock:disabled {
-  cursor: default;
-  opacity: 0.72;
-}
-
 .growth-page .evolution-open {
   min-width: 74px;
 }
@@ -8880,32 +8768,12 @@ body.growth-page .growth-footer {
 }
 
 @media (max-width: 900px) {
-  .growth-page .progression-strip {
-    grid-template-columns: minmax(150px, 0.9fr) minmax(210px, 1.2fr);
-  }
-
-  .growth-page .monthly-chest {
-    display: none;
-  }
-
   .growth-page .evolution-grid {
     grid-template-columns: repeat(8, minmax(38px, 1fr));
   }
 }
 
 @media (max-width: 640px) {
-  .growth-page .progression-strip {
-    grid-column: 1 / -1;
-    grid-template-columns: minmax(118px, 0.82fr) minmax(150px, 1.18fr);
-    gap: 5px;
-    width: 100%;
-  }
-
-  .growth-page .progression-strip > div,
-  .growth-page .progression-strip > button {
-    min-height: 34px;
-  }
-
   .growth-page .evolution-open {
     min-width: 32px;
     width: 32px;
