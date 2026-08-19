@@ -1,0 +1,19 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /growthQuest/{userId} {
+      function ownsDocument() {
+        return request.auth != null && request.auth.uid == userId;
+      }
+
+      allow read, delete: if ownsDocument();
+      allow create, update: if ownsDocument()
+        && request.resource.data.keys().hasOnly(['state', 'revision', 'updatedAt'])
+        && request.resource.data.keys().hasAll(['state', 'revision', 'updatedAt'])
+        && request.resource.data.state is map
+        && request.resource.data.revision is int
+        && request.resource.data.revision >= 1;
+    }
+  }
+}

@@ -173,6 +173,7 @@
   var selectedEvolutionPath = 'arcanist';
   var selectedEvolutionLevel = 1;
   var rewardToastTimer = null;
+  var dateRefreshTimer = null;
   var state = migrateState(loadState());
   saveState();
   exposeGrowthQuest();
@@ -249,7 +250,7 @@
       if (!nextName) return;
       state.playerName = nextName;
       closePlayerNameEditor();
-      saveState();
+      saveState(true);
       renderPlayerName();
     });
   }
@@ -340,6 +341,11 @@
   });
 
   render();
+  scheduleDateRefresh();
+  window.addEventListener('focus', refreshCurrentDate);
+  document.addEventListener('visibilitychange', function () {
+    if (!document.hidden) refreshCurrentDate();
+  });
 
   function render() {
     renderAxisOptions();
@@ -939,12 +945,12 @@
           } else {
             input.value = cleanQuestTitle(quest.title, quest.cadence);
           }
-          saveState();
+          saveState(true);
           render();
           return;
         }
         quest.title = cleanQuestTitle(stripCadencePrefix(input.value), quest.cadence);
-        saveState();
+        saveState(true);
         render();
       });
     });
@@ -956,7 +962,7 @@
         quest.cadence = select.value || 'daily';
         quest.title = cleanQuestTitle(quest.title, quest.cadence);
         quest.checks = {};
-        saveState();
+        saveState(true);
         render();
       });
     });
@@ -973,7 +979,7 @@
         if (!wasChecked && quest.checks[key] && quest.cadence !== 'daily') {
           recordAchievement(quest, key);
         }
-        saveState();
+        saveState(true);
         render();
         if (!wasChecked && quest.checks[key]) playQuestReward(quest, quest.cadence, previousLevel);
       });
@@ -1023,15 +1029,15 @@
         dragDropHandled = true;
         moveQuest(draggedQuestId, targetId, dragInsertPosition);
         clearDragState();
-        saveState();
+        saveState(true);
         render();
       });
     });
 
-    els.monthGrid.addEventListener('dragleave', function (event) {
+    els.monthGrid.ondragleave = function (event) {
       if (event.relatedTarget && els.monthGrid.contains(event.relatedTarget)) return;
       highlightDropTarget('');
-    });
+    };
   }
 
   function moveQuest(sourceId, targetId, position) {
@@ -1051,7 +1057,7 @@
     var index = state.quests.findIndex(function (quest) { return quest.id === questId; });
     if (index < 0) return;
     state.quests.splice(index, 1);
-    saveState();
+    saveState(true);
     render();
   }
 
@@ -1391,7 +1397,7 @@
     if (!title) return;
     state.quests.push(makeQuest(title, els.questAxis.value || state.axes[0], els.questCadence.value || 'daily'));
     els.questForm.reset();
-    saveState();
+    saveState(true);
     render();
   }
 
@@ -1407,7 +1413,7 @@
     if (els.axisQuickAdd) els.axisQuickAdd.hidden = true;
     if (els.axisToggle) els.axisToggle.setAttribute('aria-expanded', 'false');
     closeQuestMenus();
-    saveState();
+    saveState(true);
     render();
   }
 
@@ -1475,7 +1481,7 @@
           } else {
             input.value = oldAxis;
           }
-          saveState();
+          saveState(true);
           render();
           return;
         }
@@ -1485,7 +1491,7 @@
             if (quest.axis === oldAxis) quest.axis = nextAxis;
           });
         }
-        saveState();
+        saveState(true);
         render();
       });
     });
@@ -1934,8 +1940,49 @@
     });
   }
 
-  function saveState() {
-    localStorage.setItem(KEY, JSON.stringify(state));
+  function refreshCurrentDate() {
+    var nextToday = new Date();
+    var nextKey = toDateKey(nextToday);
+    scheduleDateRefresh();
+    if (nextKey === todayKey) return;
+    today = nextToday;
+    year = today.getFullYear();
+    month = today.getMonth();
+    todayKey = nextKey;
+    if (els.currentMonthLabel) els.currentMonthLabel.textContent = monthLabel();
+    if (els.boardTitle) els.boardTitle.textContent = monthLabel();
+    if (els.todayLabel) els.todayLabel.textContent = todayLabel();
+    render();
+  }
+
+  function scheduleDateRefresh() {
+    window.clearTimeout(dateRefreshTimer);
+    var nextMidnight = new Date();
+    nextMidnight.setHours(24, 0, 1, 0);
+    dateRefreshTimer = window.setTimeout(refreshCurrentDate, Math.max(1000, nextMidnight - new Date()));
+  }
+
+  function markUserMutation() {
+    if (state.mode !== 'demo') return;
+    state.mode = 'user';
+    state.demoVersion = 0;
+  }
+
+  function persistLocalState() {
+    try {
+      localStorage.setItem(KEY, JSON.stringify(state));
+      return true;
+    } catch (error) {
+      window.dispatchEvent(new CustomEvent('growth-storage-error', {
+        detail: { message: error && error.message ? error.message : 'Local storage is unavailable.' }
+      }));
+      return false;
+    }
+  }
+
+  function saveState(userMutation) {
+    if (userMutation) markUserMutation();
+    persistLocalState();
     if (remoteSaveReady) {
       window.dispatchEvent(new CustomEvent('growth-state-saved', {
         detail: { state: cloneState(state) }
@@ -1950,12 +1997,20 @@
       },
       replaceState: function (nextState) {
         state = migrateState(nextState || seedState());
-        localStorage.setItem(KEY, JSON.stringify(state));
+        persistLocalState();
         render();
       },
       startFresh: function () {
         state = migrateState(seedState());
-        localStorage.setItem(KEY, JSON.stringify(state));
+        persistLocalState();
+        activeView = 'board';
+        statisticsRange = 'monthly';
+        render();
+        return cloneState(state);
+      },
+      showDemo: function () {
+        state = migrateState(demoState());
+        persistLocalState();
         activeView = 'board';
         statisticsRange = 'monthly';
         render();

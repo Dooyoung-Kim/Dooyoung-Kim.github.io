@@ -8375,11 +8375,11 @@ body.growth-page .growth-footer {
 .growth-page .koala-mage.motion-plan .mage-arm-right { animation: evolution-plan 4s steps(4, end) infinite; }
 
 .growth-page .koala-mage.quest-cleared {
-  animation: evolution-clear 480ms steps(4, end) 1;
+  animation: evolution-clear 440ms steps(4, end) 1;
 }
 
 .growth-page .koala-mage.level-up {
-  animation: evolution-level-up 920ms steps(7, end) 2;
+  animation: evolution-level-up 820ms steps(6, end) 2;
 }
 
 .growth-page .evolution-open {
@@ -8754,13 +8754,15 @@ body.growth-page .growth-footer {
 }
 
 @keyframes evolution-clear {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-5px); }
+  0%, 100% { translate: 0 0; scale: 1; }
+  45% { translate: 0 -3px; scale: 1.015; }
+  70% { translate: 0 -1px; scale: 1; }
 }
 
 @keyframes evolution-level-up {
-  0%, 100% { filter: brightness(1); transform: scale(1); }
-  50% { filter: brightness(1.45); transform: scale(1.06); }
+  0%, 100% { filter: brightness(1); translate: 0 0; scale: 1; }
+  45% { filter: brightness(1.32); translate: 0 -4px; scale: 1.025; }
+  70% { filter: brightness(1.12); translate: 0 -1px; scale: 1.01; }
 }
 
 @keyframes detail-aura {
@@ -8846,8 +8848,17 @@ body.growth-page .growth-footer {
   .growth-page .evolution-particle,
   .growth-page .koala-mage .mage-head,
   .growth-page .koala-mage .mage-arm,
+  .growth-page .avatar-mage .mage-arm-right,
+  .growth-page .avatar-mage .mage-staff,
+  .growth-page .avatar-mage .mage-orb,
+  .growth-page .avatar-mage .magic-fireball,
+  .growth-page .avatar-mage .magic-spark,
+  .growth-page .koala-mage.quest-cleared,
+  .growth-page .koala-mage.level-up,
+  .growth-page .growth-reward-toast,
   .growth-page .detail-aura,
   .growth-page .detail-skill {
     animation: none !important;
+    transition: none !important;
   }
 }

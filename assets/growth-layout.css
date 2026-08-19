@@ -382,7 +382,7 @@
 
   .growth-page .player-name-row {
     min-height: 22px !important;
-    padding-right: 98px;
+    padding-right: 124px;
   }
 
   .growth-page .player-name-button {
@@ -404,8 +404,11 @@
     overflow: hidden;
     font-size: 9px !important;
     line-height: 11px !important;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    display: -webkit-box;
+    max-height: 22px;
+    white-space: normal;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
   }
 
   .growth-page .player-xp {
