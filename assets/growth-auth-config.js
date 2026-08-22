@@ -9,3 +9,11 @@ window.GROWTH_FIREBASE_CONFIG = {
 };
 
 window.GROWTH_FIREBASE_SDK_VERSION = '12.17.1';
+
+// Enable this after Firebase Console > AI Logic has been configured with
+// production App Check. Until then, the planner uses its local deterministic
+// draft engine so the complete UX can be tested without exposing credentials.
+window.GROWTH_AI_LOGIC = {
+  enabled: false,
+  model: 'gemini-3.6-flash'
+};

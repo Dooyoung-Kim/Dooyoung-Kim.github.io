@@ -12,6 +12,7 @@
 <link rel="stylesheet" href="style.css?v=20">
 <link rel="stylesheet" href="assets/growth.css?v=83">
 <link rel="stylesheet" href="assets/growth-layout.css?v=5">
+<link rel="stylesheet" href="assets/growth-planning.css?v=1">
 </head>
 <body class="growth-page">
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
@@ -195,6 +196,17 @@
           </div>
         </div>
 
+        <section id="primaryGoalRail" class="growth-planning-rail" aria-label="Primary goal" aria-live="polite">
+          <div class="growth-planning-empty">
+            <div>
+              <span>Primary quest</span>
+              <strong>Turn one meaningful goal into a plan you can finish.</strong>
+              <p>Set the deadline and available time. Growth Quest will draft the milestones and measurable quests.</p>
+            </div>
+            <button id="goalPlanOpen" class="growth-planning-primary" type="button">Plan a goal</button>
+          </div>
+        </section>
+
         <div class="month-grid-wrap" aria-label="Monthly quest grid">
           <div id="monthGrid" class="month-grid"></div>
         </div>
@@ -246,6 +258,115 @@
 
         <div id="accountDataActions" class="account-data-actions" aria-label="Account data controls" hidden></div>
       </section>
+
+      <dialog id="goalPlannerDialog" class="growth-planning-dialog" aria-labelledby="goalPlannerTitle">
+        <form id="goalPlannerForm" class="growth-planning-dialog-shell" novalidate>
+          <header class="growth-planning-dialog-header">
+            <div>
+              <span id="goalPlannerStepLabel">Step 1 of 3</span>
+              <h2 id="goalPlannerTitle">Plan one important goal</h2>
+            </div>
+            <button id="goalPlannerClose" class="growth-planning-icon-button" type="button" aria-label="Close goal planner">&times;</button>
+          </header>
+
+          <div class="growth-planning-step" data-planning-step="1">
+            <label class="growth-planning-field growth-planning-goal-field">
+              <span>What do you want to accomplish?</span>
+              <textarea id="goalStatement" maxlength="120" rows="3" placeholder="Finish and submit my research paper" required></textarea>
+              <small>Choose a result that matters over the next 30 to 90 days.</small>
+            </label>
+          </div>
+
+          <div class="growth-planning-step" data-planning-step="2" hidden>
+            <div class="growth-planning-field-grid">
+              <label class="growth-planning-field">
+                <span>Deadline</span>
+                <input id="goalDeadline" type="date" required>
+              </label>
+              <label class="growth-planning-field">
+                <span>Hours per week</span>
+                <input id="goalHours" type="number" min="1" max="40" step="1" value="5" required>
+              </label>
+            </div>
+            <label class="growth-planning-field">
+              <span>Where are you now?</span>
+              <textarea id="goalCurrentState" maxlength="240" rows="3" placeholder="I have notes and references, but no complete draft yet." required></textarea>
+            </label>
+            <label class="growth-planning-field">
+              <span>Known constraints <em>Optional</em></span>
+              <textarea id="goalConstraints" maxlength="240" rows="2" placeholder="Teaching on Tuesdays, no weekend work, travel in week three"></textarea>
+            </label>
+          </div>
+
+          <div class="growth-planning-step" data-planning-step="3" hidden>
+            <div id="goalPlanLoading" class="growth-planning-loading" hidden>
+              <i></i><span>Building a realistic plan...</span>
+            </div>
+            <div id="goalPlanPreview" class="growth-planning-preview"></div>
+            <div id="goalPlanAdjustments" class="growth-planning-adjustments" hidden>
+              <span>Adjust draft</span>
+              <button type="button" data-plan-adjust="easier">Less each day</button>
+              <button type="button" data-plan-adjust="faster">Move faster</button>
+              <button type="button" data-plan-adjust="metric">Change metric</button>
+            </div>
+          </div>
+
+          <footer class="growth-planning-dialog-footer">
+            <p id="goalPlannerMessage" role="status" aria-live="polite"></p>
+            <div>
+              <button id="goalPlannerBack" class="growth-planning-secondary" type="button" hidden>Back</button>
+              <button id="goalPlannerNext" class="growth-planning-primary" type="button">Continue</button>
+              <button id="goalPlannerApply" class="growth-planning-primary" type="submit" hidden>Add to board</button>
+            </div>
+          </footer>
+        </form>
+      </dialog>
+
+      <dialog id="weeklyReviewDialog" class="growth-planning-dialog growth-review-dialog" aria-labelledby="weeklyReviewTitle">
+        <form id="weeklyReviewForm" class="growth-planning-dialog-shell" novalidate>
+          <header class="growth-planning-dialog-header">
+            <div>
+              <span>Weekly review</span>
+              <h2 id="weeklyReviewTitle">Adapt the plan, not the goal</h2>
+            </div>
+            <button id="weeklyReviewClose" class="growth-planning-icon-button" type="button" aria-label="Close weekly review">&times;</button>
+          </header>
+          <div id="weeklyReviewSnapshot" class="growth-review-snapshot"></div>
+          <div class="growth-review-fields">
+            <label class="growth-planning-field">
+              <span>What moved forward?</span>
+              <textarea id="weeklyReviewWin" maxlength="240" rows="2" placeholder="A concrete result, however small"></textarea>
+            </label>
+            <label class="growth-planning-field">
+              <span>What got in the way?</span>
+              <select id="weeklyReviewBlocker">
+                <option value="none">Nothing significant</option>
+                <option value="time">Not enough time</option>
+                <option value="scope">The work was too large</option>
+                <option value="energy">Low energy or focus</option>
+                <option value="dependency">Waiting on someone or something</option>
+                <option value="priority">Priorities changed</option>
+              </select>
+            </label>
+            <label class="growth-planning-field">
+              <span>Next week's finish line</span>
+              <textarea id="weeklyReviewFocus" maxlength="200" rows="2" required></textarea>
+            </label>
+            <label class="growth-planning-field">
+              <span>Plan adjustment</span>
+              <select id="weeklyReviewAdaptation">
+                <option value="keep">Keep the current pace</option>
+                <option value="reduce">Reduce the workload</option>
+                <option value="replace">Replace the weakest quest</option>
+              </select>
+            </label>
+          </div>
+          <footer class="growth-planning-dialog-footer">
+            <p id="weeklyReviewMessage" role="status" aria-live="polite"></p>
+            <div><button class="growth-planning-primary" type="submit">Save review</button></div>
+          </footer>
+        </form>
+      </dialog>
     </div>
   </section>
 </main>
@@ -259,8 +380,10 @@
 </footer>
 
 <script src="assets/site.js?v=4" defer></script>
-<script src="assets/growth-auth-config.js?v=3"></script>
-<script src="assets/growth.js?v=39" defer></script>
-<script src="assets/growth-auth.js?v=7" type="module"></script>
+<script src="assets/growth-auth-config.js?v=4"></script>
+<script src="assets/growth.js?v=40" defer></script>
+<script src="assets/growth-auth.js?v=8" type="module"></script>
+<script src="assets/growth-ai.js?v=1" type="module"></script>
+<script src="assets/growth-planning.js?v=1" defer></script>
 </body>
 </html>

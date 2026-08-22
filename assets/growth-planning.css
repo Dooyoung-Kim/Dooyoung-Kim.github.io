@@ -1,0 +1,621 @@
+/* Goal planning layer. Kept separate from the calendar so legacy board tracks stay stable. */
+.growth-page {
+  --plan-surface: #10131a;
+  --plan-surface-raised: #151922;
+  --plan-line: rgba(226, 232, 255, 0.16);
+  --plan-line-strong: rgba(226, 232, 255, 0.28);
+  --plan-text: #f7f7f9;
+  --plan-muted: #949aa8;
+  --plan-accent: #72c69a;
+  --plan-accent-soft: rgba(114, 198, 154, 0.12);
+}
+
+.growth-planning-rail {
+  min-width: 0;
+  margin: 0 0 8px;
+  border: 1px solid var(--plan-line);
+  border-radius: 8px;
+  background: var(--plan-surface);
+  color: var(--plan-text);
+  overflow: hidden;
+}
+
+.growth-planning-empty,
+.growth-planning-active {
+  display: grid;
+  grid-template-columns: minmax(250px, 1fr) auto;
+  align-items: center;
+  gap: 20px;
+  min-height: 76px;
+  padding: 12px 14px;
+}
+
+.growth-planning-empty > div,
+.growth-planning-goal,
+.growth-planning-focus {
+  min-width: 0;
+}
+
+.growth-planning-empty span,
+.growth-planning-label,
+.growth-planning-dialog-header span,
+.growth-planning-preview-label {
+  display: block;
+  margin-bottom: 4px;
+  color: var(--plan-muted);
+  font-size: 10px;
+  font-weight: 750;
+  line-height: 14px;
+  text-transform: uppercase;
+}
+
+.growth-planning-empty strong {
+  display: block;
+  font-size: 15px;
+  line-height: 20px;
+}
+
+.growth-planning-empty p {
+  margin: 3px 0 0;
+  color: var(--plan-muted);
+  font-size: 11px;
+  line-height: 16px;
+}
+
+.growth-planning-primary,
+.growth-planning-secondary,
+.growth-planning-icon-button,
+.growth-planning-adjustments button,
+.growth-planning-link {
+  border: 1px solid transparent;
+  border-radius: 7px;
+  font-weight: 750;
+  cursor: pointer;
+}
+
+.growth-planning-primary {
+  min-height: 38px;
+  padding: 0 15px;
+  background: var(--plan-text);
+  color: #090b10;
+  font-size: 12px;
+}
+
+.growth-planning-primary:hover,
+.growth-planning-primary:focus-visible {
+  background: #fff;
+  outline: 2px solid var(--plan-accent);
+  outline-offset: 2px;
+}
+
+.growth-planning-primary:disabled {
+  opacity: 0.46;
+  cursor: wait;
+}
+
+.growth-planning-secondary,
+.growth-planning-link,
+.growth-planning-adjustments button {
+  min-height: 34px;
+  padding: 0 11px;
+  border-color: var(--plan-line);
+  background: transparent;
+  color: var(--plan-text);
+  font-size: 11px;
+}
+
+.growth-planning-secondary:hover,
+.growth-planning-link:hover,
+.growth-planning-adjustments button:hover {
+  border-color: var(--plan-line-strong);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.growth-planning-secondary:focus-visible,
+.growth-planning-link:focus-visible,
+.growth-planning-icon-button:focus-visible,
+.growth-planning-adjustments button:focus-visible {
+  border-color: var(--plan-accent);
+  outline: 2px solid var(--plan-accent);
+  outline-offset: 2px;
+}
+
+.growth-planning-active {
+  grid-template-columns: minmax(230px, 1.1fr) minmax(300px, 1.35fr) 150px;
+}
+
+.growth-planning-goal {
+  display: block;
+  width: 100%;
+  min-height: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: inherit;
+  text-align: left;
+}
+
+.growth-planning-goal:hover,
+.growth-planning-goal:focus-visible {
+  background: transparent;
+}
+
+.growth-planning-goal:focus-visible {
+  outline: 2px solid var(--plan-accent);
+  outline-offset: 4px;
+}
+
+.growth-planning-goal strong,
+.growth-planning-focus strong {
+  display: block;
+  overflow: hidden;
+  color: var(--plan-text);
+  font-size: 13px;
+  line-height: 18px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.growth-planning-goal-meta,
+.growth-planning-focus-meta {
+  display: flex;
+  gap: 8px;
+  margin-top: 5px;
+  color: var(--plan-muted);
+  font-size: 10px;
+  line-height: 14px;
+}
+
+.growth-planning-progress {
+  display: block;
+  width: 100%;
+  height: 5px;
+  margin-top: 8px;
+  border: 1px solid var(--plan-line);
+  border-radius: 3px;
+  background: #080a0f;
+  overflow: hidden;
+}
+
+.growth-planning-progress > i {
+  display: block;
+  width: 0;
+  height: 100%;
+  background: var(--plan-accent);
+}
+
+.growth-planning-review {
+  display: grid;
+  justify-items: stretch;
+  gap: 5px;
+}
+
+.growth-planning-review small {
+  color: var(--plan-muted);
+  text-align: center;
+  font-size: 9px;
+  line-height: 12px;
+}
+
+.growth-planning-dialog {
+  width: min(720px, calc(100vw - 32px));
+  max-height: min(780px, calc(100dvh - 32px));
+  margin: auto;
+  padding: 0;
+  border: 1px solid var(--plan-line-strong);
+  border-radius: 8px;
+  background: #0c0f15;
+  color: var(--plan-text);
+  box-shadow: 0 28px 80px rgba(0, 0, 0, 0.52);
+  overflow: hidden;
+}
+
+.growth-planning-dialog::backdrop {
+  background: rgba(0, 0, 0, 0.76);
+  backdrop-filter: blur(5px);
+}
+
+.growth-planning-dialog-shell {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  max-height: min(780px, calc(100dvh - 32px));
+  margin: 0;
+}
+
+.growth-planning-dialog-header,
+.growth-planning-dialog-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 15px 17px;
+  border-color: var(--plan-line);
+  background: #0c0f15;
+}
+
+.growth-planning-dialog-header {
+  border-bottom: 1px solid var(--plan-line);
+}
+
+.growth-planning-dialog-header h2 {
+  margin: 0;
+  color: var(--plan-text);
+  font-size: 20px;
+  font-weight: 760;
+  line-height: 26px;
+}
+
+.growth-planning-icon-button {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  border-color: var(--plan-line);
+  background: transparent;
+  color: var(--plan-muted);
+  font-size: 22px;
+  line-height: 1;
+}
+
+.growth-planning-step,
+.growth-review-fields {
+  padding: 20px 17px;
+  overflow-y: auto;
+}
+
+.growth-planning-field-grid {
+  display: grid;
+  grid-template-columns: 1fr 160px;
+  gap: 10px;
+}
+
+.growth-planning-field {
+  display: grid;
+  gap: 7px;
+  margin-bottom: 14px;
+}
+
+.growth-planning-field:last-child {
+  margin-bottom: 0;
+}
+
+.growth-planning-field > span {
+  color: var(--plan-text);
+  font-size: 11px;
+  font-weight: 720;
+  line-height: 15px;
+}
+
+.growth-planning-field em {
+  color: var(--plan-muted);
+  font-style: normal;
+  font-weight: 500;
+}
+
+.growth-planning-field textarea,
+.growth-planning-field input,
+.growth-planning-field select {
+  width: 100%;
+  min-height: 40px;
+  padding: 10px 11px;
+  border: 1px solid var(--plan-line);
+  border-radius: 7px;
+  background: #090b10;
+  color: var(--plan-text);
+  font-size: 13px;
+  line-height: 19px;
+  resize: vertical;
+}
+
+.growth-planning-goal-field textarea {
+  min-height: 104px;
+  padding: 15px;
+  font-size: 18px;
+  line-height: 27px;
+}
+
+.growth-planning-field textarea:focus,
+.growth-planning-field input:focus,
+.growth-planning-field select:focus {
+  border-color: var(--plan-accent);
+  outline: 2px solid var(--plan-accent-soft);
+  outline-offset: 1px;
+}
+
+.growth-planning-field small {
+  color: var(--plan-muted);
+  font-size: 10px;
+  line-height: 15px;
+}
+
+.growth-planning-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 250px;
+  color: var(--plan-muted);
+  font-size: 12px;
+}
+
+.growth-planning-loading i {
+  width: 16px;
+  height: 16px;
+  border: 2px solid var(--plan-line);
+  border-top-color: var(--plan-accent);
+  border-radius: 50%;
+  animation: growth-plan-spin 0.8s linear infinite;
+}
+
+@keyframes growth-plan-spin { to { transform: rotate(360deg); } }
+
+.growth-planning-preview {
+  display: grid;
+  gap: 16px;
+}
+
+.growth-planning-preview-title {
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--plan-line);
+}
+
+.growth-planning-preview-title h3 {
+  margin: 0 0 5px;
+  font-size: 18px;
+  line-height: 25px;
+}
+
+.growth-planning-preview-title p,
+.growth-planning-preview-block p {
+  margin: 0;
+  color: var(--plan-muted);
+  font-size: 11px;
+  line-height: 17px;
+}
+
+.growth-planning-preview-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.growth-planning-preview-list {
+  display: grid;
+  gap: 7px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.growth-planning-preview-list li {
+  display: grid;
+  grid-template-columns: 54px minmax(0, 1fr);
+  align-items: start;
+  gap: 8px;
+  padding-top: 7px;
+  border-top: 1px solid var(--plan-line);
+  color: var(--plan-text);
+  font-size: 11px;
+  line-height: 16px;
+}
+
+.growth-planning-preview-list li span {
+  color: var(--plan-muted);
+  font-size: 9px;
+  font-weight: 750;
+  text-transform: uppercase;
+}
+
+.growth-planning-adjustments {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  margin-top: 17px;
+}
+
+.growth-planning-adjustments > span {
+  margin-right: 4px;
+  color: var(--plan-muted);
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.growth-planning-dialog-footer {
+  min-height: 64px;
+  border-top: 1px solid var(--plan-line);
+}
+
+.growth-planning-dialog-footer > p {
+  min-width: 0;
+  margin: 0;
+  color: var(--plan-muted);
+  font-size: 10px;
+  line-height: 15px;
+}
+
+.growth-planning-dialog-footer > p.is-error {
+  color: #ff8c90;
+}
+
+.growth-planning-dialog-footer > div {
+  display: flex;
+  gap: 7px;
+  flex: none;
+}
+
+.growth-review-dialog .growth-planning-dialog-shell {
+  grid-template-rows: auto auto minmax(0, 1fr) auto;
+}
+
+.growth-review-snapshot {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 96px 96px;
+  gap: 8px;
+  padding: 12px 17px;
+  border-bottom: 1px solid var(--plan-line);
+}
+
+.growth-review-snapshot > div {
+  min-width: 0;
+}
+
+.growth-review-snapshot strong,
+.growth-review-snapshot span {
+  display: block;
+}
+
+.growth-review-snapshot strong {
+  overflow: hidden;
+  color: var(--plan-text);
+  font-size: 12px;
+  line-height: 17px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.growth-review-snapshot span {
+  color: var(--plan-muted);
+  font-size: 9px;
+  line-height: 13px;
+}
+
+@media (max-width: 1050px) and (min-width: 761px) {
+  .growth-planning-active {
+    grid-template-columns: minmax(0, 1fr) 150px;
+  }
+
+  .growth-planning-focus {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    padding-top: 9px;
+    border-top: 1px solid var(--plan-line);
+  }
+}
+
+@media (max-width: 760px) {
+  .growth-planning-empty,
+  .growth-planning-active {
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 7px 10px;
+    min-height: 70px;
+    padding: 9px 10px;
+  }
+
+  .growth-planning-empty p {
+    display: none;
+  }
+
+  .growth-planning-empty strong {
+    font-size: 12px;
+    line-height: 17px;
+  }
+
+  .growth-planning-primary {
+    min-height: 36px;
+    padding-inline: 11px;
+    font-size: 10px;
+  }
+
+  .growth-planning-focus {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    min-height: 0;
+    padding-top: 6px;
+    border-top: 1px solid var(--plan-line);
+  }
+
+  .growth-planning-focus strong {
+    overflow: hidden;
+    font-size: 11px;
+    line-height: 16px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .growth-planning-focus .growth-planning-label,
+  .growth-planning-focus-meta {
+    display: none;
+  }
+
+  .growth-planning-review {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .growth-planning-dialog {
+    width: 100vw;
+    max-width: none;
+    max-height: 100dvh;
+    height: 100dvh;
+    border: 0;
+    border-radius: 0;
+  }
+
+  .growth-planning-dialog-shell {
+    height: 100dvh;
+    max-height: 100dvh;
+  }
+
+  .growth-planning-dialog-header,
+  .growth-planning-dialog-footer {
+    padding: 13px 14px;
+  }
+
+  .growth-planning-dialog-header h2 {
+    font-size: 17px;
+    line-height: 23px;
+  }
+
+  .growth-planning-step,
+  .growth-review-fields {
+    padding: 17px 14px;
+  }
+
+  .growth-planning-field-grid,
+  .growth-planning-preview-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .growth-planning-dialog-footer {
+    position: sticky;
+    bottom: 0;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+  }
+
+  .growth-planning-dialog-footer > p:empty {
+    display: none;
+  }
+
+  .growth-planning-dialog-footer > p {
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .growth-planning-dialog-footer > p.is-error {
+    white-space: normal;
+  }
+
+  .growth-planning-dialog-footer > div {
+    width: 100%;
+  }
+
+  .growth-planning-dialog-footer button {
+    flex: 1;
+  }
+
+  .growth-review-snapshot {
+    grid-template-columns: minmax(0, 1fr) 64px 64px;
+    padding-inline: 14px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .growth-planning-loading i { animation: none; }
+}

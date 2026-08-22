@@ -3,6 +3,8 @@
 
   var KEY = 'dooyoung-growth-quest-v10';
   var DEMO_VERSION = 7;
+  var STATE_SCHEMA_VERSION = 11;
+  var PLANNING_VERSION = 1;
   var MAX_LEVEL = 50;
   var XP_PER_LEVEL = 170;
   var today = new Date();
@@ -1704,6 +1706,8 @@
   }
 
   function migrateState(nextState) {
+    nextState = nextState && typeof nextState === 'object' ? nextState : seedState();
+    nextState.schemaVersion = STATE_SCHEMA_VERSION;
     nextState.mode = nextState.mode === 'demo' ? 'demo' : 'user';
     nextState.demoVersion = nextState.mode === 'demo' ? Number(nextState.demoVersion) || 0 : 0;
     nextState.baseXp = Math.max(0, Number(nextState.baseXp) || 0);
@@ -1739,16 +1743,90 @@
           return item.title && item.key;
         }).slice(0, 80)
       : [];
+    nextState.planning = sanitizePlanning(nextState.planning);
     return nextState;
+  }
+
+  function sanitizePlanning(planning) {
+    var safe = planning && typeof planning === 'object' ? planning : {};
+    var goals = Array.isArray(safe.goals) ? safe.goals : [];
+    var weeklyReviews = Array.isArray(safe.weeklyReviews) ? safe.weeklyReviews : [];
+    return {
+      version: PLANNING_VERSION,
+      goals: goals.map(sanitizeGoal).filter(Boolean).slice(0, 12),
+      weeklyReviews: weeklyReviews.map(sanitizeWeeklyReview).filter(Boolean).slice(0, 52)
+    };
+  }
+
+  function sanitizeGoal(goal) {
+    if (!goal || typeof goal !== 'object') return null;
+    var title = String(goal.title || '').trim().slice(0, 120);
+    if (!title) return null;
+    var targetDate = validDateKey(goal.targetDate) ? goal.targetDate : '';
+    var axis = canonicalAxis(goal.axis || defaultAxes[1]);
+    var milestones = Array.isArray(goal.milestones) ? goal.milestones : [];
+    return {
+      id: String(goal.id || uniqueId('goal')).slice(0, 80),
+      title: title,
+      outcome: String(goal.outcome || title).trim().slice(0, 220),
+      targetDate: targetDate,
+      axis: axis,
+      status: goal.status === 'completed' || goal.status === 'archived' ? goal.status : 'active',
+      sourcePlanId: String(goal.sourcePlanId || '').slice(0, 80),
+      weeklyFocus: String(goal.weeklyFocus || '').trim().slice(0, 160),
+      currentState: String(goal.currentState || '').trim().slice(0, 240),
+      constraints: String(goal.constraints || '').trim().slice(0, 240),
+      availableHours: Math.min(80, Math.max(1, Number(goal.availableHours) || 5)),
+      milestones: milestones.map(function (item) {
+        if (!item || typeof item !== 'object') return null;
+        var milestoneTitle = String(item.title || '').trim().slice(0, 120);
+        if (!milestoneTitle) return null;
+        return {
+          title: milestoneTitle,
+          targetDate: validDateKey(item.targetDate) ? item.targetDate : '',
+          done: Boolean(item.done)
+        };
+      }).filter(Boolean).slice(0, 6),
+      assumptions: Array.isArray(goal.assumptions)
+        ? goal.assumptions.map(function (item) { return String(item || '').trim().slice(0, 120); }).filter(Boolean).slice(0, 5)
+        : [],
+      createdAt: validIsoDate(goal.createdAt) || new Date().toISOString(),
+      updatedAt: validIsoDate(goal.updatedAt) || new Date().toISOString()
+    };
+  }
+
+  function sanitizeWeeklyReview(review) {
+    if (!review || typeof review !== 'object' || !validDateKey(review.weekStart)) return null;
+    var snapshot = review.snapshot && typeof review.snapshot === 'object' ? review.snapshot : {};
+    return {
+      id: String(review.id || uniqueId('review')).slice(0, 80),
+      goalId: String(review.goalId || '').slice(0, 80),
+      weekStart: review.weekStart,
+      weekEnd: validDateKey(review.weekEnd) ? review.weekEnd : review.weekStart,
+      rating: Math.min(5, Math.max(1, Number(review.rating) || 3)),
+      win: String(review.win || '').trim().slice(0, 240),
+      blocker: String(review.blocker || '').trim().slice(0, 160),
+      nextFocus: String(review.nextFocus || '').trim().slice(0, 200),
+      adaptation: String(review.adaptation || 'keep').trim().slice(0, 24),
+      snapshot: {
+        done: Math.max(0, Number(snapshot.done) || 0),
+        possible: Math.max(0, Number(snapshot.possible) || 0),
+        percent: Math.min(100, Math.max(0, Number(snapshot.percent) || 0))
+      },
+      createdAt: validIsoDate(review.createdAt) || new Date().toISOString(),
+      updatedAt: validIsoDate(review.updatedAt) || new Date().toISOString()
+    };
   }
 
   function seedState() {
     return {
+      schemaVersion: STATE_SCHEMA_VERSION,
       mode: 'user',
       baseXp: 0,
       playerName: '',
       axes: defaultAxes.slice(),
       achievements: [],
+      planning: { version: PLANNING_VERSION, goals: [], weeklyReviews: [] },
       quests: [
         makeQuest('1hr workout', 'Health', 'daily'),
         makeQuest('2 vegetable servings', 'Health', 'daily'),
@@ -1768,6 +1846,10 @@
     if (nextState.mode && nextState.mode !== 'user') return false;
     if (Number(nextState.baseXp) > 0) return false;
     if (Array.isArray(nextState.achievements) && nextState.achievements.length) return false;
+    if (nextState.planning && (
+      (Array.isArray(nextState.planning.goals) && nextState.planning.goals.length) ||
+      (Array.isArray(nextState.planning.weeklyReviews) && nextState.planning.weeklyReviews.length)
+    )) return false;
     if (!Array.isArray(nextState.quests)) return true;
     if (nextState.quests.some(function (quest) {
       return quest && quest.checks && Object.keys(quest.checks).length;
@@ -1801,6 +1883,34 @@
     var nextState = seedState();
     nextState.mode = 'demo';
     nextState.demoVersion = DEMO_VERSION;
+    var demoGoalId = 'demo-growth-sprint';
+    var demoTarget = new Date(today);
+    demoTarget.setDate(demoTarget.getDate() + 42);
+    nextState.planning.goals = [{
+      id: demoGoalId,
+      title: 'Complete a focused 60-day growth sprint',
+      outcome: 'Finish the sprint with at least 85% of planned quests completed.',
+      targetDate: toDateKey(demoTarget),
+      axis: 'Intelligence',
+      status: 'active',
+      sourcePlanId: 'demo-plan-v1',
+      weeklyFocus: 'Protect focused time and close one meaningful result this week.',
+      currentState: 'A balanced set of health, learning, and finance routines is in progress.',
+      constraints: 'Keep the daily workload realistic and measurable.',
+      availableHours: 8,
+      milestones: [
+        { title: 'Build a consistent first two weeks', targetDate: toDateKey(new Date(today.getFullYear(), today.getMonth(), Math.min(daysInMonth(year, month), today.getDate() + 7))), done: true },
+        { title: 'Reach 80% monthly completion', targetDate: toDateKey(new Date(today.getFullYear(), today.getMonth(), daysInMonth(year, month))), done: false },
+        { title: 'Complete and reflect on the sprint', targetDate: toDateKey(demoTarget), done: false }
+      ],
+      assumptions: ['Daily quests fit around a full-time work schedule.', 'Weekly goals are reviewed every Sunday.'],
+      createdAt: new Date(today.getFullYear(), today.getMonth(), 1).toISOString(),
+      updatedAt: new Date().toISOString()
+    }];
+    nextState.quests.forEach(function (quest) {
+      quest.goalId = demoGoalId;
+      quest.sourcePlanId = 'demo-plan-v1';
+    });
     var dailyQuests = nextState.quests.filter(function (quest) { return quest.cadence === 'daily'; });
     var currentDay = today.getDate();
 
@@ -1860,6 +1970,21 @@
       checks: {},
       createdAt: new Date().toISOString()
     };
+  }
+
+  function uniqueId(prefix) {
+    return String(prefix || 'item') + '-' + Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 8);
+  }
+
+  function validDateKey(value) {
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(String(value || ''))) return false;
+    var parsed = parseDateKey(String(value));
+    return !Number.isNaN(parsed.getTime()) && toDateKey(parsed) === String(value);
+  }
+
+  function validIsoDate(value) {
+    if (!value || Number.isNaN(new Date(value).getTime())) return '';
+    return new Date(value).toISOString();
   }
 
   function axisCode(axis) {
@@ -1983,6 +2108,9 @@
   function saveState(userMutation) {
     if (userMutation) markUserMutation();
     persistLocalState();
+    window.dispatchEvent(new CustomEvent('growth-state-changed', {
+      detail: { state: cloneState(state), userMutation: Boolean(userMutation) }
+    }));
     if (remoteSaveReady) {
       window.dispatchEvent(new CustomEvent('growth-state-saved', {
         detail: { state: cloneState(state) }
@@ -1999,6 +2127,9 @@
         state = migrateState(nextState || seedState());
         persistLocalState();
         render();
+        window.dispatchEvent(new CustomEvent('growth-state-changed', {
+          detail: { state: cloneState(state), source: 'replace' }
+        }));
       },
       startFresh: function () {
         state = migrateState(seedState());
@@ -2006,6 +2137,9 @@
         activeView = 'board';
         statisticsRange = 'monthly';
         render();
+        window.dispatchEvent(new CustomEvent('growth-state-changed', {
+          detail: { state: cloneState(state), source: 'fresh' }
+        }));
         return cloneState(state);
       },
       showDemo: function () {
@@ -2014,6 +2148,9 @@
         activeView = 'board';
         statisticsRange = 'monthly';
         render();
+        window.dispatchEvent(new CustomEvent('growth-state-changed', {
+          detail: { state: cloneState(state), source: 'demo' }
+        }));
         return cloneState(state);
       },
       enableRemoteSave: function () {
@@ -2023,6 +2160,12 @@
       disableRemoteSave: function () {
         remoteSaveReady = false;
       },
+      getPlanningState: function () {
+        return cloneState(state.planning);
+      },
+      applyGoalPlan: applyGoalPlan,
+      getWeeklyReviewContext: getWeeklyReviewContext,
+      saveWeeklyReview: saveWeeklyReview,
       setAuthenticatedUser: function (profile) {
         authenticatedProfile = profile && typeof profile === 'object' ? profile : null;
         renderPlayerName();
@@ -2031,6 +2174,163 @@
     window.dispatchEvent(new CustomEvent('growth-quest-ready', {
       detail: { state: cloneState(state) }
     }));
+  }
+
+  function applyGoalPlan(draft) {
+    if (!draft || typeof draft !== 'object') throw new Error('A valid plan draft is required.');
+    var sourcePlanId = String(draft.planId || uniqueId('plan')).slice(0, 80);
+    var duplicatePlan = state.planning.goals.some(function (goal) {
+      return goal.sourcePlanId && goal.sourcePlanId === sourcePlanId;
+    });
+    if (duplicatePlan) throw new Error('This plan has already been added to the board.');
+
+    var axis = canonicalAxis(draft.axis || defaultAxes[1]);
+    if (state.axes.indexOf(axis) === -1) throw new Error('Choose an axis that exists on this board.');
+    var rawQuests = Array.isArray(draft.quests) ? draft.quests : [];
+    if (rawQuests.length < 1 || rawQuests.length > 8) throw new Error('A plan must contain between 1 and 8 quests.');
+
+    var existingSignatures = {};
+    state.quests.forEach(function (quest) { existingSignatures[questSignature(quest).toLowerCase()] = quest; });
+    var activeGoal = state.planning.goals.find(function (goal) { return goal.status === 'active'; }) || null;
+    var goalId = activeGoal ? activeGoal.id : uniqueId('goal');
+    var selectedQuestIds = {};
+    var newQuests = [];
+    var planQuests = rawQuests.map(function (item) {
+      if (!item || typeof item !== 'object') return null;
+      var cadence = ['daily', 'weekly', 'monthly'].indexOf(item.cadence) !== -1 ? item.cadence : 'daily';
+      var questAxis = canonicalAxis(item.axis || axis);
+      if (state.axes.indexOf(questAxis) === -1) questAxis = axis;
+      var title = cleanQuestTitle(String(item.title || '').trim().slice(0, 80), cadence);
+      if (!title) return null;
+      var signature = [title, questAxis, cadence].join('::').toLowerCase();
+      var quest = existingSignatures[signature];
+      if (!quest) {
+        quest = makeQuest(title, questAxis, cadence);
+        existingSignatures[signature] = quest;
+        newQuests.push(quest);
+      }
+      if (selectedQuestIds[quest.id]) return null;
+      quest.goalId = goalId;
+      quest.sourcePlanId = sourcePlanId;
+      selectedQuestIds[quest.id] = true;
+      return quest;
+    }).filter(Boolean);
+    if (!planQuests.length) throw new Error('The plan did not include any usable quests.');
+
+    if (activeGoal) {
+      state.quests.forEach(function (quest) {
+        if (quest.goalId === activeGoal.id && !selectedQuestIds[quest.id]) {
+          delete quest.goalId;
+          delete quest.sourcePlanId;
+        }
+      });
+    }
+
+    var now = new Date().toISOString();
+    var goal = sanitizeGoal({
+      id: goalId,
+      title: draft.title,
+      outcome: draft.outcome,
+      targetDate: draft.targetDate,
+      axis: axis,
+      status: 'active',
+      sourcePlanId: sourcePlanId,
+      weeklyFocus: draft.weeklyFocus || planQuests[0].title,
+      currentState: draft.currentState,
+      constraints: draft.constraints,
+      availableHours: draft.availableHours,
+      milestones: draft.milestones,
+      assumptions: draft.assumptions,
+      createdAt: activeGoal ? activeGoal.createdAt : now,
+      updatedAt: now
+    });
+    if (!goal) throw new Error('The plan needs a clear goal title.');
+
+    if (activeGoal) {
+      var activeIndex = state.planning.goals.findIndex(function (item) { return item.id === activeGoal.id; });
+      state.planning.goals.splice(activeIndex, 1, goal);
+    } else {
+      state.planning.goals.forEach(function (item) {
+        if (item.status === 'active') item.status = 'archived';
+      });
+      state.planning.goals.unshift(goal);
+    }
+    state.planning.goals = state.planning.goals.slice(0, 12);
+    state.quests = state.quests.concat(newQuests);
+    saveState(true);
+    render();
+    return { goal: cloneState(goal), quests: cloneState(planQuests) };
+  }
+
+  function getWeeklyReviewContext() {
+    var goal = state.planning.goals.find(function (item) { return item.status === 'active'; }) || null;
+    if (!goal) return null;
+    var weekStart = mondayFor(today);
+    var weekEnd = new Date(weekStart);
+    weekEnd.setDate(weekStart.getDate() + 6);
+    var linkedQuests = state.quests.filter(function (quest) { return quest.goalId === goal.id; });
+    var snapshotEnd = today < weekEnd ? today : weekEnd;
+    var snapshot = rangeCompletionData(linkedQuests, startOfDay(weekStart), endOfDay(snapshotEnd));
+    var existing = state.planning.weeklyReviews.find(function (review) {
+      return review.goalId === goal.id && review.weekStart === toDateKey(weekStart);
+    }) || null;
+    return {
+      goal: cloneState(goal),
+      weekStart: toDateKey(weekStart),
+      weekEnd: toDateKey(weekEnd),
+      snapshot: cloneState(snapshot),
+      quests: cloneState(linkedQuests.map(function (quest) {
+        return { id: quest.id, title: quest.title, axis: quest.axis, cadence: quest.cadence };
+      })),
+      existingReview: existing ? cloneState(existing) : null
+    };
+  }
+
+  function saveWeeklyReview(review) {
+    var context = getWeeklyReviewContext();
+    if (!context) throw new Error('Create a primary goal before reviewing the week.');
+    var now = new Date().toISOString();
+    var safeReview = sanitizeWeeklyReview({
+      id: review && review.id,
+      goalId: context.goal.id,
+      weekStart: context.weekStart,
+      weekEnd: context.weekEnd,
+      rating: review && review.rating,
+      win: review && review.win,
+      blocker: review && review.blocker,
+      nextFocus: review && review.nextFocus,
+      adaptation: review && review.adaptation,
+      snapshot: context.snapshot,
+      createdAt: review && review.createdAt,
+      updatedAt: now
+    });
+    if (!safeReview) throw new Error('The review could not be saved.');
+    var existingIndex = state.planning.weeklyReviews.findIndex(function (item) {
+      return item.goalId === safeReview.goalId && item.weekStart === safeReview.weekStart;
+    });
+    if (existingIndex >= 0) {
+      safeReview.id = state.planning.weeklyReviews[existingIndex].id;
+      safeReview.createdAt = state.planning.weeklyReviews[existingIndex].createdAt;
+      state.planning.weeklyReviews.splice(existingIndex, 1, safeReview);
+    } else {
+      state.planning.weeklyReviews.unshift(safeReview);
+    }
+    state.planning.weeklyReviews = state.planning.weeklyReviews.slice(0, 52);
+    var goal = state.planning.goals.find(function (item) { return item.id === safeReview.goalId; });
+    if (goal) {
+      goal.weeklyFocus = safeReview.nextFocus || goal.weeklyFocus;
+      goal.updatedAt = now;
+    }
+    saveState(true);
+    render();
+    return cloneState(safeReview);
+  }
+
+  function mondayFor(date) {
+    var result = startOfDay(date);
+    var offset = (result.getDay() + 6) % 7;
+    result.setDate(result.getDate() - offset);
+    return result;
   }
 
   function cloneState(value) {

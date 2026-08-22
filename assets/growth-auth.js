@@ -16,6 +16,11 @@ var remoteRevision = 0;
 var saveChain = Promise.resolve();
 var firestoreTools = null;
 
+function notifySyncReady(mode, detail) {
+  window.GROWTH_SYNC_STATUS = Object.assign({ ready: true, mode: mode || 'local' }, detail || {});
+  window.dispatchEvent(new CustomEvent('growth-sync-ready', { detail: window.GROWTH_SYNC_STATUS }));
+}
+
 function configured(config) {
   return Boolean(config.apiKey && config.authDomain && config.projectId && config.appId);
 }
@@ -83,6 +88,7 @@ async function initFirebaseAuth() {
       signInButton.disabled = true;
       signInButton.title = 'Google sync not configured';
     }
+    notifySyncReady('local', { configured: false });
     return;
   }
 
@@ -146,6 +152,7 @@ async function initFirebaseAuth() {
             ? 'Newer cloud data exists. Reload before making more changes.'
             : 'Cloud sync failed. Changes will remain on this device.';
           setAuthUi('Sync unavailable', message);
+          notifySyncReady('local', { syncUnavailable: true });
         });
       } else {
         placeResetControl(false);
@@ -161,6 +168,7 @@ async function initFirebaseAuth() {
         }
         if (signOutButton) signOutButton.hidden = true;
         setAuthUi('Local mode', 'Sign in to sync across devices.');
+        notifySyncReady('local');
       }
     });
 
@@ -202,6 +210,7 @@ async function initFirebaseAuth() {
   } catch (error) {
     setAuthUi('Local mode', 'Sync unavailable. Local board works.');
     if (signInButton) signInButton.disabled = true;
+    notifySyncReady('local', { syncUnavailable: true });
   }
 }
 
@@ -235,6 +244,7 @@ async function handleSignedIn(user, generation) {
     email: user.email || ''
   });
   setAuthUi('Cloud sync', 'Syncing as ' + (user.email || 'Google user') + '.');
+  notifySyncReady('cloud', { uid: user.uid });
 }
 
 async function loadRemoteState(uid) {
@@ -277,4 +287,5 @@ async function saveRemoteState(uid, state, generation) {
 initFirebaseAuth().catch(function () {
   setAuthUi('Local mode', 'Sync unavailable. Local board works.');
   if (signInButton) signInButton.disabled = true;
+  notifySyncReady('local', { syncUnavailable: true });
 });
