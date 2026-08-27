@@ -1,14 +1,14 @@
 # Hi there, I'm Dooyoung Kim 👋
 
-### 🚀 Senior Researcher (PhD) @ KAIST
+### 🚀 Lecturer in Computer Science & Information Technology @ La Trobe University
 > Visionary in **Spatial AI & XRMemory**: Connecting All Intelligence Beyond Boundaries.
 
 ---
 
 ### 👨‍💻 About Me
 
-- 🔭 I’m currently a **Co-PI ($3M Grant)** on Meta-Object Project & **System Manager ($6M Grant)** on OpenXR Platform.
-- 🗽 I'm also a Visiting Postdoc Researcher at **NYU Future Reality Lab** (Meta-Museum Project).
+- 🔭 I’m building research in **XR, Spatial AI, Physical AI, XRMemory, and intelligent interfaces**.
+- 🧑‍🏫 I joined **La Trobe University** as a continuing Lecturer in June 2026.
 - 🏆 **Key Achievements:**
   - **Best Paper Award (Top 1%)** @ IEEE ISMAR 2025 (x2)
   - **Best Paper Award (Top 1%)** @ IEEE ISMAR 2024
