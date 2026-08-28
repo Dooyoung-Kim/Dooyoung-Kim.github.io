@@ -605,7 +605,7 @@
   display: grid;
   grid-template-columns: 180px minmax(0, 1fr);
   gap: 0 54px;
-  padding: 54px 0;
+  padding: 54px 0 32px;
   border-bottom: 1px solid var(--editorial-line);
 }
 
@@ -642,6 +642,7 @@
 
 .editorial-site .resume-list .resume-item:last-child,
 .editorial-site .service-groups .service-group:last-child {
+  padding-bottom: 0;
   border-bottom: 0;
 }
 
