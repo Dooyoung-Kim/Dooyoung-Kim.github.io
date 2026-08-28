@@ -640,6 +640,11 @@
   border-color: var(--editorial-line);
 }
 
+.editorial-site .resume-list .resume-item:last-child,
+.editorial-site .service-groups .service-group:last-child {
+  border-bottom: 0;
+}
+
 .editorial-site .resume-date {
   color: var(--editorial-muted);
   font-size: 11px;
