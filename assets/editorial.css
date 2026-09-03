@@ -34,76 +34,8 @@
   font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
-/* Brand-system action rail: compact, technical, and distinct from blue link UI. */
-.editorial-site .hero-actions {
-  display: flex;
-  width: max-content;
-  max-width: 100%;
-  margin: 4px auto 0;
-  gap: 0;
-  justify-content: center;
-  border-top: 1px solid var(--editorial-line);
-  border-bottom: 1px solid var(--editorial-line);
-}
-
-.editorial-site .hero-actions a {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  gap: 9px;
-  padding: 11px 18px 10px;
-  color: var(--editorial-navy);
-  font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Consolas, monospace;
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 0.07em;
-  text-transform: uppercase;
-  text-decoration: none;
-  transition: color 180ms ease, background-color 180ms ease;
-}
-
-.editorial-site .hero-actions a + a {
-  border-left: 1px solid var(--editorial-line);
-}
-
-.editorial-site .hero-actions a::before {
-  color: var(--editorial-red);
-  font-size: 9px;
-  letter-spacing: 0.04em;
-}
-
-.editorial-site .hero-actions a:nth-child(1)::before { content: "01"; }
-.editorial-site .hero-actions a:nth-child(2)::before { content: "02"; }
-.editorial-site .hero-actions a:nth-child(3)::before { content: "03"; }
-
-.editorial-site .hero-actions a::after {
-  content: "";
-  position: absolute;
-  right: 18px;
-  bottom: -1px;
-  left: 18px;
-  height: 2px;
-  background: linear-gradient(90deg, var(--editorial-navy), var(--editorial-purple), var(--editorial-red));
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 180ms ease;
-}
-
-@media (hover: hover) and (pointer: fine) {
-  .editorial-site .hero-actions a:hover {
-    color: var(--editorial-purple);
-    background: rgba(5, 14, 60, 0.035);
-    text-decoration: none;
-  }
-
-  .editorial-site .hero-actions a:hover::after {
-    transform: scaleX(1);
-  }
-}
-
-.editorial-site .hero-actions a:focus-visible {
-  outline: 2px solid var(--editorial-red);
-  outline-offset: 3px;
+.editorial-site .hero-desc {
+  margin-bottom: 0;
 }
 
 .editorial-site main .container,
@@ -869,27 +801,6 @@
 
   .editorial-site .nav-wordmark {
     display: none;
-  }
-
-  .editorial-site .hero-actions {
-    width: min(100%, 340px);
-  }
-
-  .editorial-site .hero-actions a {
-    flex: 1 1 0;
-    justify-content: center;
-    gap: 6px;
-    padding: 10px 8px 9px;
-    font-size: 10px;
-  }
-
-  .editorial-site .hero-actions a::before {
-    font-size: 8px;
-  }
-
-  .editorial-site .hero-actions a::after {
-    right: 8px;
-    left: 8px;
   }
 
   .editorial-site #about,
