@@ -95,7 +95,7 @@
     var planning = state.planning || { goals: [], weeklyReviews: [] };
     var goal = planning.goals.find(function (item) { return item.status === 'active'; });
     if (!goal) {
-      els.rail.innerHTML = '<div class="growth-planning-empty"><div><span>Primary quest</span><strong>Turn one meaningful goal into a plan you can finish.</strong><p>Set the deadline and available time. Growth Quest will draft the milestones and measurable quests.</p></div><button class="growth-planning-primary" type="button" data-goal-plan-open' + (syncReady ? '' : ' disabled') + '>Plan a goal</button></div>';
+      els.rail.innerHTML = '<div class="growth-planning-empty"><div><span>Primary quest</span><strong>Turn one meaningful goal into a plan you can finish.</strong><p>Set the deadline and available time. Life Quest will draft the milestones and measurable quests.</p></div><button class="growth-planning-primary" type="button" data-goal-plan-open' + (syncReady ? '' : ' disabled') + '>Plan a goal</button></div>';
       bindRailEvents();
       return;
     }

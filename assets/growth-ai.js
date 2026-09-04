@@ -75,7 +75,7 @@ async function getPlanningModel() {
     return getGenerativeModel(ai, {
       model: aiConfig.model || 'gemini-3.6-flash',
       systemInstruction: [
-        'You are the planning engine for Growth Quest.',
+        'You are the planning engine for Life Quest.',
         'Turn one 30-90 day goal into an achievable plan.',
         'Use binary completion evidence, realistic buffers, and no more than 80% of available time.',
         'Daily quests must take 15-60 minutes. Weekly quests must produce a visible result.',

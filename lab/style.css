@@ -610,22 +610,14 @@ img { max-width: 100%; height: auto; display: block; }
   border-color: rgba(255,255,255,0.15);
 }
 
-/* Values — dark variant */
+/* Values */
 .values-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
 .value-card {
   text-align: center; padding: 36px;
-  background: #1d1d1f; border-radius: 20px;
+  background: var(--bg-gray); border-radius: 20px;
 }
-.value-card h3 { font-size: 21px; font-weight: 700; color: #f5f5f7; margin-bottom: 8px; }
-.value-quote {
-  font-size: 14px; font-style: italic; margin-bottom: 12px;
-  color: #f5f5f7;
-  background: none;
-  -webkit-background-clip: unset;
-  -webkit-text-fill-color: #f5f5f7;
-  background-clip: unset;
-}
-.value-card p:last-child { font-size: 14px; color: #86868b; }
+.value-card h3 { font-size: 21px; font-weight: 700; color: var(--text-primary); margin-bottom: 8px; }
+.value-card p { font-size: 14px; color: var(--text-secondary); }
 
 /* Centered CTA row used after grids */
 .cta-row { text-align: center; margin-top: 36px; }

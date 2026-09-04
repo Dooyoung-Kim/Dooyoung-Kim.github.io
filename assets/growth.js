@@ -332,8 +332,8 @@
   els.resetDemo.addEventListener('click', function () {
     var signedIn = els.resetDemo.getAttribute('data-signed-in') === 'true';
     var message = signedIn
-      ? 'Reset all Growth Quest data for this signed-in account? This cannot be undone.'
-      : 'Reset local Growth Quest data in this browser?';
+      ? 'Reset all Life Quest data for this signed-in account? This cannot be undone.'
+      : 'Reset local Life Quest data in this browser?';
     if (!window.confirm(message)) return;
     state = signedIn ? seedState() : demoState();
     saveState();

@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Life Quest | Dooyoung Kim</title>
+<meta name="description" content="A personal quest tracker for goals, routines, streaks, levels, and long-term progress.">
+<meta name="theme-color" content="#000000">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css?v=20">
+<link rel="stylesheet" href="assets/growth.css?v=83">
+<link rel="stylesheet" href="assets/growth-layout.css?v=5">
+<link rel="stylesheet" href="assets/growth-planning.css?v=1">
+<link rel="stylesheet" href="assets/analytics.css?v=1">
+<script src="assets/analytics.js?v=1" defer></script>
+</head>
+<body class="growth-page" data-analytics-app="life_quest">
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <linearGradient id="brand-grad" gradientUnits="userSpaceOnUse" x1="356" y1="0" x2="929" y2="0">
+      <stop offset="0%" stop-color="#050E3C" />
+      <stop offset="25%" stop-color="#002455" />
+      <stop offset="50%" stop-color="#4A1942" />
+      <stop offset="75%" stop-color="#FF3838" />
+      <stop offset="100%" stop-color="#DC0000" />
+    </linearGradient>
+  </defs>
+  <symbol id="logo-gradient" viewBox="0 0 578 600">
+    <g transform="translate(-356 -1170)">
+      <path d="M356 1232C572.132 1232 712.869 1734 929 1734" stroke="url(#brand-grad)" stroke-width="73" stroke-linecap="butt" fill="none" />
+      <path d="M356 1734C572.132 1734 712.869 1232 929 1232" stroke="url(#brand-grad)" stroke-width="73" stroke-linecap="butt" fill="none" />
+      <rect x="356" y="1220" width="70" height="522" fill="url(#brand-grad)" />
+      <rect x="859" y="1220" width="70" height="522" fill="url(#brand-grad)" />
+    </g>
+  </symbol>
+</svg>
+
+<nav class="nav growth-nav">
+  <div class="container-wide nav-inner">
+    <a href="index.html" class="nav-logo" aria-label="Dooyoung Kim home">
+      <svg width="20" height="21" viewBox="0 0 578 600" aria-hidden="true"><use href="#logo-gradient"></use></svg>
+      <span class="nav-wordmark">Dooyoung Kim</span>
+    </a>
+    <div class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="lab/research.html">Research</a>
+      <a href="lab/publications.html">Publications</a>
+      <a href="experience.html">Experience</a>
+      <a href="growth.html" class="active">Launchpad</a>
+    </div>
+    <button class="nav-toggle" aria-label="Open menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<main>
+  <section class="growth-hero">
+    <div class="container-wide growth-shell">
+      <section class="growth-panel growth-status-card fade-in" aria-label="Life Quest character status">
+        <div class="character-column">
+          <div class="pixel-stage" aria-hidden="true">
+            <div id="evolutionScene" class="evolution-scene">
+              <span class="scene-glow"></span>
+              <span class="scene-landscape"></span>
+              <span class="scene-star scene-star-one"></span>
+              <span class="scene-star scene-star-two"></span>
+              <span class="scene-star scene-star-three"></span>
+            </div>
+            <div id="growthAvatar" class="koala-mage avatar-novice" aria-label="Koala character">
+              <span class="mage-shadow"></span>
+              <span class="mage-hat"></span>
+              <span class="mage-hat-band"></span>
+              <span class="mage-ear mage-ear-left"></span>
+              <span class="mage-ear mage-ear-right"></span>
+              <span class="mage-head"></span>
+              <span class="mage-face"></span>
+              <span class="mage-eye mage-eye-left"></span>
+              <span class="mage-eye mage-eye-right"></span>
+              <span class="mage-nose"></span>
+              <span class="koala-body"></span>
+              <span class="mage-robe"></span>
+              <span class="mage-scarf"></span>
+              <span class="mage-arm mage-arm-left"></span>
+              <span class="mage-arm mage-arm-right"></span>
+              <span class="mage-staff"></span>
+              <span class="mage-orb"></span>
+              <span class="magic-fireball"></span>
+              <span class="magic-spark magic-spark-one"></span>
+              <span class="magic-spark magic-spark-two"></span>
+              <span class="magic-spark magic-spark-three"></span>
+              <span class="eucalyptus-stem"></span>
+              <span class="eucalyptus-leaf eucalyptus-leaf-one"></span>
+              <span class="eucalyptus-leaf eucalyptus-leaf-two"></span>
+              <span class="eucalyptus-leaf eucalyptus-leaf-three"></span>
+              <span class="evolution-cape"></span>
+              <span class="evolution-emblem"></span>
+              <span class="evolution-skill"></span>
+              <span class="evolution-particle evolution-particle-one"></span>
+              <span class="evolution-particle evolution-particle-two"></span>
+              <span class="evolution-particle evolution-particle-three"></span>
+              <span class="mage-foot mage-foot-left"></span>
+              <span class="mage-foot mage-foot-right"></span>
+            </div>
+          </div>
+        </div>
+        <div class="status-copy">
+          <div class="player-line">
+            <div class="player-identity">
+              <div class="player-name-row">
+                <button id="playerNameButton" class="player-name-button" type="button" aria-label="Character name" title="Sign in to set your name" disabled>
+                  <span id="playerName">Koala</span>
+                </button>
+                <form id="playerNameForm" class="player-name-form" aria-label="Set character name" hidden>
+                  <input id="playerNameInput" type="text" maxlength="28" autocomplete="nickname" aria-label="Character name" required>
+                  <button type="submit">Save</button>
+                  <button id="playerNameCancel" type="button" aria-label="Cancel name edit">Cancel</button>
+                </form>
+                <span class="player-level">Lv. <strong id="levelValue">1</strong></span>
+              </div>
+              <p><span id="rankName">Life Initiate</span> &middot; <span id="className">Unassigned Class</span></p>
+              <div class="xp-mini player-xp">
+                <span>EXP</span>
+                <div class="xp-bar compact" aria-label="XP progress"><span id="xpFill"></span></div>
+                <strong id="xpLabel">0 / 170</strong>
+              </div>
+            </div>
+            <div class="status-auth" aria-label="Life Quest sync">
+              <div id="statusAuthActions" class="auth-actions status-auth-actions">
+                <button id="googleSignIn" class="growth-button google-auth-button" type="button" aria-label="Sign in with Google" title="Sign in with Google"><img src="assets/google-g-logo.png" alt=""></button>
+                <button id="googleSignOut" class="ghost-button" type="button" hidden>Sign out</button>
+                <button id="evolutionOpen" class="ghost-button evolution-open" type="button" aria-label="Open character evolution journey" title="Evolution journey">Evolution</button>
+                <button id="resetDemo" class="ghost-button" type="button">Reset Local</button>
+              </div>
+            </div>
+          </div>
+          <div class="status-bars" aria-label="Life Quest status bars">
+            <div class="stat-row stat-stamina">
+              <span class="stat-icon"></span>
+              <span class="stat-name">Health</span>
+              <div class="stat-track"><span id="staminaFill"></span></div>
+              <strong id="staminaScore">0%</strong>
+            </div>
+            <div class="stat-row stat-intelligence">
+              <span class="stat-icon"></span>
+              <span class="stat-name">Intelligence</span>
+              <div class="stat-track"><span id="intelligenceFill"></span></div>
+              <strong id="intelligenceScore">0%</strong>
+            </div>
+            <div class="stat-row stat-capital">
+              <span class="stat-icon"></span>
+              <span class="stat-name">Capital</span>
+              <div class="stat-track"><span id="capitalFill"></span></div>
+              <strong id="capitalScore">0%</strong>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <dialog id="evolutionDialog" class="evolution-dialog" aria-labelledby="evolutionTitle">
+        <div class="evolution-dialog-shell">
+          <header class="evolution-dialog-header">
+            <div>
+              <span>Character Evolution</span>
+              <h2 id="evolutionTitle">50-Level Journey</h2>
+            </div>
+            <button id="evolutionClose" class="evolution-close" type="button" aria-label="Close evolution journey">&times;</button>
+          </header>
+          <div id="evolutionPathTabs" class="evolution-path-tabs" role="tablist" aria-label="Evolution path"></div>
+          <div class="evolution-dialog-content">
+            <div id="evolutionGrid" class="evolution-grid" aria-label="Evolution levels"></div>
+            <aside id="evolutionDetail" class="evolution-detail" aria-live="polite"></aside>
+          </div>
+        </div>
+      </dialog>
+
+      <div id="growthRewardToast" class="growth-reward-toast" role="status" aria-live="polite" hidden></div>
+
+      <section id="growthTracker" class="growth-panel quest-board fade-in" aria-label="Monthly quest board">
+        <div class="panel-heading quest-heading">
+          <div class="month-title">
+            <h2 id="boardTitle">Monthly Quest Board</h2>
+            <p id="todayLabel">Today</p>
+          </div>
+          <div class="board-summary">
+            <div class="quest-ratio"><span>Daily</span><strong><span id="boardCompletedHabits">0</span>/<span id="boardActiveQuests">0</span></strong></div>
+            <div class="progress-stat">
+              <span>Monthly</span>
+              <div class="board-progress"><i id="boardProgressFill"></i></div>
+              <strong id="seasonScore">0%</strong>
+            </div>
+          </div>
+          <div class="board-tabs" role="tablist" aria-label="Life Quest view">
+            <button class="board-tab active" data-view="board" type="button">Board</button>
+            <button class="board-tab" data-view="statistics" type="button">Statistics</button>
+          </div>
+        </div>
+
+        <section id="primaryGoalRail" class="growth-planning-rail" aria-label="Primary goal" aria-live="polite">
+          <div class="growth-planning-empty">
+            <div>
+              <span>Primary quest</span>
+              <strong>Turn one meaningful goal into a plan you can finish.</strong>
+              <p>Set the deadline and available time. Life Quest will draft the milestones and measurable quests.</p>
+            </div>
+            <button id="goalPlanOpen" class="growth-planning-primary" type="button">Plan a goal</button>
+          </div>
+        </section>
+
+        <div class="month-grid-wrap" aria-label="Monthly quest grid">
+          <div id="monthGrid" class="month-grid"></div>
+        </div>
+        <div id="calendarScrollbar" class="calendar-scrollbar" aria-label="Scroll calendar weeks horizontally">
+          <div id="calendarScrollbarTrack" class="calendar-scrollbar-track"></div>
+        </div>
+
+        <form id="questForm" class="board-add-row" aria-label="Add quest">
+          <div class="axis-picker">
+            <div class="quest-menu axis-menu-control">
+              <button id="questAxisButton" class="quest-menu-trigger" type="button" aria-haspopup="listbox" aria-expanded="false">
+                <span id="questAxisLabel">Health</span>
+              </button>
+              <select id="questAxis" class="quest-native-select" name="axis" aria-label="Quest axis" tabindex="-1" hidden></select>
+              <div id="questAxisMenu" class="quest-menu-list" role="listbox" aria-label="Quest axis" hidden>
+                <div id="questAxisOptions" class="quest-menu-options"></div>
+                <button id="axisToggle" class="quest-menu-add" type="button" aria-label="Add axis" aria-expanded="false">+</button>
+                <div id="axisQuickAdd" class="axis-quick-add" hidden>
+                  <input id="axisName" name="axisName" type="text" maxlength="28" placeholder="New axis">
+                  <button id="axisAddButton" class="ghost-button" type="button">Add</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="quest-menu cadence-menu-control">
+            <button id="questCadenceButton" class="quest-menu-trigger" type="button" aria-haspopup="listbox" aria-expanded="false">
+              <span id="questCadenceLabel">[d] Daily</span>
+            </button>
+            <select id="questCadence" class="quest-native-select" name="cadence" aria-label="Quest cadence" tabindex="-1" hidden>
+              <option value="daily">[d] Daily</option>
+              <option value="weekly">[w] Weekly</option>
+              <option value="monthly">[m] Monthly</option>
+            </select>
+            <div id="questCadenceMenu" class="quest-menu-list" role="listbox" aria-label="Quest cadence" hidden>
+              <button class="quest-menu-option" type="button" data-cadence-option="daily" role="option">[d] Daily</button>
+              <button class="quest-menu-option" type="button" data-cadence-option="weekly" role="option">[w] Weekly</button>
+              <button class="quest-menu-option" type="button" data-cadence-option="monthly" role="option">[m] Monthly</button>
+            </div>
+          </div>
+          <input id="questTitle" name="title" type="text" maxlength="80" placeholder="Add a new quest" required>
+          <button class="growth-button" type="submit">Add Quest</button>
+        </form>
+
+        <div id="trendPanel" class="trend-panel" hidden></div>
+
+        <section id="achievementPanel" class="achievement-panel" aria-label="Achievements"></section>
+
+        <div id="progressGraph" class="progress-graph" aria-label="Monthly progress graph"></div>
+
+        <div id="accountDataActions" class="account-data-actions" aria-label="Account data controls" hidden></div>
+      </section>
+
+      <dialog id="goalPlannerDialog" class="growth-planning-dialog" aria-labelledby="goalPlannerTitle">
+        <form id="goalPlannerForm" class="growth-planning-dialog-shell" novalidate>
+          <header class="growth-planning-dialog-header">
+            <div>
+              <span id="goalPlannerStepLabel">Step 1 of 3</span>
+              <h2 id="goalPlannerTitle">Plan one important goal</h2>
+            </div>
+            <button id="goalPlannerClose" class="growth-planning-icon-button" type="button" aria-label="Close goal planner">&times;</button>
+          </header>
+
+          <div class="growth-planning-step" data-planning-step="1">
+            <label class="growth-planning-field growth-planning-goal-field">
+              <span>What do you want to accomplish?</span>
+              <textarea id="goalStatement" maxlength="120" rows="3" placeholder="Finish and submit my research paper" required></textarea>
+              <small>Choose a result that matters over the next 30 to 90 days.</small>
+            </label>
+          </div>
+
+          <div class="growth-planning-step" data-planning-step="2" hidden>
+            <div class="growth-planning-field-grid">
+              <label class="growth-planning-field">
+                <span>Deadline</span>
+                <input id="goalDeadline" type="date" required>
+              </label>
+              <label class="growth-planning-field">
+                <span>Hours per week</span>
+                <input id="goalHours" type="number" min="1" max="40" step="1" value="5" required>
+              </label>
+            </div>
+            <label class="growth-planning-field">
+              <span>Where are you now?</span>
+              <textarea id="goalCurrentState" maxlength="240" rows="3" placeholder="I have notes and references, but no complete draft yet." required></textarea>
+            </label>
+            <label class="growth-planning-field">
+              <span>Known constraints <em>Optional</em></span>
+              <textarea id="goalConstraints" maxlength="240" rows="2" placeholder="Teaching on Tuesdays, no weekend work, travel in week three"></textarea>
+            </label>
+          </div>
+
+          <div class="growth-planning-step" data-planning-step="3" hidden>
+            <div id="goalPlanLoading" class="growth-planning-loading" hidden>
+              <i></i><span>Building a realistic plan...</span>
+            </div>
+            <div id="goalPlanPreview" class="growth-planning-preview"></div>
+            <div id="goalPlanAdjustments" class="growth-planning-adjustments" hidden>
+              <span>Adjust draft</span>
+              <button type="button" data-plan-adjust="easier">Less each day</button>
+              <button type="button" data-plan-adjust="faster">Move faster</button>
+              <button type="button" data-plan-adjust="metric">Change metric</button>
+            </div>
+          </div>
+
+          <footer class="growth-planning-dialog-footer">
+            <p id="goalPlannerMessage" role="status" aria-live="polite"></p>
+            <div>
+              <button id="goalPlannerBack" class="growth-planning-secondary" type="button" hidden>Back</button>
+              <button id="goalPlannerNext" class="growth-planning-primary" type="button">Continue</button>
+              <button id="goalPlannerApply" class="growth-planning-primary" type="submit" hidden>Add to board</button>
+            </div>
+          </footer>
+        </form>
+      </dialog>
+
+      <dialog id="weeklyReviewDialog" class="growth-planning-dialog growth-review-dialog" aria-labelledby="weeklyReviewTitle">
+        <form id="weeklyReviewForm" class="growth-planning-dialog-shell" novalidate>
+          <header class="growth-planning-dialog-header">
+            <div>
+              <span>Weekly review</span>
+              <h2 id="weeklyReviewTitle">Adapt the plan, not the goal</h2>
+            </div>
+            <button id="weeklyReviewClose" class="growth-planning-icon-button" type="button" aria-label="Close weekly review">&times;</button>
+          </header>
+          <div id="weeklyReviewSnapshot" class="growth-review-snapshot"></div>
+          <div class="growth-review-fields">
+            <label class="growth-planning-field">
+              <span>What moved forward?</span>
+              <textarea id="weeklyReviewWin" maxlength="240" rows="2" placeholder="A concrete result, however small"></textarea>
+            </label>
+            <label class="growth-planning-field">
+              <span>What got in the way?</span>
+              <select id="weeklyReviewBlocker">
+                <option value="none">Nothing significant</option>
+                <option value="time">Not enough time</option>
+                <option value="scope">The work was too large</option>
+                <option value="energy">Low energy or focus</option>
+                <option value="dependency">Waiting on someone or something</option>
+                <option value="priority">Priorities changed</option>
+              </select>
+            </label>
+            <label class="growth-planning-field">
+              <span>Next week's finish line</span>
+              <textarea id="weeklyReviewFocus" maxlength="200" rows="2" required></textarea>
+            </label>
+            <label class="growth-planning-field">
+              <span>Plan adjustment</span>
+              <select id="weeklyReviewAdaptation">
+                <option value="keep">Keep the current pace</option>
+                <option value="reduce">Reduce the workload</option>
+                <option value="replace">Replace the weakest quest</option>
+              </select>
+            </label>
+          </div>
+          <footer class="growth-planning-dialog-footer">
+            <p id="weeklyReviewMessage" role="status" aria-live="polite"></p>
+            <div><button class="growth-planning-primary" type="submit">Save review</button></div>
+          </footer>
+        </form>
+      </dialog>
+    </div>
+  </section>
+</main>
+
+<footer class="footer main-footer growth-footer">
+  <div class="container">
+    <div class="footer-bottom">
+      <p>&copy; 2026 Dooyoung Kim. All rights reserved.</p>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/site.js?v=4" defer></script>
+<script src="assets/growth-auth-config.js?v=4"></script>
+<script src="assets/growth.js?v=41" defer></script>
+<script src="assets/growth-auth.js?v=8" type="module"></script>
+<script src="assets/growth-ai.js?v=2" type="module"></script>
+<script src="assets/growth-planning.js?v=2" defer></script>
+</body>
+</html>

@@ -1,0 +1,211 @@
+#analyticsConsent,
+#analyticsConsent *,
+#analyticsSettings {
+  box-sizing: border-box;
+}
+
+#analyticsConsent[hidden],
+#analyticsSettings[hidden] {
+  display: none !important;
+}
+
+#analyticsConsent {
+  position: fixed;
+  z-index: 100000;
+  right: 22px;
+  bottom: 22px;
+  left: 22px;
+  display: flex;
+  width: min(720px, calc(100% - 44px));
+  margin-left: auto;
+  padding: 20px;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 22px;
+  color: #f5f5f7;
+  background: rgba(5, 14, 60, 0.96);
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.3);
+  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
+  font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+#analyticsConsent .analytics-consent-copy {
+  max-width: 480px;
+}
+
+#analyticsConsent strong {
+  display: block;
+  margin-bottom: 7px;
+  color: #fff;
+  font-size: 17px;
+  line-height: 1.35;
+}
+
+#analyticsConsent p {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.74);
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+#analyticsConsent a {
+  display: inline-block;
+  margin-top: 9px;
+  color: #fff;
+  font-size: 13px;
+  text-underline-offset: 3px;
+}
+
+#analyticsConsent .analytics-consent-actions {
+  display: flex;
+  flex: 0 0 auto;
+  gap: 8px;
+}
+
+#analyticsConsent button,
+#analyticsSettings {
+  min-height: 42px;
+  padding: 0 16px;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  border-radius: 999px;
+  color: #fff;
+  background: transparent;
+  font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1;
+  cursor: pointer;
+}
+
+#analyticsConsent .analytics-consent-primary {
+  border-color: #ff3838;
+  background: #dc0000;
+}
+
+#analyticsConsent button:focus-visible,
+#analyticsConsent a:focus-visible,
+#analyticsSettings:focus-visible {
+  outline: 3px solid #ffcf54;
+  outline-offset: 3px;
+}
+
+#analyticsSettings {
+  position: fixed;
+  z-index: 99999;
+  right: 18px;
+  bottom: 18px;
+  min-height: 36px;
+  padding: 0 13px;
+  border-color: rgba(5, 14, 60, 0.18);
+  color: #30384a;
+  background: rgba(255, 255, 255, 0.94);
+  box-shadow: 0 8px 24px rgba(5, 14, 60, 0.12);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+  font-size: 12px;
+}
+
+.privacy-page .privacy-main {
+  padding: 130px 0 100px;
+  background: #fbfbfd;
+}
+
+.privacy-page .privacy-shell {
+  width: min(100% - 48px, 780px);
+  margin: 0 auto;
+}
+
+.privacy-page .privacy-kicker {
+  margin: 0 0 16px;
+  color: #dc0000;
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+.privacy-page h1 {
+  margin: 0 0 28px;
+  color: #11162a;
+  font-size: clamp(48px, 7vw, 76px);
+  font-weight: 500;
+  line-height: 0.98;
+  letter-spacing: -0.055em;
+}
+
+.privacy-page .privacy-intro {
+  margin: 0 0 54px;
+  color: #5f6878;
+  font-size: 18px;
+  line-height: 1.65;
+}
+
+.privacy-page .privacy-section {
+  padding: 28px 0;
+  border-top: 1px solid rgba(5, 14, 60, 0.14);
+}
+
+.privacy-page .privacy-section h2 {
+  margin: 0 0 12px;
+  color: #11162a;
+  font-size: 22px;
+  font-weight: 500;
+}
+
+.privacy-page .privacy-section p,
+.privacy-page .privacy-section li {
+  color: #5f6878;
+  font-size: 16px;
+  line-height: 1.7;
+}
+
+.privacy-page .privacy-section ul {
+  margin: 10px 0 0;
+  padding-left: 20px;
+}
+
+.privacy-page .privacy-section a {
+  color: #b00000;
+}
+
+@media (max-width: 680px) {
+  #analyticsConsent {
+    right: 12px;
+    bottom: 12px;
+    left: 12px;
+    width: auto;
+    padding: 18px;
+    align-items: stretch;
+    flex-direction: column;
+    gap: 16px;
+    border-radius: 18px;
+  }
+
+  #analyticsConsent .analytics-consent-actions {
+    width: 100%;
+  }
+
+  #analyticsConsent button {
+    flex: 1 1 0;
+    padding: 0 12px;
+  }
+
+  .privacy-page .privacy-main {
+    padding: 108px 0 72px;
+  }
+
+  .privacy-page .privacy-shell {
+    width: min(100% - 32px, 780px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #analyticsConsent,
+  #analyticsSettings {
+    scroll-behavior: auto;
+  }
+}

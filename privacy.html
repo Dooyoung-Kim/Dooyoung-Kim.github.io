@@ -3,19 +3,18 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta name="theme-color" content="#f5f5f7">
-<title>Launchpad | Dooyoung Kim</title>
-<meta name="description" content="Explore personal apps by Dooyoung Kim.">
+<meta name="theme-color" content="#fbfbfd">
+<title>Privacy | Dooyoung Kim</title>
+<meta name="description" content="Analytics and privacy information for dooyoung.me.">
 <link rel="icon" type="image/png" href="favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="style.css?v=15">
 <link rel="stylesheet" href="assets/editorial.css?v=9">
-<link rel="stylesheet" href="assets/launchpad.css?v=3">
 <link rel="stylesheet" href="assets/analytics.css?v=1">
 <script src="assets/analytics.js?v=1" defer></script>
 </head>
-<body class="editorial-site launchpad-page">
+<body class="editorial-site privacy-page">
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
   <defs>
     <linearGradient id="brand-grad" gradientUnits="userSpaceOnUse" x1="356" y1="0" x2="929" y2="0">
@@ -47,7 +46,7 @@
       <a href="lab/research.html">Research</a>
       <a href="lab/publications.html">Publications</a>
       <a href="experience.html">Experience</a>
-      <a href="growth.html" class="active">Launchpad</a>
+      <a href="growth.html">Launchpad</a>
     </div>
     <button class="nav-toggle" aria-label="Open menu" aria-expanded="false">
       <span></span><span></span><span></span>
@@ -55,37 +54,44 @@
   </div>
 </nav>
 
-<main class="launchpad-main">
-  <header class="launchpad-header">
-    <div class="launchpad-container">
-      <p class="launchpad-kicker">Personal apps</p>
-      <h1>Launchpad.</h1>
-      <p class="launchpad-intro">Personal apps, collected in one place.</p>
-    </div>
-  </header>
+<main class="privacy-main">
+  <div class="privacy-shell">
+    <p class="privacy-kicker">Last updated 4 September 2026</p>
+    <h1>Privacy.</h1>
+    <p class="privacy-intro">This site uses optional analytics to understand which pages and apps are useful. Analytics stays off until you choose to allow it.</p>
 
-  <section class="launchpad-library" aria-labelledby="libraryTitle">
-    <div class="launchpad-container">
-      <div class="library-bar">
-        <h2 id="libraryTitle">Apps</h2>
-      </div>
+    <section class="privacy-section">
+      <h2>What is collected</h2>
+      <ul>
+        <li>Page views, approximate session engagement, device category, and general traffic source.</li>
+        <li>Internal and external link interactions.</li>
+        <li>For Life Quest: app opens, active time, selected controls, and high-level actions such as creating or completing a quest.</li>
+      </ul>
+    </section>
 
-      <div class="project-library-grid">
-        <a class="launchpad-card" href="life-quest.html" data-analytics-app-link="life_quest">
-          <span class="app-icon life-quest-icon" aria-hidden="true"><img src="assets/life-quest-icon-v1.png" alt="" width="1254" height="1254"></span>
-          <span class="app-copy">
-            <span class="app-type">App</span>
-            <strong>Life Quest</strong>
-            <span>Turn goals and routines into quests, streaks, levels, and visible progress.</span>
-          </span>
-          <span class="open-project" aria-hidden="true">Open <span>↗</span></span>
-        </a>
-      </div>
-    </div>
-  </section>
+    <section class="privacy-section">
+      <h2>What is never sent to analytics</h2>
+      <p>Names, email addresses, Firebase user IDs, goal statements, quest titles, character names, free-text form entries, and precise location are not included in analytics events.</p>
+    </section>
+
+    <section class="privacy-section">
+      <h2>Storage and provider</h2>
+      <p>Analytics events are processed by Google Analytics 4. Retention follows the settings of the site's Analytics property. Raw event export may be enabled later in Google BigQuery for controlled, longer-term analysis.</p>
+    </section>
+
+    <section class="privacy-section">
+      <h2>Your choice</h2>
+      <p>Your analytics preference is stored only in this browser. Use the “Analytics settings” button on any page to change it. Declining analytics does not affect the site or Life Quest.</p>
+    </section>
+
+    <section class="privacy-section">
+      <h2>Contact</h2>
+      <p>Questions about this notice can be sent to <a href="mailto:D.Kim@latrobe.edu.au">D.Kim@latrobe.edu.au</a>.</p>
+    </section>
+  </div>
 </main>
 
-<footer class="footer main-footer launchpad-footer">
+<footer class="footer main-footer">
   <div class="container">
     <div class="footer-bottom">
       <p>&copy; 2026 Dooyoung Kim. All rights reserved.</p>
