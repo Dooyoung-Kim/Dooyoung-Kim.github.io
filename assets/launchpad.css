@@ -130,6 +130,36 @@
   display: block;
 }
 
+.cut-studio-icon {
+  background:
+    radial-gradient(circle at 76% 20%, rgba(255, 255, 255, 0.3), transparent 24%),
+    linear-gradient(145deg, #ff684f 0%, #e12c55 48%, #5c1e77 100%);
+}
+
+.cut-studio-icon svg {
+  width: 82%;
+  height: 82%;
+  overflow: visible;
+}
+
+.cut-studio-film {
+  fill: rgba(21, 13, 42, 0.34);
+  stroke: rgba(255, 255, 255, 0.94);
+  stroke-width: 3;
+}
+
+.cut-studio-frame,
+.cut-studio-cut {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.86);
+  stroke-width: 3;
+  stroke-linecap: round;
+}
+
+.cut-studio-play {
+  fill: #fff;
+}
+
 .app-copy {
   display: flex;
   min-width: 0;
