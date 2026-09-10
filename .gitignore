@@ -1,0 +1,9 @@
+# Local recovery material. This directory is intentionally never pushed.
+/.local-archive/
+
+# Local workspace and server artifacts.
+/.agents/
+/.codex-image-work/
+/.server.*.log
+.DS_Store
+
