@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#f4efe7">
+<title>CUT Studio | Dooyoung Kim</title>
+<meta name="description" content="브라우저에서 쇼츠와 풀영상을 편집하고 내보내는 CUT Studio.">
+<link rel="canonical" href="https://dooyoung.me/apps/cut-studio/">
+<link rel="icon" type="image/svg+xml" href="/assets/cut-studio-icon.svg">
+<link rel="stylesheet" href="/assets/analytics.css?v=1">
+<script src="/assets/analytics.js?v=1" defer></script>
+<style>
+  * { box-sizing: border-box; }
+  html, body { width: 100%; height: 100%; margin: 0; background: #f4efe7; }
+  body { overflow: hidden; }
+  .cut-studio-frame { width: 100%; height: 100%; border: 0; display: block; background: #f4efe7; }
+  .frame-fallback { position: absolute; inset: auto 16px 16px; margin: 0; text-align: center; font: 14px/1.5 system-ui, sans-serif; }
+  .frame-fallback a { color: #245bea; }
+</style>
+</head>
+<body data-analytics-app="cut_studio">
+  <iframe
+    class="cut-studio-frame"
+    src="https://melbourne-cut-studio.banana960521.chatgpt.site"
+    title="CUT Studio video editor"
+    allow="fullscreen; clipboard-read; clipboard-write"
+    referrerpolicy="strict-origin-when-cross-origin"
+  ></iframe>
+  <noscript><p class="frame-fallback"><a href="https://melbourne-cut-studio.banana960521.chatgpt.site">CUT Studio 열기</a></p></noscript>
+</body>
+</html>

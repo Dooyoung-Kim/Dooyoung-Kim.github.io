@@ -215,8 +215,8 @@
     var path = window.location.pathname.toLowerCase();
     if (path.indexOf("/wedding/") !== -1) return "wedding";
     if (path.indexOf("/lab/") !== -1) return "research";
-    if (path.endsWith("/growth.html")) return "launchpad";
-    if (path.endsWith("/life-quest.html")) return "app";
+    if (path === "/launchpad/" || path.endsWith("/launchpad/index.html") || path.endsWith("/growth.html")) return "launchpad";
+    if (path.startsWith("/apps/") || path.endsWith("/life-quest.html")) return "app";
     return "portfolio";
   }
 
