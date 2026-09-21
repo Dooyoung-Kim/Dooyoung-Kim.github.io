@@ -526,30 +526,6 @@
   line-height: 1.7;
 }
 
-.editorial-site .heart-overview strong {
-  color: var(--editorial-ink);
-  font-weight: 500;
-}
-
-.editorial-site .project-status {
-  max-width: 760px;
-  margin: 42px 0 0;
-  padding: 4px 0 4px 22px;
-  border-left: 2px solid var(--editorial-red);
-}
-
-.editorial-site .project-status .showcase-eyebrow {
-  margin: 0 0 9px;
-  color: var(--editorial-red);
-}
-
-.editorial-site .project-status p:last-child {
-  margin: 0;
-  color: var(--editorial-muted);
-  font-size: 15px;
-  line-height: 1.65;
-}
-
 .editorial-site .legacy-anchor {
   position: relative;
   top: -80px;
