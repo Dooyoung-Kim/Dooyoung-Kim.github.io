@@ -1,0 +1,16 @@
+Use case: stylized-concept
+Asset type: cinematic website hero image for an academic research portfolio, designed to remain legible as a 480 px thumbnail and crop cleanly to 16:9
+Primary request: visualize HEART — Human Experience-Aware Response and Trajectory — as the unfolding of human experience, not as a robot or conventional AI interface
+Scene/backdrop: a dark, spacious, atmospheric environment with subtle traces of lived places and moments emerging from shadow
+Subject: one clearly human adult in the visual center, facing a translucent digital or holographic counterpart; the human remains the emotional and compositional anchor
+Key details: behind and around the human, softly layered fragments of past memory and experience converge toward the present; from the present moment, three to five distinct luminous possible future experience paths branch outward, showing different plausible responses rather than a single deterministic prediction; subtle visual cues for perception, attention, expectation, action, interaction, and feedback through gaze lines, hand motion echoes, environmental fragments, and changing body trajectories
+Style/medium: premium cinematic conceptual art with restrained photorealism, human-centered and reflective, suitable beside polished XRMemory research imagery; sophisticated rather than sci-fi spectacle
+Composition/framing: wide landscape composition, subject pair near center, strong depth and readable silhouette, branching futures distributed across the frame, safe central crop, no important detail at extreme edges
+Lighting/mood: quiet, contemplative, warm human skin and amber memory light balanced with cool blue-violet future light; humane, thoughtful, curious
+Color palette: charcoal black, midnight blue, muted violet, soft amber, subtle crimson accent
+Materials/textures: realistic fabric and skin, soft volumetric light, translucent layered memories, delicate particles; avoid glossy robot armor
+Text: none
+Constraints: no text, no lettering, no logos, no watermark, no HUD panels, no medical imagery, no heart symbol, no humanoid robot, no headset, no obvious brain graphic, no single arrow or single predetermined path; the image must communicate memory → present experience → multiple plausible futures visually
+Avoid: generic cyberpunk, surveillance aesthetic, dystopia, cold machine dominance, literal neural-network diagram, cluttered UI, excessive neon, uncanny faces
+
+Generated with the built-in image generation tool on 2026-09-21. The generated 1672 × 941 PNG is preserved as heart-model.png. Website variants use a centered 16:9 crop at 480 × 270, 800 × 450, and 1200 × 675 in JPG and WebP.

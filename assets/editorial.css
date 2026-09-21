@@ -354,12 +354,48 @@
   object-fit: cover;
 }
 
+.editorial-site .focus-card picture {
+  display: block;
+  width: 190px;
+  height: 116px;
+  overflow: hidden;
+  border-radius: 4px;
+}
+
+.editorial-site .focus-card picture img {
+  width: 100%;
+  height: 100%;
+  border-radius: 0;
+}
+
 .editorial-site .focus-card h3 {
   margin-bottom: 8px;
   color: var(--editorial-ink);
   font-size: 24px;
   font-weight: 500;
   letter-spacing: -0.025em;
+}
+
+.editorial-site .focus-card .focus-domain {
+  margin-bottom: 8px;
+  color: var(--editorial-red);
+  font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Consolas, monospace;
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 1.45;
+  letter-spacing: 0.045em;
+  text-transform: uppercase;
+}
+
+.editorial-site .focus-card h3 a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.editorial-site .focus-card h3 a:hover,
+.editorial-site .focus-card h3 a:focus-visible {
+  color: var(--editorial-red);
+  text-decoration: underline;
 }
 
 .editorial-site .focus-card p {
@@ -457,6 +493,15 @@
   letter-spacing: -0.05em;
 }
 
+.editorial-site .project-showcase .showcase-deck {
+  max-width: 760px;
+  margin: -18px 0 34px;
+  color: var(--editorial-muted);
+  font-size: clamp(17px, 2.2vw, 23px);
+  line-height: 1.35;
+  letter-spacing: -0.015em;
+}
+
 .editorial-site .project-showcase .showcase-hero-img {
   max-width: none;
   margin: 0;
@@ -479,6 +524,37 @@
   color: var(--editorial-muted);
   font-size: 16px;
   line-height: 1.7;
+}
+
+.editorial-site .heart-overview strong {
+  color: var(--editorial-ink);
+  font-weight: 500;
+}
+
+.editorial-site .project-status {
+  max-width: 760px;
+  margin: 42px 0 0;
+  padding: 4px 0 4px 22px;
+  border-left: 2px solid var(--editorial-red);
+}
+
+.editorial-site .project-status .showcase-eyebrow {
+  margin: 0 0 9px;
+  color: var(--editorial-red);
+}
+
+.editorial-site .project-status p:last-child {
+  margin: 0;
+  color: var(--editorial-muted);
+  font-size: 15px;
+  line-height: 1.65;
+}
+
+.editorial-site .legacy-anchor {
+  position: relative;
+  top: -80px;
+  display: block;
+  visibility: hidden;
 }
 
 .editorial-site .project-keys {
@@ -871,6 +947,11 @@
   }
 
   .editorial-site .focus-card img {
+    width: 100%;
+    height: 180px;
+  }
+
+  .editorial-site .focus-card picture {
     width: 100%;
     height: 180px;
   }
