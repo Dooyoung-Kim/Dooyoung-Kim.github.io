@@ -508,6 +508,25 @@
   border-radius: 4px;
 }
 
+.editorial-site .project-showcase .showcase-summary {
+  max-width: 800px;
+  margin: -12px 0 30px;
+  color: var(--editorial-muted);
+  font-size: 17px;
+  line-height: 1.7;
+}
+
+.editorial-site .showcase-memory-figure {
+  margin: 0;
+}
+
+.editorial-site .showcase-memory-figure figcaption {
+  margin-top: 12px;
+  color: var(--editorial-muted);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
 .editorial-site .project-showcase .project-prose {
   max-width: 760px;
   margin: 42px 0 0;
