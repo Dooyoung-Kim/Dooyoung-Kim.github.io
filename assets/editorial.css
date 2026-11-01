@@ -317,6 +317,21 @@
   line-height: 1.55;
 }
 
+.editorial-site .news-card-link {
+  display: inline-block;
+  margin-top: 12px;
+  color: var(--editorial-red);
+  font-size: 13px;
+  font-weight: 500;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.editorial-site .news-card-link:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 4px;
+}
+
 .editorial-site #focus {
   padding: 108px 0;
 }
