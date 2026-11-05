@@ -8,7 +8,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <title>Research | HCI, Human-Centered AI &amp; Interactive XR Intelligence | Dooyoung Kim</title>
 <meta name="description" content="Dooyoung Kim explores HCI, Human-Centered AI, Spatial Computing, Immersive Media, Human-AI Interaction, and XR Telepresence through Interactive XR Intelligence.">
-<meta name="keywords" content="Human-Computer Interaction, HCI, Human-Centered AI, Human-AI Interaction, Human-Robot Interaction, Human Factors, Multimodal Interaction, Interactive XR Intelligence, Extended Reality, Spatial Computing, Immersive Media, Interactive Media, XRMemory, Physical AI, Spatial Memory, Embodied Intelligence, World Models, Spatial AI, Dooyoung Kim, XR Telepresence">
+<meta name="keywords" content="Human-Computer Interaction, HCI, Human-Centered AI, Human-AI Interaction, Human-Robot Interaction, Human Factors, Multimodal Interaction, Interactive XR Intelligence, XR, Spatial Computing, Immersive Media, Interactive Media, XRMemory, Physical AI, Spatial Memory, Embodied Intelligence, World Models, Spatial AI, Dooyoung Kim, XR Telepresence">
 <link rel="canonical" href="https://dooyoung.me/lab/research.html">
 <link rel="icon" type="image/png" href="images/favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -65,7 +65,7 @@
       "name": "XRMemory",
       "url": "https://dooyoung.me/lab/research.html#xrmemory",
       "description": "Research on immersive and interactive media beyond photos and videos, exploring how to capture and represent spatial experiences for interactive replay across places and time.",
-      "keywords": "Human-Computer Interaction, Immersive Media, Interactive Media, Spatial Computing, Extended Reality, Spatial Memory, Semantic Scene Graphs",
+      "keywords": "Human-Computer Interaction, Immersive Media, Interactive Media, Spatial Computing, XR, Spatial Memory, Semantic Scene Graphs",
       "member": {
         "@id": "https://dooyoung.me/#dooyoung-kim"
       }
@@ -86,8 +86,8 @@
       "@id": "https://dooyoung.me/lab/research.html#physical-ai-project",
       "name": "XR for Physical AI",
       "url": "https://dooyoung.me/lab/research.html#physical-ai",
-      "description": "Research on spatial memory for Physical AI: using observations of the current space, object states, and task goals to recall relevant experiences and human know-how tied to particular places, objects, and equipment. The research explores how XR can preserve these experiences in context, retain access to the original spatiotemporal records, and support actions adapted to the robot and its present surroundings.",
-      "keywords": "Physical AI, Spatial Memory, Spatiotemporal Memory, Task Context, Human Know-How, Human-Robot Interaction, Embodied Intelligence, Adaptive Reenactment, Extended Reality",
+      "description": "Research on using XR to store tacit human know-how as spatiotemporal demonstration records that different robots can retrieve and reuse. The research explores how embodiment transfer can adapt recalled actions to each robot’s body and workspace and turn them into training data for Physical AI.",
+      "keywords": "Physical AI, Spatial Memory, Spatiotemporal Memory, Task Context, Tacit Knowledge, Human Know-How, Human-Robot Interaction, Embodiment Transfer, Robot Learning, XR",
       "member": {
         "@id": "https://dooyoung.me/#dooyoung-kim"
       }
@@ -98,7 +98,7 @@
       "name": "XR Telepresence",
       "url": "https://dooyoung.me/lab/research.html#xr-telepresence",
       "description": "Research on shared XR spaces for remote collaboration, including spatial affordance-aware alignment of dissimilar environments and avatar representations that support social presence.",
-      "keywords": "XR Telepresence, Mixed Reality Telepresence, Remote Collaboration, Social Presence, Spatial Affordances, Avatar Representation, Extended Reality",
+      "keywords": "XR Telepresence, Mixed Reality Telepresence, Remote Collaboration, Social Presence, Spatial Affordances, Avatar Representation, XR",
       "member": {
         "@id": "https://dooyoung.me/#dooyoung-kim"
       }
@@ -235,35 +235,33 @@
   <div class="project-showcase fade-in">
     <p class="showcase-eyebrow" style="color:#FF3838;">Physical AI · Spatial Memory · Human-Robot Interaction</p>
     <h2 class="showcase-title">XR for Physical AI</h2>
-    <p class="showcase-deck">Giving Physical AI Spatial Memory</p>
-    <p class="showcase-summary">I study how Physical AI can connect what it observes now with past experiences tied to the same places, objects, and equipment. This research explores how XR can preserve those experiences and human know-how in their spatial and task context. The goal is to recall what matters now and adapt it into actions suited to the robot and its surroundings.</p>
+    <p class="showcase-deck">Learning Human Know-How from Spatial Memory</p>
     <figure class="showcase-memory-figure">
       <div class="showcase-hero-img fade-in-scale">
         <picture>
-          <source type="image/webp" srcset="images/physical-ai-spatial-memory-v2-480.webp 480w, images/physical-ai-spatial-memory-v2-800.webp 800w, images/physical-ai-spatial-memory-v2-1200.webp 1200w" sizes="(max-width: 1180px) calc(100vw - 48px), 1072px">
-          <img src="images/physical-ai-spatial-memory-v2-1200.jpg"
-               srcset="images/physical-ai-spatial-memory-v2-480.jpg 480w, images/physical-ai-spatial-memory-v2-800.jpg 800w, images/physical-ai-spatial-memory-v2-1200.jpg 1200w"
+          <img src="images/physical-ai-embodiment-transfer-v3-1200.jpg"
+               srcset="images/physical-ai-embodiment-transfer-v3-480.jpg 480w, images/physical-ai-embodiment-transfer-v3-800.jpg 800w, images/physical-ai-embodiment-transfer-v3-1200.jpg 1200w"
                sizes="(max-width: 1180px) calc(100vw - 48px), 1072px"
-               width="1200" height="686"
-               alt="Concept illustration: a robot senses vibration at a motor bearing; spatially aligned memories of previous faults and human repairs are recalled to inform its response"
+               width="1200" height="675"
+               alt="Violet joint graphs follow a technician, a humanoid, a fixed robot arm, and a quadruped with a mounted arm. Cyan paths trace each robot’s approach to an identical lever."
                loading="lazy" decoding="async"
                style="border-radius:20px;">
         </picture>
       </div>
-      <figcaption>Illustrative example: vibration at a machine component cues recall of its past faults and maintenance, informing an adapted response. AI-generated illustration.</figcaption>
+      <figcaption>Embodiment transfer maps a recalled lever turn to each robot’s joints and approach path. AI-generated concept illustration.</figcaption>
     </figure>
     <div class="project-keys">
       <div class="project-key-card">
-        <h3>Store Experiences in Context</h3>
-        <p>Preserve what happened, where, and under which task conditions. Link experiences and human know-how to places, objects, and equipment, with access to the original spatiotemporal records.</p>
+        <h3>Record Tacit Know-How</h3>
+        <p>Store human demonstrations in XR as reusable spatiotemporal data, including task goals, object states, and adjustments that reveal tacit know-how.</p>
       </div>
       <div class="project-key-card">
-        <h3>Recall from the Current Scene</h3>
-        <p>Use the current scene, object states, and task goals as cues to recall relevant experiences from that place or equipment, together with the human know-how needed to interpret them.</p>
+        <h3>Recall Relevant Demonstrations</h3>
+        <p>Retrieve demonstrations that fit the robot’s current observations and task goal.</p>
       </div>
       <div class="project-key-card">
-        <h3>Adapt Experience into Action</h3>
-        <p>Use recalled experiences to guide decisions and actions. Adapt them to the robot’s body, the present spatial layout, and feedback as the task unfolds.</p>
+        <h3>Adapt Actions for Robot Learning</h3>
+        <p>Use embodiment transfer to adapt recalled actions to each robot’s joints, reach, and workspace for Physical AI training.</p>
       </div>
     </div>
   </div>
@@ -272,10 +270,9 @@
 <!-- ===== Project 4: XR Telepresence — Light ===== -->
 <section class="section-block section-light" id="xr-telepresence">
   <div class="project-showcase fade-in">
-    <p class="showcase-eyebrow" style="color:#4A1942;">Extended Reality · Remote Collaboration · Social Presence</p>
+    <p class="showcase-eyebrow" style="color:#4A1942;">XR · Remote Collaboration · Social Presence</p>
     <h2 class="showcase-title">XR Telepresence</h2>
     <p class="showcase-deck">Shared Presence Across Distant Places</p>
-    <p class="showcase-summary">I study how people in different physical environments can share an XR space and collaborate remotely. My work explores spatial affordance-aware alignment of dissimilar spaces and avatar representations that support interaction and social presence.</p>
     <div class="showcase-hero-img fade-in-scale">
       <picture>
         <source type="image/webp" srcset="images/teaser_interactable_subspace-480.webp 480w, images/teaser_interactable_subspace-800.webp 800w, images/teaser_interactable_subspace-1200.webp 1200w" sizes="(max-width: 600px) 92vw, (max-width: 980px) 80vw, 680px">
@@ -287,6 +284,20 @@
              loading="lazy" decoding="async"
              style="border-radius:20px;">
       </picture>
+    </div>
+    <div class="project-keys">
+      <div class="project-key-card">
+        <h3>Shared XR Spaces</h3>
+        <p>Let people in different physical environments collaborate in a shared XR space.</p>
+      </div>
+      <div class="project-key-card">
+        <h3>Spatial Alignment</h3>
+        <p>Align areas across rooms based on the actions each space affords.</p>
+      </div>
+      <div class="project-key-card">
+        <h3>Avatar Representation</h3>
+        <p>Explore how avatars support interaction and social presence during remote collaboration.</p>
+      </div>
     </div>
     <div class="project-links" style="margin-top:32px;">
       <a href="publications.html#pub-spatial-affordance-subspace">Mixed Reality Telepresence (ISMAR 2024)</a>
